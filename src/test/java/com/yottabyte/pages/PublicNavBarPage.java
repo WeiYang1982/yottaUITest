@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Created by A on 2017/4/12.
+ * 导航栏页面元素
  */
 public class PublicNavBarPage extends PageTemplate{
 

@@ -6,7 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
- * Created by A on 2017/4/6.
+ * 仪表盘页面元素
  */
 public class DashboardPage extends PageTemplate {
 

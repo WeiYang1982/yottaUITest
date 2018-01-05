@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.LoadableComponent;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by A on 2017/4/11.
+ * 页面元素模板，每一个页面都需要继承该模板
  */
 public class PageTemplate extends LoadableComponent<PageTemplate> {
 

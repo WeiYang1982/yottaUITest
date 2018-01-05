@@ -8,6 +8,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+/**
+ * 时间控件页面元素
+ */
+
 public class DateEditorPage extends PageTemplate {
 
     public DateEditorPage(WebDriver driver) {

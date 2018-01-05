@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.io.File;
 
 /**
- * Created by A on 2017/4/11.
+ * 搜索页面页面元素
  */
 public class SearchPage extends PageTemplate {
     WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
