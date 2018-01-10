@@ -50,13 +50,13 @@ public class LoginPage extends PageTemplate {
         return webDriver.getTitle();
     }
 
-    public String getErrorMessageText(){
+    public WebElement getErrorMessage(){
         By by = By.className("el-message__group");
-        String message;
+        WebElement message;
         if (ElementExist.isElementExist(webDriver,by)){
-            message = errorMessage.getText();
+            message = errorMessage;
         }else {
-            message = errorMessageBox.getText();
+            message = errorMessageBox;
         }
 
         return message;
