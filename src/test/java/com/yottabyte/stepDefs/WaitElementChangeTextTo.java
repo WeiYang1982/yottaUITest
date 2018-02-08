@@ -1,12 +1,15 @@
 package com.yottabyte.stepDefs;
 
 import com.yottabyte.hooks.LoginBeforeAllTests;
-import com.yottabyte.utils.GetElementFromPage;
 import com.yottabyte.utils.WaitForElement;
 import cucumber.api.java.en.And;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import static com.yottabyte.utils.GetElementFromPage.getWebElementWithName;
+import static com.yottabyte.utils.GetTableElement.getTableElementWithRowAndCol;
 
 /**
  * 等待指定元素的文本变成指定内容
@@ -22,7 +25,7 @@ public class WaitElementChangeTextTo {
     @And("^I wait element \"([^\"]*)\" change text to \"([^\"]*)\"$")
     public void waitElementChangeTextTo(String elementName, String text){
         WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
-        WebElement element = GetElementFromPage.getWebElementWithName(elementName);
+        WebElement element = getWebElementWithName(elementName);
         ExpectedCondition expectedCondition = new ExpectedCondition<Boolean>(){
             @Override
             public Boolean apply(WebDriver driver) {
@@ -33,9 +36,27 @@ public class WaitElementChangeTextTo {
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
     }
 
-    //TODO 元素变化导致的文本内容变化
-    @And("^I wait element \"([^\"]*)\" change and text will be \"([^\"]*)\"$")
-    public void waitElementReloadCauseTextChange(String elementName,String text){
+//    //TODO 元素变化导致的文本内容变化
+//    @And("^I wait element \"([^\"]*)\" change and text will be \"([^\"]*)\"$")
+//    public void waitElementReloadCauseTextChange(String elementName,String text){
+//
+//    }
 
+    @And("^I wait table element \"([^\"]*)\" change text to \"([^\"]*)\"$")
+    public void iWaitTableElementChangeTextTo(String tableAddress, String text){
+        WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
+        if (tableAddress.contains("-") && tableAddress.contains(".")){
+            String realTableName = tableAddress.split("-")[0];
+            String address = tableAddress.split("-")[1];
+            int index = tableAddress.split("-")[1].trim().indexOf('.');
+            int row =  Integer.parseInt(address.substring(0, index));
+            int cell = Integer.parseInt(address.substring(index+1));
+            WebElement table = getWebElementWithName(realTableName);
+            WebElement e = getTableElementWithRowAndCol(table,row,cell);
+            ExpectedCondition expectedCondition = ExpectedConditions.textToBePresentInElement(e,text);
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        }else {
+            System.out.println("Table Name is wrong!!!");
+        }
     }
 }

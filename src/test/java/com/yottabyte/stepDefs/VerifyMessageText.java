@@ -15,7 +15,7 @@ public class VerifyMessageText {
         assertEquals(realText,messageText);
     }
 
-    @Then("^I will see the errorMessage \"([^\"]*)\"$")
+    @Then("^I will see the error message \"([^\"]*)\"$")
     public void iWillSeeErrorMessage(String errorMessage){
         WebElement element = GetElementFromPage.getWebElementWithName("ErrorMessage");
         String realResult = element.getText();

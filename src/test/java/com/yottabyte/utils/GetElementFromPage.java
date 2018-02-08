@@ -31,6 +31,34 @@ public class GetElementFromPage {
         return element;
     }
 
+    public static WebElement getWebElementWithName(String name,Object[] paras){
+        Class c[]=null;
+        if(paras!=null){//存在
+            int len=paras.length;
+            c=new Class[len];
+            for(int i=0;i<len;++i){
+                c[i]=paras[i].getClass();
+            }
+        }
+        WebElement element = null;
+        Object page = LoginBeforeAllTests.getPageFactory();
+        if (name.startsWith("get")) {
+            name = name.split("get")[1];
+        }
+        if (Character.isLowerCase(name.charAt(0))){
+            System.out.println("\n Wanning: name is " + name + " , might be UpperCase in the first! \n");
+            name = "get" + name.substring(0,1).toUpperCase() + name.substring(1);
+        }else {
+            name = "get" + name;
+        }
+        try {
+            element = (WebElement)page.getClass().getDeclaredMethod(name,c).invoke(page,paras);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return element;
+    }
+
     public static List<WebElement> getWebElementsWithName(String name){
         List<WebElement> list = null;
         Object page = LoginBeforeAllTests.getPageFactory();
@@ -64,6 +92,7 @@ public class GetElementFromPage {
         }
         return title;
     }
+
 
 //    public static String getSomeString(String methodName){
 //        String s = null;
