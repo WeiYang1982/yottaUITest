@@ -16,12 +16,12 @@ public class SetKeyWithValue {
     public void iSetTheParameterWithValue1(String  elementName, String value){
         boolean flag = true;
         WebElement element = GetElementFromPage.getWebElementWithName(elementName);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         while (flag){
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             element.click();
             element.clear();
             if (element.getText().equalsIgnoreCase("")){

@@ -40,6 +40,11 @@ public class ListPage extends PageTemplate {
     @FindBy (className = "el-table__empty-text")
     private WebElement noSearchResultMessage;
 
+    @FindBy (className = "el-message-box__btns")
+    private WebElement messageBoxButtons;
+
+    @FindBy (className = "el-message-box__content")
+    private WebElement messageInfo;
 
     public WebElement getCreateResourceGroup(){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
@@ -76,6 +81,40 @@ public class ListPage extends PageTemplate {
         return e.findElement(By.xpath("//button/span[contains(text(),'编辑')]"));
     }
 
+    public WebElement getDeleteButton(Integer row){
+        WebElement e = getTableRowButtons(row);
+        return e.findElement(By.xpath("//button/span[contains(text(),'删除')]"));
+    }
+
+    public WebElement getMessageBoxOKButton(){
+        ExpectedCondition expectedCondition = ExpectedConditions.textToBePresentInElement(messageInfo,"确认删除");
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        List<WebElement> list = messageBoxButtons.findElements(By.tagName("button"));
+        for (WebElement e : list){
+            if ("确定".equals(e.getText())){
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public WebElement getMessageBoxCancelButton(){
+        ExpectedCondition expectedCondition = ExpectedConditions.textToBePresentInElement(messageInfo,"确认删除");
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        List<WebElement> list = messageBoxButtons.findElements(By.tagName("button"));
+        for (WebElement e : list){
+            if ("取消".equals(e.getText())){
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public WebElement getSuccessMessage(){
+        ExpectedCondition expectedCondition = ExpectedConditions.textToBePresentInElement(messageInfo,"删除成功");
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        return messageInfo;
+    }
     private WebElement getTableRowButtons(int row){
         WebElement table = getSearchResultTable();
         return table.findElements(By.className("el-table_1_column_4")).get(row-1);

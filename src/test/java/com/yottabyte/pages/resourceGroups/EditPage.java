@@ -26,6 +26,9 @@ public class EditPage extends PageTemplate{
     @FindBy(className = "el-message__group")
     private WebElement suspensionMessage;
 
+    @FindBy(className = "el-message-box__message")
+    private WebElement message;
+
     public WebElement getResourceGroupName(){
         return inputs.get(0);
     }
@@ -40,5 +43,9 @@ public class EditPage extends PageTemplate{
 
     public WebElement getSuccessMessage() {
         return suspensionMessage;
+    }
+
+    public WebElement getErrorMessage() {
+        return message;
     }
 }
