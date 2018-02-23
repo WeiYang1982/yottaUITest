@@ -38,4 +38,9 @@ public class ThereIsAResourceGroup {
             System.out.println("Please check needRun " + needRun);
         }
     }
+
+    @Given("^There is a resourceGroup with name \"([^\"]*)\" , type \"([^\"]*)\" , owner \"([^\"]*)\"$")
+    public void thereIsAResourceGroupWithNameTypeOwner(String resourceGroupsName, List<String> typeName, List<String> ownerName){
+        thereIsAResourceGroupWithNameTypeOwner("Y",resourceGroupsName,typeName,ownerName);
+    }
 }

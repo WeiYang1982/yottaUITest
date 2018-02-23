@@ -31,6 +31,45 @@ public class ListPage extends PageTemplate {
     @FindBy (xpath = "//*[text()='新建']")
     private WebElement createResourceGroup;
 
+    @FindBy (xpath = "//button/span[text()='导入/导出']")
+    private WebElement uploadAndDownloadButton;
+
+    @FindBy (css = "body > div.el-popover.port-menu")
+    private WebElement uploadAndDownloadMenu;
+
+    @FindBy (xpath = "//button/span[text()='导入']")
+    private WebElement uploadButton;
+
+    @FindBy (xpath = "//button/span[text()='导出']")
+    private WebElement downloadButton;
+
+    @FindBy (className = "el-upload__input")
+    private WebElement uploadInputElement;
+
+    @FindBy (className = "verify-text")
+    private WebElement uploadInfo;
+
+    @FindBy (xpath = "//*[@class='button-block']/button[1]")
+    private WebElement bothSaveButton;
+
+    @FindBy (xpath = "//*[@class='button-block']/button[2]")
+    private WebElement notCoverButton;
+
+    @FindBy (xpath = "//*[@class='button-block']/button[3]")
+    private WebElement coverButton;
+
+    @FindBy (xpath = "//div[@class='el-form-item__content']//div[@class='el-input']")
+    private WebElement ownerInputButton;
+
+    @FindBy (xpath = "//div[@class='el-select-dropdown is-multiple import-popper']")
+    private WebElement selectors;
+
+    @FindBy (xpath = "//div[@class='dialog-footer']/button/span[text()='确定']")
+    private WebElement OKButton;
+
+    @FindBy (xpath = "//div[@class='dialog-footer']/button/span[text()='确定']")
+    private WebElement CancelButton;
+
     @FindBy (className = "el-table_1_column_1")
     private List<WebElement> searchResultRows;
 
@@ -45,6 +84,49 @@ public class ListPage extends PageTemplate {
 
     @FindBy (className = "el-message-box__content")
     private WebElement messageInfo;
+
+
+
+    public WebElement getUploadButton() {
+        ExpectedCondition e = ExpectedConditions.invisibilityOf(loadingElement);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,e);
+        uploadAndDownloadButton.click();
+        ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(uploadButton);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        return uploadButton;
+    }
+
+    public WebElement getUploadInputElement() {
+        return uploadInputElement;
+    }
+
+    public WebElement getBothSaveButton() {
+        return bothSaveButton;
+    }
+
+    public WebElement getNotCoverButton() {
+        return notCoverButton;
+    }
+
+    public WebElement getCoverButton() {
+        return coverButton;
+    }
+
+    public WebElement getOKButton() {
+        return OKButton;
+    }
+
+    public WebElement getCancelButton() {
+        return CancelButton;
+    }
+
+    public List<WebElement> getResourceGroupOwner() {
+        ownerInputButton.click();
+        ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(selectors);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        List<WebElement> list = selectors.findElements(By.tagName("li"));
+        return list;
+    }
 
     public WebElement getCreateResourceGroup(){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
@@ -111,10 +193,11 @@ public class ListPage extends PageTemplate {
     }
 
     public WebElement getSuccessMessage(){
-        ExpectedCondition expectedCondition = ExpectedConditions.textToBePresentInElement(messageInfo,"删除成功");
+        ExpectedCondition expectedCondition = ExpectedConditions.textToBePresentInElement(messageInfo,"成功");
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         return messageInfo;
     }
+
     private WebElement getTableRowButtons(int row){
         WebElement table = getSearchResultTable();
         return table.findElements(By.className("el-table_1_column_4")).get(row-1);

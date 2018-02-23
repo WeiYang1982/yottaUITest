@@ -14,8 +14,13 @@ public class ClickSomeButton {
 
     @When("^I click the \"([^\"]*)\" button$")
     public void iClickTheButton(String buttonName){
-        WebElement button = GetElementFromPage.getWebElementWithName(buttonName);
-        button.click();
+        if (buttonName != null && buttonName.trim().length() != 0){
+            WebElement button = GetElementFromPage.getWebElementWithName(buttonName);
+            button.click();
+        }else {
+            System.out.println("skip this step!");
+        }
+
     }
 
     @And("^I click the table \"([^\"]*)\" button$")
