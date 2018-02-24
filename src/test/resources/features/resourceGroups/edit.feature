@@ -4,6 +4,7 @@ Feature: 修改一个已存在的资源分组
     Given I click the "ResourceGroupsPage" button
     Then I will see the "resourceGroups.ListPage" page
 
+  @all @resourcegroups
   Scenario Outline:
     Given There is a resourceGroup with name "AutoTest1" , type "仪表盘" , owner "admin"
     And There is a resourceGroup with name "NewAutoTest" , type "仪表盘" , owner "admin"

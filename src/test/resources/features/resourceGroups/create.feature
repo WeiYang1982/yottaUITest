@@ -15,7 +15,7 @@ Feature: 创建一个资源分组
     And I click the "CreateButton" button
     Then I will see the <Result>
 
-    @smoke
+    @smoke @resourcegroups
     Examples: 创建资源分组成功
     |NeedRun|Name|Type|Des|Owner|Result|
     |N|AutoTest1|仪表盘|Des1|admin,hunter_roles_iis|success message "创建成功"|
@@ -23,7 +23,7 @@ Feature: 创建一个资源分组
     |N|AutoTest2|日志来源|   |zhaixiaoyuRole|success message "创建成功"|
     |N|"><script>alert(1)</script>|日志来源|   |admin|success message "创建成功"|
 
-    @all
+    @all @resourcegroups
     Examples: 创建资源分组失败，并对提示语做校验
     |NeedRun|Name|Type|Des|Owner|Result|
     |N|         |仪表盘|Des1|admin|error message "填写资源分组名称"|

@@ -1,6 +1,7 @@
 package com.yottabyte.pages.resourceGroups;
 
 import com.yottabyte.pages.PageTemplate;
+import com.yottabyte.utils.ElementExist;
 import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -85,7 +86,8 @@ public class ListPage extends PageTemplate {
     @FindBy (className = "el-message-box__content")
     private WebElement messageInfo;
 
-
+    @FindBy (xpath = "//div[@class='el-form-item'][2]//span")
+    private WebElement dialogErrorMessage;
 
     public WebElement getUploadButton() {
         ExpectedCondition e = ExpectedConditions.invisibilityOf(loadingElement);
@@ -121,7 +123,9 @@ public class ListPage extends PageTemplate {
     }
 
     public List<WebElement> getResourceGroupOwner() {
-        ownerInputButton.click();
+        if (!selectors.isDisplayed()){
+            ownerInputButton.click();
+        }
         ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(selectors);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         List<WebElement> list = selectors.findElements(By.tagName("li"));
@@ -196,6 +200,14 @@ public class ListPage extends PageTemplate {
         ExpectedCondition expectedCondition = ExpectedConditions.textToBePresentInElement(messageInfo,"成功");
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         return messageInfo;
+    }
+
+    public WebElement getErrorMessage(){
+        if (ElementExist.isElementExist(webDriver,messageInfo)){
+            return messageInfo;
+        }else {
+            return dialogErrorMessage;
+        }
     }
 
     private WebElement getTableRowButtons(int row){

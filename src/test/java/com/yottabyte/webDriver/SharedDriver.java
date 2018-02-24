@@ -82,7 +82,7 @@ public class SharedDriver extends EventFiringWebDriver {
     public SharedDriver() {
         super(REAL_DRIVER);
 //        REAL_DRIVER.manage().window().maximize();
-        REAL_DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.MINUTES);
+        REAL_DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         REAL_DRIVER.manage().timeouts().pageLoadTimeout(5,TimeUnit.MINUTES);
     }
 
@@ -134,6 +134,7 @@ public class SharedDriver extends EventFiringWebDriver {
 
             loggingPreferences.enable(LogType.BROWSER, Level.ALL);
             options.addArguments("test-type", "start-maximized");
+//            options.addArguments("--headless", "--disable-gpu"); //使用chromeheadless模式
             DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
             desiredCapabilities.setBrowserName("chrome");
             desiredCapabilities.setJavascriptEnabled(true);

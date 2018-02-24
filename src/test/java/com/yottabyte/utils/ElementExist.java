@@ -3,6 +3,10 @@ package com.yottabyte.utils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class ElementExist {
     public static boolean isElementExist(WebDriver driver,By by){
@@ -35,8 +39,12 @@ public class ElementExist {
     public static boolean isElementExist(WebDriver driver, WebElement element){
         boolean status = false;
         try {
+            FluentWait wait = new FluentWait(driver)
+                    .withTimeout(1000, TimeUnit.MILLISECONDS)
+                    .pollingEvery(100,TimeUnit.MILLISECONDS)
+                    .ignoring(NoSuchElementException.class);
             ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(element);
-            WaitForElement.waitForElementWithExpectedCondition(driver,expectedCondition);
+            wait.until(expectedCondition);
             status = true;
         }catch (NoSuchElementException e){
             status = false;
@@ -45,5 +53,6 @@ public class ElementExist {
             System.out.println("'" + element + "' doesn't exist for time out! \n");
         }
         return status;
+
     }
 }
