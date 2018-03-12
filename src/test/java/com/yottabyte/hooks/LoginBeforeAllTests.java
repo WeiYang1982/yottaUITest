@@ -23,6 +23,7 @@ public class LoginBeforeAllTests {
     @Before
     public void beforeScenario() {
         System.out.println("Login Before Test!");
+        webDriver.manage().deleteAllCookies();
         webDriver.get(baseURL + "/auth/login/");
         System.out.println(webDriver + "login driver");
         LoginPage loginPage = new LoginPage(webDriver);

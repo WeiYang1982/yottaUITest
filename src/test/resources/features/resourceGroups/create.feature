@@ -3,9 +3,10 @@ Feature: 创建一个资源分组
   Background:
     Given I click the "ResourceGroupsPage" button
     Then I will see the "resourceGroups.ListPage" page
+    And There is a "thereIsNoResourceGroup" with "name(String):AutoTest1"
 
   Scenario Outline: 为指定角色创建资源分组
-    Given need run condition "<NeedRun>" There is a resourceGroup with name "AutoTest1" , type "仪表盘" , owner "admin"
+    Given need run condition "<NeedRun>" There is a "thereIsAResourceGroup" with "name(String):AutoTest1;type(List):仪表盘;owner(List):admin"
     And I click the "CreateResourceGroup" button
     Then I will see the "resourceGroups.CreatePage" page
     When I set the parameter "ResourceGroupName" with value "<Name>"
@@ -15,12 +16,12 @@ Feature: 创建一个资源分组
     And I click the "CreateButton" button
     Then I will see the <Result>
 
-    @smoke @resourcegroups
+    @smoke @resourcegroups @all
     Examples: 创建资源分组成功
     |NeedRun|Name|Type|Des|Owner|Result|
-    |N|AutoTest1|仪表盘|Des1|admin,hunter_roles_iis|success message "创建成功"|
+    |Y|AutoTest1|仪表盘|Des1|admin,hunter_roles_iis|success message "创建成功"|
     |N|AutoTest2|日志来源|   |admin|success message "创建成功"|
-    |N|AutoTest2|日志来源|   |zhaixiaoyuRole|success message "创建成功"|
+    |N|AutoTest3|日志来源|   |zhaixiaoyuRole|success message "创建成功"|
     |N|"><script>alert(1)</script>|日志来源|   |admin|success message "创建成功"|
 
     @all @resourcegroups

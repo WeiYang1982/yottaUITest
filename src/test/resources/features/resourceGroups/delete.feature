@@ -6,9 +6,9 @@ Feature: 删除指定的资源分组
 
   @smoke @all @resourcegroups
   Scenario Outline:
-    Given There is a resourceGroup with name "AutoTest1" , type "仪表盘" , owner "admin"
+    Given There is a "thereIsAResourceGroup" with "name(String):AutoTest1;type(List):仪表盘;owner(List):admin"
     When I set the parameter "SearchInput" with value "<ResourceGroupName>"
-    And I click the table "DeleteButton-1" button
+    And I click the table "TableDeleteButton-1" button
     And I click the "MessageBoxOKButton" button
     Then I will see the success message "<SuccessMessage>"
 

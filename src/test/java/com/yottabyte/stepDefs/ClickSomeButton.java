@@ -5,8 +5,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebElement;
 
-import static com.yottabyte.utils.GetElementFromPage.getWebElementWithName;
-
 /**
  * Created by A on 2017/4/7.
  */
@@ -20,7 +18,6 @@ public class ClickSomeButton {
         }else {
             System.out.println("skip this step!");
         }
-
     }
 
     @And("^I click the table \"([^\"]*)\" button$")

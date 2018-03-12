@@ -1,12 +1,14 @@
 package com.yottabyte.pages.resourceGroups;
 
 import com.yottabyte.pages.PageTemplate;
+import com.yottabyte.stepDefs.ClickSomeButton;
+import com.yottabyte.stepDefs.IChooseValueFromSelectList;
+import com.yottabyte.stepDefs.IWillSeeNewPage;
+import com.yottabyte.stepDefs.SetKeyWithValue;
 import com.yottabyte.utils.ElementExist;
+import com.yottabyte.utils.GetElementFromPage;
 import com.yottabyte.utils.WaitForElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -22,6 +24,12 @@ public class ListPage extends PageTemplate {
 
     @FindBy (className = "el-loading-mask")
     private WebElement loadingElement;
+
+    @FindBy (className = "yw-table-group__dropdown")
+    private WebElement groupTypeButton;
+
+    @FindBy (xpath = "//ul[@class='el-dropdown-menu yw-table-group__group-menu']")
+    private WebElement groupTypeSelectors;
 
     @FindBys({
             @FindBy (className = "yw-table-group__basic"),
@@ -63,7 +71,7 @@ public class ListPage extends PageTemplate {
     private WebElement ownerInputButton;
 
     @FindBy (xpath = "//div[@class='el-select-dropdown is-multiple import-popper']")
-    private WebElement selectors;
+    private WebElement ownerSelectors;
 
     @FindBy (xpath = "//div[@class='dialog-footer']/button/span[text()='确定']")
     private WebElement OKButton;
@@ -88,6 +96,16 @@ public class ListPage extends PageTemplate {
 
     @FindBy (xpath = "//div[@class='el-form-item'][2]//span")
     private WebElement dialogErrorMessage;
+
+
+    public List<WebElement> getGroupTypes(){
+        ExpectedCondition e = ExpectedConditions.invisibilityOf(loadingElement);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,e);
+        if (!groupTypeSelectors.isDisplayed()){
+            groupTypeButton.click();
+        }
+        return getListFromElement(groupTypeSelectors);
+    }
 
     public WebElement getUploadButton() {
         ExpectedCondition e = ExpectedConditions.invisibilityOf(loadingElement);
@@ -123,13 +141,10 @@ public class ListPage extends PageTemplate {
     }
 
     public List<WebElement> getResourceGroupOwner() {
-        if (!selectors.isDisplayed()){
+        if (!ownerSelectors.isDisplayed()){
             ownerInputButton.click();
         }
-        ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(selectors);
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        List<WebElement> list = selectors.findElements(By.tagName("li"));
-        return list;
+        return getListFromElement(ownerSelectors);
     }
 
     public WebElement getCreateResourceGroup(){
@@ -162,12 +177,17 @@ public class ListPage extends PageTemplate {
         return searchResultTable;
     }
 
-    public WebElement getTableEditButton(Integer row){
+    public WebElement getTableEditButton(int row){
         WebElement e = getTableRowButtons(row);
         return e.findElement(By.xpath("//button/span[contains(text(),'编辑')]"));
     }
 
-    public WebElement getDeleteButton(Integer row){
+    public WebElement getTableLinkButton(int row){
+        WebElement e = getTableRowButtons(row);
+        return e.findElement(By.xpath("//button/span[contains(text(),'跳转')]"));
+    }
+
+    public WebElement getTableDeleteButton(int row){
         WebElement e = getTableRowButtons(row);
         return e.findElement(By.xpath("//button/span[contains(text(),'删除')]"));
     }
@@ -208,6 +228,54 @@ public class ListPage extends PageTemplate {
         }else {
             return dialogErrorMessage;
         }
+    }
+
+    public void thereIsAResourceGroup(String resourceGroupsName, List<String> typeName, List<String> ownerName){
+        ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        getSearchInput().sendKeys(resourceGroupsName);
+        String text = getSearchResult().getText();
+        SetKeyWithValue setKeyWithValue = new SetKeyWithValue();
+        if ("暂无数据".equals(text)){
+            WebElement createButton = GetElementFromPage.getWebElementWithName("CreateResourceGroup");
+            createButton.click();
+            IWillSeeNewPage page = new IWillSeeNewPage();
+            page.iWillSeeNewPage("resourceGroups.CreatePage");
+            setKeyWithValue.iSetTheParameterWithValue1("ResourceGroupName",resourceGroupsName);
+            IChooseValueFromSelectList chooseValueFromSelectList = new IChooseValueFromSelectList();
+            chooseValueFromSelectList.iChooseTheFromThe(typeName,"ResourceGroupType");
+            chooseValueFromSelectList.iChooseTheFromThe(ownerName,"ResourceGroupOwner");
+            ClickSomeButton clickSomeButton = new ClickSomeButton();
+            clickSomeButton.iClickTheButton("CreateButton");
+            GetElementFromPage.getWebElementWithName("OKButton").click();
+            page.iWillSeeNewPage("resourceGroups.ListPage");
+        }else if (text.equals(resourceGroupsName)){
+            System.out.println("There is a resource groups");
+            getSearchInput().sendKeys(Keys.CONTROL + "a");
+            getSearchInput().sendKeys(Keys.BACK_SPACE);
+        }
+    }
+
+    public void thereIsNoResourceGroup(String resourceGroupsName){
+        ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        getSearchInput().sendKeys(resourceGroupsName);
+        String text = getSearchResult().getText();
+        if (text.equals(resourceGroupsName)){
+            getTableDeleteButton(1).click();
+            ExpectedCondition e = ExpectedConditions.elementToBeClickable(getMessageBoxOKButton());
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,e);
+            getMessageBoxOKButton().click();
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+            webDriver.navigate().refresh();
+        }
+    }
+
+
+    private List<WebElement> getListFromElement(WebElement element){
+        ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(element);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        return element.findElements(By.tagName("li"));
     }
 
     private WebElement getTableRowButtons(int row){

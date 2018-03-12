@@ -28,6 +28,9 @@ public class PublicNavBarPage extends PageTemplate{
     @FindBy( partialLinkText = "资源分组")
     private WebElement resourceGroupsPage;
 
+    @FindBy( partialLinkText = "用户分组")
+    private WebElement userGroupsPage;
+
     @FindBy(className = "el-loading-mask")
     private WebElement loadingElement;
 
@@ -50,4 +53,14 @@ public class PublicNavBarPage extends PageTemplate{
         return resourceGroupsPage;
     }
 
+    public WebElement getUserGroupsPage() {
+        ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(systemSetButton);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        systemSetButton.click();
+        expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        expectedCondition = ExpectedConditions.elementToBeClickable(userGroupsPage);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        return userGroupsPage;
+    }
 }

@@ -29,10 +29,7 @@ public class CreatePage extends PageTemplate {
     })
     private List<WebElement> selectors;
 
-    @FindBys({
-            @FindBy(className = "el-button"),
-            @FindBy(xpath = "//span[text()='新建']")
-    })
+    @FindBy(xpath = "//span[text()='新建']")
     private WebElement createButton;
 
     @FindBy(className = "el-message-box__message")
@@ -58,10 +55,7 @@ public class CreatePage extends PageTemplate {
     }
 
     public List<WebElement> getResourceGroupOwner(){
-        //TODO 速度太快时会造成无法读取列表内容 后期优化
-        if (!selectors.get(1).isDisplayed()){
-            inputs.get(3).click();
-        }
+        inputs.get(3).click();
         ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(selectors.get(1));
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         List<WebElement> list = selectors.get(1).findElements(By.tagName("li"));
@@ -69,7 +63,9 @@ public class CreatePage extends PageTemplate {
     }
 
     public WebElement getCreateButton() {
-        webDriver.switchTo().activeElement().click();
+//        webDriver.switchTo().activeElement().click();
+        ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(createButton);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         return createButton;
     }
 

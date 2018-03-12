@@ -166,7 +166,9 @@ public class EventListener extends AbstractWebDriverEventListener {
     }
     public void afterNavigateBack(WebDriver selenium){}
     public void afterNavigateForward(WebDriver selenium){}
-    public void beforeNavigateRefresh(WebDriver webDriver) {}
+    public void beforeNavigateRefresh(WebDriver webDriver) {
+        System.out.println("WebDriver refresh the browser");
+    }
     public void afterNavigateRefresh(WebDriver webDriver) {}
     public void afterNavigateTo(String url, WebDriver selenium){}
     public void afterScript(String script, WebDriver selenium){}

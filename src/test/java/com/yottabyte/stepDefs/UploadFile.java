@@ -15,19 +15,24 @@ public class UploadFile {
      */
     @And("^I upload a file with name \"([^\"]*)\"$")
     public void iUploadAFileWithName(String fileNameWithPath) {
-        WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
-        File directory = new File("");
-        String s = File.separator;
-        try {
-            String courseFile = directory.getCanonicalPath();
-            fileNameWithPath = fileNameWithPath.replace("/",s).replace("\\",s);
-            if (fileNameWithPath.startsWith(s) || fileNameWithPath.startsWith("." + s)){
-                webDriver.findElement(By.name("file")).sendKeys(courseFile + fileNameWithPath);
-            }else {
-                webDriver.findElement(By.name("file")).sendKeys(courseFile + s + fileNameWithPath);
+        if(fileNameWithPath != null && fileNameWithPath.trim().length() != 0){
+            WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
+            File directory = new File("");
+            String s = File.separator;
+            try {
+                String courseFile = directory.getCanonicalPath();
+                fileNameWithPath = fileNameWithPath.replace("/",s).replace("\\",s);
+                if (fileNameWithPath.startsWith(s) || fileNameWithPath.startsWith("." + s)){
+                    webDriver.findElement(By.name("file")).sendKeys(courseFile + fileNameWithPath);
+                }else {
+                    webDriver.findElement(By.name("file")).sendKeys(courseFile + s + fileNameWithPath);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }else {
+            System.out.println("skip this step !");
         }
+
     }
 }
