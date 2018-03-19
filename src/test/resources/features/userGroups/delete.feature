@@ -11,4 +11,5 @@ Feature: 删除一个用户分组
     And I wait table element "SearchResultTable-1.2" change text to "autoTest"
     And I click the table "TableDeleteButton-1" button
     And I click the "MessageBoxOKButton" button
+
     Then I will see the success message "删除成功"
