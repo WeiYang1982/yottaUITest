@@ -39,6 +39,9 @@ public class CreatePage extends PageTemplate{
     @FindBy(className = "el-message-box__message")
     private WebElement message;
 
+    @FindBy(xpath = "//*[@class='el-message-box__btns']//span[contains(text(),'确定')]")
+    private WebElement OKButton;
+
     public WebElement getUserGroupName() {
         return userGroupName;
     }
@@ -67,6 +70,10 @@ public class CreatePage extends PageTemplate{
 
     public WebElement getErrorMessage(){
         return message;
+    }
+
+    public WebElement getOKButton() {
+        return OKButton;
     }
 
     private List<WebElement> getSelectorElements(WebElement e){

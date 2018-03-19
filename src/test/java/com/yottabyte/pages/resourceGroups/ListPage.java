@@ -233,12 +233,13 @@ public class ListPage extends PageTemplate {
     public void thereIsAResourceGroup(String resourceGroupsName, List<String> typeName, List<String> ownerName){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        getSearchInput().sendKeys(Keys.CONTROL + "a");
+        getSearchInput().sendKeys(Keys.BACK_SPACE);
         getSearchInput().sendKeys(resourceGroupsName);
         String text = getSearchResult().getText();
         SetKeyWithValue setKeyWithValue = new SetKeyWithValue();
         if ("暂无数据".equals(text)){
-            WebElement createButton = GetElementFromPage.getWebElementWithName("CreateResourceGroup");
-            createButton.click();
+            getCreateResourceGroup().click();
             IWillSeeNewPage page = new IWillSeeNewPage();
             page.iWillSeeNewPage("resourceGroups.CreatePage");
             setKeyWithValue.iSetTheParameterWithValue1("ResourceGroupName",resourceGroupsName);
@@ -251,14 +252,14 @@ public class ListPage extends PageTemplate {
             page.iWillSeeNewPage("resourceGroups.ListPage");
         }else if (text.equals(resourceGroupsName)){
             System.out.println("There is a resource groups");
-            getSearchInput().sendKeys(Keys.CONTROL + "a");
-            getSearchInput().sendKeys(Keys.BACK_SPACE);
         }
     }
 
     public void thereIsNoResourceGroup(String resourceGroupsName){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        getSearchInput().sendKeys(Keys.CONTROL + "a");
+        getSearchInput().sendKeys(Keys.BACK_SPACE);
         getSearchInput().sendKeys(resourceGroupsName);
         String text = getSearchResult().getText();
         if (text.equals(resourceGroupsName)){

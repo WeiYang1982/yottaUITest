@@ -5,9 +5,9 @@ Feature: 修改一个已存在的资源分组
     Then I will see the "resourceGroups.ListPage" page
     And There is a "thereIsNoResourceGroup" with "name(String):NewAutoTest"
 
-  @all @resourcegroups @smoke
+  @resourcegroups @smoke
   Scenario Outline:
-    Given There is a "thereIsAResourceGroup" with "name(String):AutoTest1;type(List):仪表盘;owner(List):admin"
+    Given There is a "thereIsAResourceGroup" with "name(String):AutoTest;type(List):仪表盘;owner(List):admin"
     Given need run condition "<NeedRun>" There is a "ThereIsAResourceGroup" with "name(String):NewAutoTest;type(List):仪表盘;owner(List):admin"
     And I set the parameter "SearchInput" with value "<ResourceGroupName>"
     And I wait table element "SearchResultTable-1.1" change text to "<ResourceGroupName>"
@@ -20,7 +20,11 @@ Feature: 修改一个已存在的资源分组
 
   Examples:
     |NeedRun|ResourceGroupName|NewResourceGroupName|NewResourceGroupDes|Result|
-    |N|AutoTest1|NewAutoTest|NewDes|success message "保存成功"|
-    |Y|AutoTest1|NewAutoTest|NewDes|error message "保存失败: 资源组名称已存在\n错误码: FE_546"|
-    |N|AutoTest1|       |NewDes|error message "填写资源分组名称"|
+    |N      |AutoTest         |NewAutoTest         |NewDes             |success message "保存成功"|
+
+  @all
+  Examples:
+    |NeedRun|ResourceGroupName|NewResourceGroupName|NewResourceGroupDes|Result|
+    |Y      |AutoTest         |NewAutoTest         |NewDes             |error message "保存失败: 资源组名称已存在\n错误码: FE_546"|
+    |N      |AutoTest         |                    |NewDes             |error message "填写资源分组名称"|
 

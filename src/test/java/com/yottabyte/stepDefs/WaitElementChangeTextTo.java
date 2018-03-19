@@ -42,6 +42,11 @@ public class WaitElementChangeTextTo {
 //
 //    }
 
+    /**
+     * 等待指定表格的元素文本内容变化为指定值
+     * @param tableAddress 表格地址，格式为：表格元素的名称-行.列 如 SearchResultTable-1.2
+     * @param text 指定的文本内容
+     */
     @And("^I wait table element \"([^\"]*)\" change text to \"([^\"]*)\"$")
     public void iWaitTableElementChangeTextTo(String tableAddress, String text){
         WebDriver webDriver = LoginBeforeAllTests.getWebDriver();

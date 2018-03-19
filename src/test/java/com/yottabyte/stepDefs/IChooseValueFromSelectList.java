@@ -28,7 +28,7 @@ public class IChooseValueFromSelectList {
                         e.click();
                     }
                 }
-                WebElement e = fatherSelectList.get(0).findElement(By.xpath("./../../../.."));
+                WebElement e = fatherSelectList.get(0).findElement(By.xpath("./parent::*"));
                 if (e.isDisplayed()){
                     ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", e);
                     ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(e);
@@ -45,7 +45,43 @@ public class IChooseValueFromSelectList {
                     }
                 }
             }
-            WebElement e = fatherSelectList.get(0).findElement(By.xpath("./../../../.."));
+            WebElement e = fatherSelectList.get(0).findElement(By.xpath("./parent::*"));
+            if (e.isDisplayed()){
+                ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", e);
+                ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(e);
+                WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+            }
+        }
+    }
+
+    @And("^I cancel selection \"([^\"]*)\" from the \"([^\"]*)\"$")
+    public void iCancelSelectionFromThe(List<String> values, String selectListName){
+        WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
+        ////TODO 等待bug修复后继续完善 http://pha.yottabyte.cn/T3484
+        if (values.size() == 1){
+            String value = values.get(0);
+            if (value != null && value.trim().length() != 0){
+                List<WebElement> fatherSelectList = GetElementFromPage.getWebElementsWithName(selectListName);
+                for (WebElement e : fatherSelectList){
+                    ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
+                    if (value.equalsIgnoreCase(e.getText())){
+                        e.click();
+                    }else {
+                        System.out.println("Wrong text! element text is: "  + e.getText());
+                    }
+                }
+            }
+        }else {
+            List<WebElement> fatherSelectList = GetElementFromPage.getWebElementsWithName(selectListName);
+            for (String s : values){
+                for (WebElement e : fatherSelectList){
+                    if (s.equalsIgnoreCase(e.getText())){
+                        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
+                        e.click();
+                    }
+                }
+            }
+            WebElement e = fatherSelectList.get(0).findElement(By.xpath("./parent::*/parent::*/parent::*/parent::*/parent::*"));
             if (e.isDisplayed()){
                 ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", e);
                 ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(e);

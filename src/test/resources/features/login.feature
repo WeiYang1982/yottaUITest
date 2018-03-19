@@ -19,7 +19,7 @@ Feature: login feature
     And I click the "LoginButton" button
     Then I will see the error message "<errorMessage>"
 
-  @all
+
   Examples:
     |usernameValue|passwordValue|errorMessage|
     || all123456 |请输入用户名|
