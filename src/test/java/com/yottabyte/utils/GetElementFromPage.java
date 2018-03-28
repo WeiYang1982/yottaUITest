@@ -52,7 +52,7 @@ public class GetElementFromPage {
         return element;
     }
 
-    public static WebElement getWebElementsWithNoGetName(String name,Object[] paras){
+    public static WebElement getWebElementsWithoutGet(String name, Object[] paras){
         Class c[]=null;
         if(paras!=null){
             int len=paras.length;
@@ -69,6 +69,17 @@ public class GetElementFromPage {
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
+//        catch ( exception){
+//            name = name.split("thereIsA")[1];
+//            if (!name.endsWith("s")){
+//                name = name + "s";
+//            }
+//            String packageName = page.getClass().getPackage().getName().substring(0,page.getClass().getPackage().getName().lastIndexOf("."));
+//            name = packageName + "." + name.substring(0,1).toLowerCase() + name.substring(1) + "." + page.getClass().getSimpleName();
+//            System.out.println("//---" + name);
+//            LoginBeforeAllTests.setPageFactory(name);
+//
+//        }
         return element;
     }
 
@@ -84,7 +95,7 @@ public class GetElementFromPage {
         return list;
     }
 
-    public static List<WebElement> getWebElementsWithNoGetName(String name){
+    public static List<WebElement> getWebElementsWithoutGet(String name){
         List<WebElement> list = null;
         Object page = LoginBeforeAllTests.getPageFactory();
         try {

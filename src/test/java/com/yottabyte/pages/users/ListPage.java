@@ -1,4 +1,4 @@
-package com.yottabyte.pages.userGroups;
+package com.yottabyte.pages.users;
 
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.stepDefs.ClickSomeButton;
@@ -14,13 +14,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class ListPage extends PageTemplate {
+public class ListPage extends PageTemplate{
 
     public ListPage(WebDriver driver) {
         super(driver);
     }
 
-    @FindBy (className = "el-loading-mask")
+    @FindBy(className = "el-loading-mask")
     private WebElement loadingElement;
 
     @FindBys({
@@ -30,12 +30,12 @@ public class ListPage extends PageTemplate {
     private WebElement searchInput;
 
     @FindBy (xpath = "//*[text()='新建']")
-    private WebElement createUserGroup;
+    private WebElement createUser;
 
     @FindBy (className = "el-table__body")
     private WebElement searchResultTable;
 
-    @FindBy (className = "el-table_1_column_2")
+    @FindBy (xpath = "//div[@class='runner-cell']/*[not(@style='display: none;')]")
     private List<WebElement> searchResultRows;
 
     @FindBy (className = "el-table__empty-text")
@@ -50,25 +50,38 @@ public class ListPage extends PageTemplate {
     @FindBy (className = "el-message__group")
     private WebElement suspensionMessage;
 
+
     public WebElement getSearchInput() {
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         return searchInput;
     }
 
-    public WebElement getCreateUserGroup() {
-        return createUserGroup;
+    public WebElement getCreateUser() {
+        return createUser;
     }
 
     public WebElement getSearchResult(){
-        if (searchResultRows.size() > 1){
-            return searchResultRows.get(1);
-        }else if (searchResultRows.size() == 1){
+        if (searchResultRows.size() >= 1){
+            List<WebElement> list = searchResultRows.get(0).findElements(By.tagName("span"));
+            if (list.size() >= 1){
+                return list.get(0);
+            }else {
+                return searchResultRows.get(0);
+            }
+        }else {
             ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(noSearchResultMessage);
             WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
             return noSearchResultMessage;
+        }
+    }
+
+    public WebElement getUserStatus(){
+        List<WebElement> list = searchResultRows.get(0).findElements(By.tagName("span"));
+        if (list.size() >= 1){
+            return list.get(1);
         }else {
-            throw new NoSuchElementException("未找到list: el-table_1_column_2");
+            throw new NoSuchElementException("未找到用户状态");
         }
     }
 
@@ -76,14 +89,24 @@ public class ListPage extends PageTemplate {
         return searchResultTable;
     }
 
-    public WebElement getTableEditButton(int row){
+    public WebElement getTableSeeDetailButton(int row){
         WebElement e = getTableRowButtons(row);
-        return e.findElement(By.xpath("//button/span[contains(text(),'编辑')]"));
+        return e.findElement(By.xpath("//button/span[contains(text(),'查看')]"));
+    }
+
+    public WebElement getTableChangeGroupButton(int row){
+        WebElement e = getTableRowButtons(row);
+        return e.findElement(By.xpath("//button/span[contains(text(),'分组')]"));
     }
 
     public WebElement getTableDeleteButton(int row){
         WebElement e = getTableRowButtons(row);
         return e.findElement(By.xpath("//button/span[contains(text(),'删除')]"));
+    }
+
+    public WebElement getTableDisableButton(int row){
+        WebElement e = getTableRowButtons(row);
+        return e.findElement(By.xpath("//button/span[contains(text(),'禁用')]"));
     }
 
     public WebElement getMessageBoxButtons() {
@@ -102,45 +125,35 @@ public class ListPage extends PageTemplate {
         return null;
     }
 
-    public WebElement getSuccessMessage(){
-        return suspensionMessage;
-    }
-
-    public void thereIsAUserGroup(String userGroupName, List<String> ownerName, List<String> roleName){
+    public void thereIsAUser(String userName, String fullName, String email, String telephone, String password, List<String> userGroup){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         getSearchInput().sendKeys(Keys.CONTROL + "a");
         getSearchInput().sendKeys(Keys.BACK_SPACE);
-        getSearchInput().sendKeys(userGroupName);
+        getSearchInput().sendKeys(userName);
         String text = getSearchResult().getText();
-        SetKeyWithValue setKey = new SetKeyWithValue();
-        ClickSomeButton click = new ClickSomeButton();
-        IChooseValueFromSelectList choose = new IChooseValueFromSelectList();
         if ("暂无数据".equals(text)){
-            getCreateUserGroup().click();
+            getCreateUser().click();
             IWillSeeNewPage page = new IWillSeeNewPage();
-            page.iWillSeeNewPage("userGroups.CreatePage");
-            setKey.iSetTheParameterWithValue1("UserGroupName",userGroupName);
-            choose.iChooseTheFromThe(ownerName,"UserGroupOwner");
-            choose.iChooseTheFromThe(roleName,"UserGroupRole");
-            click.iClickTheButton("CreateButton");
-            click.iClickTheButton("OKButton");
-            page.iWillSeeNewPage("userGroups.ListPage");
-        }else if (text.equals(userGroupName)){
-            System.out.println("There is a user groups");
+            page.iWillSeeNewPage("users.CreatePage");
+            CreatePage createPage = new CreatePage(webDriver);
+            createPage.createAUser(userName,fullName,email,telephone,password,userGroup);
+            page.iWillSeeNewPage("users.ListPage");
+        }else if (text.equals(userName)){
+            System.out.println("There is a user");
             getSearchInput().sendKeys(Keys.CONTROL + "a");
             getSearchInput().sendKeys(Keys.BACK_SPACE);
         }
     }
 
-    public void thereIsNoUserGroup(String userGroupName){
+    public void thereIsNoUser(String userName){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         getSearchInput().sendKeys(Keys.CONTROL + "a");
         getSearchInput().sendKeys(Keys.BACK_SPACE);
-        getSearchInput().sendKeys(userGroupName);
+        getSearchInput().sendKeys(userName);
         String text = getSearchResult().getText();
-        if (text.equals(userGroupName)){
+        if (text.equals(userName)){
             getTableDeleteButton(1).click();
             ExpectedCondition e = ExpectedConditions.elementToBeClickable(getMessageBoxOKButton());
             WaitForElement.waitForElementWithExpectedCondition(webDriver,e);
@@ -154,4 +167,5 @@ public class ListPage extends PageTemplate {
         WebElement table = getSearchResultTable();
         return table.findElements(By.className("el-table_1_column_4")).get(row-1);
     }
+
 }

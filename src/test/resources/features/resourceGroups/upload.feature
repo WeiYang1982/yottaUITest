@@ -44,7 +44,7 @@ Feature: 导入一个资源包
   Examples:
     |InputFileName|Owner|ErrorMessage|
     |/src/test/resources/testdata/resourceGroups/testcase.tar|admin|未知错误，请检查文件格式及内容是否正确，然后重新上传\n错误码: FE_3|
-    |/src/test/resources/testdata/resourceGroups/success.tar||请选择角色|
-    |||请选择角色|
-    ||admin|请上传资源包|
+    |/src/test/resources/testdata/resourceGroups/success.tar |     |请选择角色|
+    |                                                        |     |请选择角色|
+    |                                                        |admin|请上传资源包|
 

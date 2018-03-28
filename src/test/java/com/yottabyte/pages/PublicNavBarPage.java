@@ -31,6 +31,9 @@ public class PublicNavBarPage extends PageTemplate{
     @FindBy( partialLinkText = "用户分组")
     private WebElement userGroupsPage;
 
+    @FindBy( partialLinkText = "用户管理")
+    private WebElement usersPage;
+
     @FindBy(className = "el-loading-mask")
     private WebElement loadingElement;
 
@@ -43,24 +46,27 @@ public class PublicNavBarPage extends PageTemplate{
     }
 
     public WebElement getResourceGroupsPage() {
-        ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(systemSetButton);
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        systemSetButton.click();
-        expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        expectedCondition = ExpectedConditions.elementToBeClickable(resourceGroupsPage);
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        waitElementToBeClickable(resourceGroupsPage);
         return resourceGroupsPage;
     }
 
     public WebElement getUserGroupsPage() {
+        waitElementToBeClickable(userGroupsPage);
+        return userGroupsPage;
+    }
+
+    public WebElement getUsersPage() {
+        waitElementToBeClickable(usersPage);
+        return usersPage;
+    }
+
+    private void waitElementToBeClickable(WebElement element){
         ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(systemSetButton);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         systemSetButton.click();
         expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        expectedCondition = ExpectedConditions.elementToBeClickable(userGroupsPage);
+        expectedCondition = ExpectedConditions.elementToBeClickable(element);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        return userGroupsPage;
     }
 }

@@ -18,6 +18,7 @@ public class ThereIsCondition {
         if("N".equals(needRun)){
             System.out.println("skip this steps");
         }else if ("Y".equals(needRun)){
+            ////TODO 增加对空值的处理
             String[] args = arg.split(";");
             Object pars[] = new Object[args.length];
             for (int i=0;i<args.length;i++){
@@ -31,7 +32,7 @@ public class ThereIsCondition {
                     pars[i] = value;
                 }
             }
-            GetElementFromPage.getWebElementsWithNoGetName(methodName,pars);
+            GetElementFromPage.getWebElementsWithoutGet(methodName,pars);
         }
     }
 
