@@ -3,11 +3,11 @@ Feature: 修改一个已经存在的用户分组
   Background:
     Given I click the "UserGroupsPage" button
     Then I will see the "userGroups.ListPage" page
-    And There is a "thereIsNoUserGroup" with "name(String):newAutoTest"
+    And There is a "thereIsNoUserGroup" with "name(String):NewAutoTest"
 
   @smoke @usergroups
   Scenario Outline:
-    Given There is a "thereIsAUserGroup" with "name(String):autoTest;owner(List):admin;role(List):admin"
+    Given There is a "thereIsAUserGroup" with "name(String):AutoTest;owner(List):admin;role(List):admin"
     And I set the parameter "SearchInput" with value "<UserGroupName>"
     And I wait table element "SearchResultTable-1.2" change text to "<UserGroupName>"
     And I click the table "TableEditButton-1" button
@@ -19,13 +19,13 @@ Feature: 修改一个已经存在的用户分组
 
   Examples:
     |UserGroupName|NewUserGroupName|NewUserGroupDes|Result|
-    |autoTest     |newAutoTest     |newDes         |success message "更新成功"|
+    |AutoTest     |NewAutoTest     |NewDes         |success message "更新成功"|
 
   @all
   Examples:
     |UserGroupName|NewUserGroupName|NewUserGroupDes|Result|
-    |autoTest     |                |newDes         |error message "分组名 不能为空"|
-    |autoTest     |admin           |newDes         |error message "用户组已存在\n错误码: FE_536"|
+    |AutoTest     |                |NewDes         |error message "分组名 不能为空"|
+    |AutoTest     |admin           |NewDes         |error message "用户组已存在\n错误码: FE_536"|
 
 # 等待bug修复之后再继续调试  http://pha.yottabyte.cn/T3484
   Scenario Outline:
