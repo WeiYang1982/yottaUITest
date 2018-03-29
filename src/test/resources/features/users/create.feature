@@ -3,15 +3,15 @@ Feature: 创建一个用户
   Background:
     Given I click the "UserGroupsPage" button
     And I will see the "userGroups.ListPage" page
-    And There is a "thereIsAUserGroup" with "name(String):AutoTest;owner(List):admin;role(List):admin"
+    And There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
     And I will see the "PublicNavBarPage" page
     And I click the "UsersPage" button
     And I will see the "users.ListPage" page
-    And There is a "thereIsNoUser" with "name(String):autoTest"
+    And There is a "thereIsNoUser" with "{'name':'AutoTest'}"
 
   @usergroups
   Scenario Outline:
-    Given need run condition "<NeedRun>" There is a "thereIsAUser" with "name(String):AutoTest;fullname(String): ;email(String):autoTest@yottabyte.cn;telephone(String): ;password(String):qqqqq11111;userGroup(List):admin"
+    Given need run condition "<NeedRun>" There is a "thereIsAUser" with "{'name':'AutoTest','fullname':'','email':'autoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And I click the "CreateUser" button
     And I will see the "users.CreatePage" page
     When I set the parameter "UserName" with value "<UserName>"
@@ -45,5 +45,5 @@ Feature: 创建一个用户
     |N      |AutoTest|                |autoTest@yottabyte.cn|           |qqqqqqqq111111111|autoTest|error message "密码输入有误，请重新输入"|
     |N      |AutoTest|                |autoTest@yottabyte.cn|           |qqqqq11111|              |error message "用户分组 不能为空"|
     |Y      |AutoTest|                |autoTest@rizhiyi.com |           |qqqqq11111|autoTest      |error message "用户名已存在\n错误码: FE_532"|
-    |Y      |AutoTest|                |autoTest@yottabyte.cn|           |qqqqq11111|autoTest      |error message "邮件名已存在\n错误码: FE_533"|
+    |Y      |aaa     |                |autoTest@yottabyte.cn|           |qqqqq11111|autoTest      |error message "邮件名已存在\n错误码: FE_533"|
 

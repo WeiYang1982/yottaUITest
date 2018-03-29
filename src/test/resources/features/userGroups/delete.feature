@@ -6,7 +6,7 @@ Feature: 删除一个用户分组
 
   @smoke @usergroups @all
   Scenario:
-    Given There is a "thereIsAUserGroup" with "name(String):AutoTest;owner(List):admin;role(List):admin"
+    Given There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
     And I set the parameter "SearchInput" with value "AutoTest"
     And I wait table element "SearchResultTable-1.2" change text to "AutoTest"
     And I click the table "TableDeleteButton-1" button

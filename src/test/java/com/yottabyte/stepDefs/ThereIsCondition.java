@@ -1,10 +1,13 @@
 package com.yottabyte.stepDefs;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.yottabyte.utils.GetElementFromPage;
+import com.yottabyte.utils.JsonStringPaser;
 import cucumber.api.java.en.Given;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ThereIsCondition {
     /**
@@ -18,20 +21,8 @@ public class ThereIsCondition {
         if("N".equals(needRun)){
             System.out.println("skip this steps");
         }else if ("Y".equals(needRun)){
-            ////TODO 增加对空值的处理
-            String[] args = arg.split(";");
-            Object pars[] = new Object[args.length];
-            for (int i=0;i<args.length;i++){
-                String type = args[i].substring(args[i].indexOf("(")+1,args[i].indexOf(")"));
-                String value = args[i].split(":")[1];
-                if ("list".equalsIgnoreCase(type)){
-                    pars[i] = changeStringToList(value);
-                }else if ("int".equalsIgnoreCase(type)){
-                    pars[i] = Integer.parseInt(value);
-                }else if ("string".equalsIgnoreCase(type)){
-                    pars[i] = value;
-                }
-            }
+            JsonStringPaser paser = new JsonStringPaser();
+            Object pars[] = paser.jsonParser(arg);
             GetElementFromPage.getWebElementsWithoutGet(methodName,pars);
         }
     }

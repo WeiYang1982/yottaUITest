@@ -3,12 +3,12 @@ Feature: 创建一个用户分组
   Background:
     Given I click the "UserGroupsPage" button
     Then I will see the "userGroups.ListPage" page
-    And There is a "thereIsNoUserGroup" with "name(String):AutoTest"
-    And There is a "thereIsNoUserGroup" with "name(String):><script>alert(1)</script>"
+    And There is a "thereIsNoUserGroup" with "{'name':'AutoTest'}"
+    And There is a "thereIsNoUserGroup" with "{'name':'><script>alert(1)</script>'}"
 
   @smoke @usergroups
   Scenario Outline:
-    Given need run condition "<NeedRun>" There is a "thereIsAUserGroup" with "name(String):autoTest;owner(List):admin;role(List):admin"
+    Given need run condition "<NeedRun>" There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
     And I click the "CreateUserGroup" button
     Then I will see the "userGroups.CreatePage" page
     When I set the parameter "UserGroupName" with value "<UserGroupName>"

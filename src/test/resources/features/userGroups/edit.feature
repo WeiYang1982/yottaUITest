@@ -3,11 +3,11 @@ Feature: 修改一个已经存在的用户分组
   Background:
     Given I click the "UserGroupsPage" button
     Then I will see the "userGroups.ListPage" page
-    And There is a "thereIsNoUserGroup" with "name(String):NewAutoTest"
+    And There is a "thereIsNoUserGroup" with "{'name':'NewAutoTest'}"
 
   @smoke @usergroups
   Scenario Outline:
-    Given There is a "thereIsAUserGroup" with "name(String):AutoTest;owner(List):admin;role(List):admin"
+    Given There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
     And I set the parameter "SearchInput" with value "<UserGroupName>"
     And I wait table element "SearchResultTable-1.2" change text to "<UserGroupName>"
     And I click the table "TableEditButton-1" button
@@ -29,7 +29,7 @@ Feature: 修改一个已经存在的用户分组
 
 # 等待bug修复之后再继续调试  http://pha.yottabyte.cn/T3484
   Scenario Outline:
-    Given There is a "thereIsAUserGroup" with "name(String):autoTest;owner(List):admin;role(List):admin"
+    Given There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
     And I set the parameter "SearchInput" with value "autoTest"
     And I wait table element "SearchResultTable-1.2" change text to "autoTest"
     And I click the table "TableEditButton-1" button

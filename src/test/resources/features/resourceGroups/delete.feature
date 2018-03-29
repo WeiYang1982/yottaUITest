@@ -6,7 +6,7 @@ Feature: 删除指定的资源分组
 
   @smoke @all @resourcegroups
   Scenario:
-    Given There is a "thereIsAResourceGroup" with "name(String):AutoTest;type(List):仪表盘;owner(List):admin"
+    Given There is a "thereIsAResourceGroup" with "{'name':'AutoTest','type':['仪表盘'],'owner':['admin']}"
     When I set the parameter "SearchInput" with value "AutoTest"
     And I wait table element "SearchResultTable-1.1" change text to "AutoTest"
     And I click the table "TableDeleteButton-1" button

@@ -3,11 +3,11 @@ Feature: 创建一个资源分组
   Background:
     Given I click the "ResourceGroupsPage" button
     Then I will see the "resourceGroups.ListPage" page
-    And There is a "thereIsNoResourceGroup" with "name(String):AutoTest"
-    And There is a "thereIsNoResourceGroup" with "name(String):><script>alert(1)</script>"
+    And There is a "thereIsNoResourceGroup" with "{'name':'AutoTest'}"
+    And There is a "thereIsNoResourceGroup" with "{'name':'><script>alert(1)</script>'}"
 
   Scenario Outline: 为指定角色创建资源分组
-    Given need run condition "<NeedRun>" There is a "thereIsAResourceGroup" with "name(String):AutoTest;type(List):仪表盘;owner(List):admin"
+    Given need run condition "<NeedRun>" There is a "thereIsAResourceGroup" with "{'name':'AutoTest','type':['仪表盘'],'owner':['admin']}"
     And I click the "CreateResourceGroup" button
     Then I will see the "resourceGroups.CreatePage" page
     When I set the parameter "ResourceGroupName" with value "<Name>"
