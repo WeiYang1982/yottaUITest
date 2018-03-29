@@ -14,7 +14,7 @@ public class ThereIsCondition {
      *
      * @param needRun 是否需要运行
      * @param methodName 需要调用的函数名称
-     * @param arg 调用函数的参数列表，格式为： 参数名(参数类型):参数值;
+     * @param arg 调用函数的参数列表，json格式
      */
     @Given("^need run condition \"([^\"]*)\" There is a \"([^\"]*)\" with \"([^\"]*)\"$")
     public void needRunConditionThereIsAWith(String needRun, String methodName, String arg){
@@ -30,14 +30,5 @@ public class ThereIsCondition {
     @Given("^There is a \"([^\"]*)\" with \"([^\"]*)\"$")
     public void ThereIsSomeCondition(String methodName, String arg){
         needRunConditionThereIsAWith("Y",methodName,arg);
-    }
-
-    private List changeStringToList(String longStrings){
-        String[] strs = longStrings.split(",");
-        List l = new ArrayList();
-        for (String s : strs){
-            l.add(s);
-        }
-        return l;
     }
 }
