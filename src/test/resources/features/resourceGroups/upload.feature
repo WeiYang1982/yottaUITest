@@ -4,7 +4,7 @@ Feature: 导入一个资源包
     Given I click the "ResourceGroupsPage" button
     Then I will see the "resourceGroups.ListPage" page
 
-  @somke @all @resourcegroups
+  @somke @all @resourceGroups
   Scenario Outline: 导入资源包的正常流程测试
     Given I click the "UploadButton" button
     When I upload a file with name "<InputFileName>"
@@ -20,7 +20,7 @@ Feature: 导入一个资源包
     |/src/test/resources/testdata/resourceGroups/success.tar|CoverButton|admin,autotest|
     |/src/test/resources/testdata/resourceGroups/success.tar||autotest|
 
-  @all @resourcegroups
+  @all @resourceGroups
   Scenario Outline: 导入资源包的异常流程测试-导入的文件格式/内容不正确
     Given I click the "UploadButton" button
     When I upload a file with name "<InputFileName>"
@@ -33,7 +33,7 @@ Feature: 导入一个资源包
     |/src/test/resources/testdata/resourceGroups/testcase.tar|未知错误，请检查文件格式及内容是否正确，然后重新上传|
 
 
-  @all @resourcegroups
+  @all @resourceGroups
   Scenario Outline: 导入资源包的异常流程测试-为空测试
     Given I click the "UploadButton" button
     When I upload a file with name "<InputFileName>"

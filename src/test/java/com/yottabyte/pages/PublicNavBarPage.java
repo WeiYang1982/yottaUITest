@@ -34,6 +34,9 @@ public class PublicNavBarPage extends PageTemplate{
     @FindBy( partialLinkText = "用户管理")
     private WebElement usersPage;
 
+    @FindBy( partialLinkText = "用户管理")
+    private WebElement alertPluginsPage;
+
     @FindBy(className = "el-loading-mask")
     private WebElement loadingElement;
 
@@ -58,6 +61,10 @@ public class PublicNavBarPage extends PageTemplate{
     public WebElement getUsersPage() {
         waitElementToBeClickable(usersPage);
         return usersPage;
+    }
+
+    public WebElement getAlertPluginsPage() {
+        return alertPluginsPage;
     }
 
     private void waitElementToBeClickable(WebElement element){

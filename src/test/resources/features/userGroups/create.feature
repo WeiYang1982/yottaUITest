@@ -6,7 +6,7 @@ Feature: 创建一个用户分组
     And There is a "thereIsNoUserGroup" with "{'name':'AutoTest'}"
     And There is a "thereIsNoUserGroup" with "{'name':'><script>alert(1)</script>'}"
 
-  @smoke @usergroups
+  @smoke @userGroups
   Scenario Outline:
     Given need run condition "<NeedRun>" There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
     And I click the "CreateUserGroup" button

@@ -5,7 +5,7 @@ Feature: 修改一个已经存在的用户分组
     Then I will see the "userGroups.ListPage" page
     And There is a "thereIsNoUserGroup" with "{'name':'NewAutoTest'}"
 
-  @smoke @usergroups
+  @smoke @userGroups
   Scenario Outline:
     Given There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
     And I set the parameter "SearchInput" with value "<UserGroupName>"

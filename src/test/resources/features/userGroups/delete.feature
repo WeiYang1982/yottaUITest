@@ -4,7 +4,7 @@ Feature: 删除一个用户分组
     Given I click the "UserGroupsPage" button
     Then I will see the "userGroups.ListPage" page
 
-  @smoke @usergroups @all
+  @smoke @userGroups @all
   Scenario:
     Given There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
     And I set the parameter "SearchInput" with value "AutoTest"

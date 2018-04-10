@@ -6,7 +6,7 @@ Feature: 编辑指定用户
     And There is a "thereIsNoUser" with "{'name':'AutoTestNew'}"
     And There is a "thereIsAUser" with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
 
-  @usergroups
+  @users
   Scenario Outline:
     Given need run condition "<NeedRun>" There is a "thereIsAUser" with "{'name':'AutoTestNew','fullname':'','email':'AutoTestNew@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And I set the parameter "SearchInput" with value "<UserName>"

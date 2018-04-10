@@ -4,7 +4,7 @@ Feature: 删除指定的资源分组
     Given I click the "ResourceGroupsPage" button
     Then I will see the "resourceGroups.ListPage" page
 
-  @smoke @all @resourcegroups
+  @smoke @all @resourceGroups
   Scenario:
     Given There is a "thereIsAResourceGroup" with "{'name':'AutoTest','type':['仪表盘'],'owner':['admin']}"
     When I set the parameter "SearchInput" with value "AutoTest"

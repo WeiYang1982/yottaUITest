@@ -1,5 +1,7 @@
 package com.yottabyte.pages.users;
 
+import com.yottabyte.constants.WebDriverConst;
+import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.stepDefs.ClickSomeButton;
 import com.yottabyte.stepDefs.IChooseValueFromSelectList;
@@ -9,10 +11,11 @@ import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.*;
 
+import javax.annotation.Nullable;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ListPage extends PageTemplate{
 
@@ -77,12 +80,21 @@ public class ListPage extends PageTemplate{
     }
 
     public WebElement getUserStatus(){
-        List<WebElement> list = searchResultRows.get(0).findElements(By.tagName("span"));
-        if (list.size() >= 1){
-            return list.get(1);
-        }else {
-            throw new NoSuchElementException("未找到用户状态");
-        }
+        ExpectedCondition expectedCondition = ExpectedConditions.refreshed(new ExpectedCondition<Object>() {
+            @Nullable
+            @Override
+            public Object apply(@Nullable WebDriver webDriver) {
+                return webDriver.findElements(By.xpath("//div[@class='runner-cell']/*[not(@style='display: none;')]")).get(0).findElements(By.tagName("span")).get(1);
+            }
+        });
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+//        List<WebElement> list = searchResultRows.get(0).findElements(By.tagName("span"));
+//        if (list.size() >= 1){
+//            return list.get(1);
+//        }else {
+//            throw new NoSuchElementException("未找到用户状态");
+//        }
+        return webDriver.findElements(By.xpath("//div[@class='runner-cell']/*[not(@style='display: none;')]")).get(0).findElements(By.tagName("span")).get(1);
     }
 
     public WebElement getSearchResultTable() {
@@ -109,6 +121,13 @@ public class ListPage extends PageTemplate{
         return e.findElement(By.xpath("//button/span[contains(text(),'禁用')]"));
     }
 
+    public WebElement getTableEnableButton(int row){
+        ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        WebElement e = getTableRowButtons(row);
+        return e.findElement(By.xpath("//button/span[contains(text(),'启用')]"));
+    }
+
     public WebElement getMessageBoxButtons() {
         return messageBoxButtons;
     }
@@ -123,6 +142,12 @@ public class ListPage extends PageTemplate{
             }
         }
         return null;
+    }
+
+    public WebElement getSuccessMessage() {
+        ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(suspensionMessage);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        return suspensionMessage;
     }
 
     public void thereIsAUser(String userName, String fullName, String email, String telephone, String password, List<String> userGroup){

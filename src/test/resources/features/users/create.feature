@@ -9,7 +9,7 @@ Feature: 创建一个用户
     And I will see the "users.ListPage" page
     And There is a "thereIsNoUser" with "{'name':'AutoTest'}"
 
-  @usergroups
+  @users
   Scenario Outline:
     Given need run condition "<NeedRun>" There is a "thereIsAUser" with "{'name':'AutoTest','fullname':'','email':'autoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And I click the "CreateUser" button

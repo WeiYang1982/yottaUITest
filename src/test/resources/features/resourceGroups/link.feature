@@ -4,7 +4,7 @@ Feature: 资源分组跳转
     Given I click the "ResourceGroupsPage" button
     Then I will see the "resourceGroups.ListPage" page
 
-  @all @resourcegroups @smoke
+  @all @resourceGroups @smoke
   Scenario Outline:
     Given I choose the "<GroupType>" from the "GroupTypes"
     And I wait table element "SearchResultTable-1.2" change text to "<GroupType>"
