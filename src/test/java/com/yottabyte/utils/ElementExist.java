@@ -40,7 +40,7 @@ public class ElementExist {
         boolean status = false;
         try {
             FluentWait wait = new FluentWait(driver)
-                    .withTimeout(1000, TimeUnit.MILLISECONDS)
+                    .withTimeout(500, TimeUnit.MILLISECONDS)
                     .pollingEvery(100,TimeUnit.MILLISECONDS)
                     .ignoring(NoSuchElementException.class);
             ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(element);
@@ -51,6 +51,8 @@ public class ElementExist {
             System.out.println("'" + element + "' doesn't exist!\n");
         }catch (TimeoutException e){
             System.out.println("'" + element + "' doesn't exist for time out! \n");
+        }catch (StaleElementReferenceException s){
+            System.out.println("'" + element + "' wait refresh the page \n");
         }
         return status;
 

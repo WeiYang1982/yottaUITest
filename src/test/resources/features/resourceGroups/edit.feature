@@ -5,7 +5,7 @@ Feature: 修改一个已存在的资源分组
     Then I will see the "resourceGroups.ListPage" page
     And There is a "thereIsNoResourceGroup" with "{'name':'AutoTestNew'}"
 
-  @resourceGroups @smoke
+  @resourceGroups
   Scenario Outline:
     Given There is a "thereIsAResourceGroup" with "{'name':'AutoTest','type':['仪表盘'],'owner':['admin']}"
     Given need run condition "<NeedRun>" There is a "thereIsAResourceGroup" with "{'name':'AutoTestNew','type':['仪表盘'],'owner':['admin']}"
@@ -18,7 +18,7 @@ Feature: 修改一个已存在的资源分组
     And I click the "SaveButton" button
     Then I will see the <Result>
 
-  @all
+  @all @smoke
   Examples:
     |NeedRun|ResourceGroupName|NewResourceGroupName|NewResourceGroupDes|Result|
     |N      |AutoTest         |AutoTestNew         |NewDes             |success message "保存成功"|

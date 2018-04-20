@@ -14,6 +14,7 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListPage extends PageTemplate {
@@ -142,6 +143,7 @@ public class ListPage extends PageTemplate {
 
     public List<WebElement> getResourceGroupOwner() {
         if (!ownerSelectors.isDisplayed()){
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(ownerInputButton));
             ownerInputButton.click();
         }
         return getListFromElement(ownerSelectors);
@@ -256,22 +258,71 @@ public class ListPage extends PageTemplate {
     }
 
     public void thereIsNoResourceGroup(String resourceGroupsName){
+        List<String> list = new ArrayList<>();
+        list.add("all");
+        System.out.println("delete all of types!");
+        thereIsNoResourceGroup(resourceGroupsName,list);
+    }
+
+    public void thereIsNoResourceGroup(String resourceGroupsName, List<String> resourceGroupTypes) {
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        if (resourceGroupTypes.size() > 1){
+            for (int i=0;i<resourceGroupTypes.size();i++){
+                deleteResourceGroups(resourceGroupsName,resourceGroupTypes.get(i));
+            }
+        }else {
+            String resourceGroupType = resourceGroupTypes.get(0);
+            if (resourceGroupType.equalsIgnoreCase("all")){
+                List<String> list = new ArrayList<>();
+                List<WebElement> elements = groupTypeSelectors.findElements(By.className("el-dropdown-menu__item"));
+                WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.invisibilityOf(loadingElement));
+                WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(groupTypeButton));
+                groupTypeButton.click();
+                for (WebElement e : elements){
+                    if (e.getText() != null && e.getText().trim().length() != 0 && !e.getText().equalsIgnoreCase("全部分组类型")){
+                        list.add(e.getText());
+                    }
+                }
+                thereIsNoResourceGroup(resourceGroupsName,list);
+            }else {
+                deleteResourceGroups(resourceGroupsName,resourceGroupType);
+            }
+        }
+    }
+
+    private void deleteResourceGroups(String resourceGroupsName, String resourceGroupType) {
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.invisibilityOf(loadingElement));
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(groupTypeButton));
+        if (!groupTypeSelectors.isDisplayed()){
+            groupTypeButton.click();
+        }
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(groupTypeSelectors));
+        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.CONTROL + "a");
+        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.BACK_SPACE);
+        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(resourceGroupType);
+        groupTypeSelectors.findElements(By.className("el-dropdown-menu__item")).get(2).click();
         getSearchInput().sendKeys(Keys.CONTROL + "a");
         getSearchInput().sendKeys(Keys.BACK_SPACE);
         getSearchInput().sendKeys(resourceGroupsName);
         String text = getSearchResult().getText();
         if (text.equals(resourceGroupsName)){
             getTableDeleteButton(1).click();
-            ExpectedCondition e = ExpectedConditions.elementToBeClickable(getMessageBoxOKButton());
-            WaitForElement.waitForElementWithExpectedCondition(webDriver,e);
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(getMessageBoxOKButton()));
             getMessageBoxOKButton().click();
-            WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.invisibilityOf(loadingElement));
             webDriver.navigate().refresh();
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.invisibilityOf(loadingElement));
         }
+        if (!groupTypeSelectors.isDisplayed()){
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.invisibilityOf(loadingElement));
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(groupTypeButton));
+            groupTypeButton.click();
+        }
+        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.CONTROL + "a");
+        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.BACK_SPACE);
+        groupTypeSelectors.findElements(By.className("el-dropdown-menu__item")).get(2).click();
     }
-
 
     private List<WebElement> getListFromElement(WebElement element){
         ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(element);

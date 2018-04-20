@@ -4,6 +4,7 @@ Feature: 编辑指定用户
     Given I click the "UsersPage" button
     And I will see the "users.ListPage" page
     And There is a "thereIsNoUser" with "{'name':'AutoTestNew'}"
+    And There is a "thereIsNoUser" with "{'name':'AutoTest'}"
     And There is a "thereIsAUser" with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
 
   @users

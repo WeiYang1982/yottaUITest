@@ -5,7 +5,7 @@ Feature: 修改一个已经存在的用户分组
     Then I will see the "userGroups.ListPage" page
     And There is a "thereIsNoUserGroup" with "{'name':'NewAutoTest'}"
 
-  @smoke @userGroups
+  @userGroups
   Scenario Outline:
     Given There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
     And I set the parameter "SearchInput" with value "<UserGroupName>"
@@ -17,6 +17,7 @@ Feature: 修改一个已经存在的用户分组
     And I click the "BasicSaveButton" button
     Then I will see the <Result>
 
+  @smoke
   Examples:
     |UserGroupName|NewUserGroupName|NewUserGroupDes|Result|
     |AutoTest     |NewAutoTest     |NewDes         |success message "更新成功"|
