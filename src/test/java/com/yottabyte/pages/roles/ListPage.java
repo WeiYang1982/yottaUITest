@@ -51,7 +51,11 @@ public class ListPage extends PageTemplate {
     }
 
     public WebElement getSearchResult(){
-        System.out.println("Result: " + ElementExist.isElementExist(webDriver,noSearchResultMessage));
+        try{
+            Thread.sleep(1000);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (!ElementExist.isElementExist(webDriver,noSearchResultMessage)){
             return searchResultRows.get(1);
         }else {
@@ -69,6 +73,10 @@ public class ListPage extends PageTemplate {
         ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(createRoleButton);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         return createRoleButton;
+    }
+
+    public WebElement getSearchResultTable() {
+        return searchResultTable;
     }
 
     public WebElement getTableEditButton(int row){
@@ -101,6 +109,12 @@ public class ListPage extends PageTemplate {
             }
         }
         return null;
+    }
+
+    public WebElement getSuccessMessage(){
+        ExpectedCondition expectedCondition = ExpectedConditions.textToBePresentInElement(messageInfo,"成功");
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+        return messageInfo;
     }
 
     public void thereIsARole(String roleName, String roleDes, List<String> resourceGroups) {

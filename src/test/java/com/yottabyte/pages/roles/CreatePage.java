@@ -55,6 +55,7 @@ public class CreatePage extends PageTemplate {
     }
 
     public WebElement getCreateButton() {
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(createButton));
         return createButton;
     }
 

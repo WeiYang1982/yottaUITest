@@ -18,13 +18,13 @@ Feature: 新建一个角色
   @all @smoke
     Examples:
     |NeedRun|RoleName |RoleDes|Result|
-#    |N      |AutoTest |Des    |success message "创建成功"|
+    |N      |AutoTest |Des    |success message "创建成功"|
 
   @all
   Examples:
     |NeedRun|RoleName |RoleDes|Result|
-#    |Y      |AutoTest |       |error message "保存失败: 角色名称已经在\n错误码: FE_590"|
-#    |N      |         |RoleDes|error message "填写角色名称"|
+    |Y      |AutoTest |       |error message "保存失败: 角色名称已经在\n错误码: FE_590"|
+    |N      |         |RoleDes|error message "填写角色名称"|
 
 
   @role
