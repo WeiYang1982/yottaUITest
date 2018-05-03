@@ -6,7 +6,7 @@ public class WebDriverConst {
     public static final int WAIT_FOR_ELEMENT_TIMEOUT = 120 * 1000;
 
     // 等待元素轮训查看的时间间隔
-    public static final int WAIT_FOR_ELEMENT_POLLING_DURING = 500;
+    public static final int WAIT_FOR_ELEMENT_POLLING_DURING = 100;
 
     // 当页面在加载中，等待元素的超时时间
     public static final int WAIT_FOR_ELEMENT_TIMEOUT_WHEN_PAGE_LOADING = 10 * 1000;

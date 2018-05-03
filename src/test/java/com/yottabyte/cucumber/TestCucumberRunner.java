@@ -6,7 +6,6 @@ import net.masterthought.cucumber.ReportBuilder;
 import org.junit.runner.RunWith;
 
 import cucumber.api.CucumberOptions;
-import org.testng.annotations.AfterSuite;
 
 import java.io.File;
 import java.util.ArrayList;

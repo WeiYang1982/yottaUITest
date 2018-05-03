@@ -40,6 +40,9 @@ public class PublicNavBarPage extends PageTemplate{
     @FindBy( partialLinkText = "角色权限")
     private WebElement rolesPage;
 
+    @FindBy ( partialLinkText = "关联搜索")
+    private WebElement customApplicationPage;
+
     @FindBy(className = "el-loading-mask")
     private WebElement loadingElement;
 
@@ -74,6 +77,11 @@ public class PublicNavBarPage extends PageTemplate{
     public WebElement getRolesPage() {
         waitElementToBeClickable(rolesPage);
         return rolesPage;
+    }
+
+    public WebElement getCustomApplicationPage() {
+        waitElementToBeClickable(customApplicationPage);
+        return customApplicationPage;
     }
 
     private void waitElementToBeClickable(WebElement element){

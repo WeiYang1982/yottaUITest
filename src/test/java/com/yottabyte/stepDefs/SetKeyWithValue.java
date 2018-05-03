@@ -1,11 +1,9 @@
 package com.yottabyte.stepDefs;
 
-import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.utils.GetElementFromPage;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 
 public class SetKeyWithValue {
@@ -25,7 +23,6 @@ public class SetKeyWithValue {
                 e.printStackTrace();
             }
             element.click();
-//            element.clear();
             element.sendKeys(Keys.CONTROL + "a");
             element.sendKeys(Keys.BACK_SPACE);
             if (element.getText().equalsIgnoreCase("")){

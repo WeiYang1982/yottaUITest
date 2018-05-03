@@ -4,8 +4,6 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterSuite;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
