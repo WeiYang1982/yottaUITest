@@ -25,7 +25,6 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -67,10 +66,10 @@ public class SharedDriver extends EventFiringWebDriver {
 
         LoggingPreferences logPrefs = new LoggingPreferences();
         logPrefs.enable(LogType.BROWSER, Level.ALL);
-        BrowserMobProxy.startBrowserMobProxy();
-        browserMobProxy = BrowserMobProxy.getBrowserMobProxyServer();
+        BrowserMobProxyService.startBrowserMobProxy();
+        browserMobProxy = BrowserMobProxyService.getBrowserMobProxyServer();
         browser.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
-        browser.setCapability(CapabilityType.PROXY,BrowserMobProxy.getSeleniumProxy());
+        browser.setCapability(CapabilityType.PROXY,BrowserMobProxyService.getSeleniumProxy());
         String ServerHOst;
         try {
             ServerHOst = config.get("selenium_server_host");

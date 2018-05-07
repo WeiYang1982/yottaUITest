@@ -4,7 +4,7 @@ import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
 import org.openqa.selenium.Proxy;
 
-public class BrowserMobProxy {
+public class BrowserMobProxyService {
     private static BrowserMobProxyServer browserMobProxyServer;
     private static Proxy seleniumProxy;
 
