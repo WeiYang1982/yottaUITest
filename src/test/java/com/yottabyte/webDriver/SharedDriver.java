@@ -25,6 +25,7 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -137,6 +138,10 @@ public class SharedDriver extends EventFiringWebDriver {
     private static DesiredCapabilities ChromeDes(){
         try {
             ChromeOptions options = new ChromeOptions();
+            if("Mac OS X".equalsIgnoreCase(System.getProperty("os.name"))) {
+                ConfigManager config = new ConfigManager();
+                options.setBinary(config.get("macbinary"));
+            }
             LoggingPreferences loggingPreferences = new LoggingPreferences();
 
             loggingPreferences.enable(LogType.BROWSER, Level.ALL);

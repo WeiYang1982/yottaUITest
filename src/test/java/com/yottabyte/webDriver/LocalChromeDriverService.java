@@ -1,6 +1,7 @@
 package com.yottabyte.webDriver;
 
 import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +12,9 @@ public class LocalChromeDriverService {
 
     public static void createAndStartService() {
         try {
+            System.setProperty("webdriver.chrome.driver","lib/chromedriver");
             service = new ChromeDriverService.Builder()
-                    .usingDriverExecutable(new File("lib/chromedriver.exe"))
+                    .usingDriverExecutable(new File("lib/chromedriver"))
                     .usingAnyFreePort()
                     .build();
             service.start();

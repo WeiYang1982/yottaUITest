@@ -4,7 +4,7 @@ import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
 import org.openqa.selenium.Proxy;
 
-class BrowserMobProxy {
+public class BrowserMobProxy {
     private static BrowserMobProxyServer browserMobProxyServer;
     private static Proxy seleniumProxy;
 
@@ -22,7 +22,7 @@ class BrowserMobProxy {
         return seleniumProxy;
     }
 
-    public void setProxyBandwidth(long time) {
+    public static void setProxyBandwidth(long time) {
         browserMobProxyServer.setReadBandwidthLimit(time);
         browserMobProxyServer.setWriteBandwidthLimit(time);
     }
