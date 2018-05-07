@@ -5,6 +5,7 @@ import com.yottabyte.utils.TakeScreenShot;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import net.lightbody.bmp.BrowserMobProxyServer;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -33,12 +34,16 @@ public class SharedDriver extends EventFiringWebDriver {
     private static Scenario scenario;
     private static TakeScreenShot screenShot = new TakeScreenShot();
     private static ChromeDriverService service;
+    private static BrowserMobProxyServer browserMobProxy;
     private static final Thread CLOSE_THREAD = new Thread() {
         @Override
         public void run() {
             REAL_DRIVER.close();
             if (service != null && service.isRunning()){
                 service.stop();
+            }
+            if (browserMobProxy != null && browserMobProxy.isStarted()){
+                browserMobProxy.stop();
             }
         }
     };
@@ -61,8 +66,10 @@ public class SharedDriver extends EventFiringWebDriver {
 
         LoggingPreferences logPrefs = new LoggingPreferences();
         logPrefs.enable(LogType.BROWSER, Level.ALL);
-
+        BrowserMobProxy.startBrowserMobProxy();
+        browserMobProxy = BrowserMobProxy.getBrowserMobProxyServer();
         browser.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+        browser.setCapability(CapabilityType.PROXY,BrowserMobProxy.getSeleniumProxy());
         String ServerHOst;
         try {
             ServerHOst = config.get("selenium_server_host");

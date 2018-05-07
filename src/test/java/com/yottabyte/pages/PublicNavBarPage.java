@@ -19,7 +19,7 @@ public class PublicNavBarPage extends PageTemplate{
     @FindBy( partialLinkText = "搜索")
     private WebElement locateSearchPage;
 
-    @FindBy( partialLinkText = "告警")
+    @FindBy( partialLinkText = "监控")
     private WebElement alertsListPage;
 
     @FindBy( id = "yw-nav-set")
