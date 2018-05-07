@@ -12,9 +12,17 @@ public class LocalChromeDriverService {
 
     public static void createAndStartService() {
         try {
-            System.setProperty("webdriver.chrome.driver","lib/chromedriver");
+            File driverFile;
+            System.out.println(System.getProperty("os.name"));
+            String osName = System.getProperty("os.name");
+            if (osName.startsWith("Windows")) {
+                driverFile = new File("lib/chromedriver.exe");
+            }else {
+                System.setProperty("webdriver.chrome.driver","lib/chromedriver");
+                driverFile = new File("lib/chromedriver");
+            }
             service = new ChromeDriverService.Builder()
-                    .usingDriverExecutable(new File("lib/chromedriver"))
+                    .usingDriverExecutable(driverFile)
                     .usingAnyFreePort()
                     .build();
             service.start();

@@ -1,6 +1,6 @@
 package com.yottabyte.stepDefs;
 
-import com.yottabyte.webDriver.BrowserMobProxy;
+import com.yottabyte.webDriver.BrowserMobProxyService;
 import cucumber.api.java.en.And;
 
 /**
@@ -9,6 +9,6 @@ import cucumber.api.java.en.And;
 public class SetBandwidth {
     @And("I set the bandwidth to \"([^\"]*)\"")
     public void setBandwidth(long bandwidth) {
-        BrowserMobProxy.setProxyBandwidth(bandwidth);
+        BrowserMobProxyService.setProxyBandwidth(bandwidth);
     }
 }

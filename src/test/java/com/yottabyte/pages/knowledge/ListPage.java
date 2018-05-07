@@ -2,7 +2,6 @@ package com.yottabyte.pages.knowledge;
 
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.utils.WaitForElement;
-import com.yottabyte.webDriver.BrowserMobProxy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -86,7 +85,7 @@ public class ListPage extends PageTemplate {
 
     // 获取分组下拉菜单
     public List<WebElement> getGroupComboBox() {
-//        BrowserMobProxy.setProxyBandwidth(1);
+//        BrowserMobProxyService.setProxyBandwidth(1);
         comboBoxs.get(1).click();
         WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(selectors.get(selectors.size() - 1)));
         return selectors.get(selectors.size() - 1).findElements(By.tagName("li"));
