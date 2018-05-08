@@ -1,13 +1,16 @@
 package com.yottabyte.pages.knowledge;
 
 import com.yottabyte.pages.PageTemplate;
+import com.yottabyte.utils.ElementExist;
 import com.yottabyte.utils.WaitForElement;
+import com.yottabyte.webDriver.BrowserMobProxyService;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListPage extends PageTemplate {
@@ -46,11 +49,46 @@ public class ListPage extends PageTemplate {
     @FindBy(className = "el-message__group")
     private WebElement success;
 
+    // 列表页下的所有名称
     @FindBy(xpath = "//td[@class='el-table_1_column_1']//span[@class='link']")
     private List<WebElement> elementList;
 
-    public List<WebElement> getElementList() {
-        return elementList;
+    @FindBy(className = "el-message-box__message")
+    private WebElement errorMessage;
+
+    @FindBy(className = "yw-table-group__dropdown")
+    private WebElement sourceGroup;
+
+    @FindBy(className = "el-dropdown-menu__item")
+    private List<WebElement> groupList;
+
+    // 搜索输入框
+    @FindBy(xpath = "//div[@class='el-input el-input-group el-input-group--append']//input")
+    private WebElement searchInput;
+
+    // 分页参数
+    @FindBy(className = "number")
+    private List<WebElement> paging;
+
+    // 表头
+    @FindBy(className = "el-table__header")
+    private WebElement tableHeader;
+
+    public WebElement getTableBody() {
+        return tableBody;
+    }
+
+    // 表体
+    @FindBy(className = "el-table__body")
+
+    private WebElement tableBody;
+
+    public WebElement getSearchInput() {
+        return searchInput;
+    }
+
+    public WebElement getErrorMessage() {
+        return errorMessage;
     }
 
     public WebElement getSolution() {
@@ -62,6 +100,9 @@ public class ListPage extends PageTemplate {
     }
 
     public WebElement getDescribe() {
+        if (ElementExist.isElementExist(webDriver, loadingElement)) {
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.invisibilityOf(loadingElement));
+        }
         return describe;
     }
 
@@ -85,7 +126,6 @@ public class ListPage extends PageTemplate {
 
     // 获取分组下拉菜单
     public List<WebElement> getGroupComboBox() {
-//        BrowserMobProxyService.setProxyBandwidth(1);
         comboBoxs.get(1).click();
         WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(selectors.get(selectors.size() - 1)));
         return selectors.get(selectors.size() - 1).findElements(By.tagName("li"));
@@ -94,8 +134,42 @@ public class ListPage extends PageTemplate {
     // 获取标签下拉菜单
     public List<WebElement> getTagComboBox() {
         comboBoxs.get(2).click();
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(selectors.get(selectors.size() - 1)));
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(selectors.get(selectors.size() - 1)));
         return selectors.get(selectors.size() - 1).findElements(By.tagName("li"));
+    }
+
+    // 获取资源分组下拉菜单
+    public List<WebElement> getGroupList() {
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.invisibilityOf(loadingElement));
+        sourceGroup.click();
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOfAllElements(groupList));
+        return groupList;
+    }
+
+    // 获取最后一页列表下的数据
+    public List<WebElement> getElementList() {
+        webDriver.navigate().refresh();
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.elementToBeClickable(paging.get(paging.size() - 1)));
+        paging.get(paging.size() - 1).click();
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOfAllElements(elementList));
+        return elementList;
+    }
+
+    // 获取列表页所有数据
+    public List<WebElement> getAllData(String name) {
+        String className = null;
+        for (WebElement webElement : tableHeader.findElements(By.tagName("th"))) {
+            if (name.equals(webElement.getText())) {
+                className = webElement.getAttribute("class").split(" ")[0];
+            }
+        }
+        List<WebElement> list = new ArrayList();
+        for (int i = 0; i < paging.size(); i++) {
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(paging.get(i)));
+            paging.get(i).click();
+            list.addAll(tableBody.findElements(By.className(className)));
+        }
+        return list;
     }
 
     public List<WebElement> getComboBoxs() {

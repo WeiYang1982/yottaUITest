@@ -52,6 +52,27 @@ public class GetElementFromPage {
         return element;
     }
 
+    public static List<WebElement> getWebElementsWithName(String name,Object[] paras){
+        Class c[]=null;
+        if(paras!=null){
+            int len=paras.length;
+            c=new Class[len];
+            for(int i=0;i<len;++i){
+                c[i]=paras[i].getClass();
+                c[i] = typeParse(c[i].getName());
+            }
+        }
+        List<WebElement> element = null;
+        Object page = LoginBeforeAllTests.getPageFactory();
+        name = getMethodNameWithGet(name);
+        try {
+            element = (List)page.getClass().getDeclaredMethod(name,c).invoke(page,paras);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return element;
+    }
+
     public static WebElement getWebElementsWithoutGet(String name, Object[] paras){
         Class c[]=null;
         if(paras!=null){
