@@ -2,7 +2,6 @@ package com.yottabyte.stepDefs;
 
 import com.yottabyte.utils.GetElementFromPage;
 import cucumber.api.java.en.Then;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
