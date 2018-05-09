@@ -11,82 +11,58 @@ import java.util.List;
  */
 public class GetElementFromPage {
 
-    public static WebElement getWebElementWithName(String name){
+    public static WebElement getWebElementWithName(String name, Object... paras) {
         WebElement element = null;
         Object page = LoginBeforeAllTests.getPageFactory();
-        if (name.startsWith("get")) {
-            name = name.split("get")[1];
-        }
-        if (Character.isLowerCase(name.charAt(0))){
-            System.out.println("\n Wanning: name is " + name + " , might be UpperCase in the first! \n");
-            name = "get" + name.substring(0,1).toUpperCase() + name.substring(1);
-        }else {
-            name = "get" + name;
-        }
-        try {
-            element = (WebElement)page.getClass().getDeclaredMethod(name).invoke(page);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return element;
-    }
-
-    public static WebElement getWebElementWithName(String name,Object[] paras){
-        Class c[]=null;
-        if(paras!=null){
-            int len=paras.length;
-            c=new Class[len];
-            for(int i=0;i<len;++i){
-                c[i]=paras[i].getClass();
-                 c[i] = typeParse(c[i].getName());
-            }
-        }
-        WebElement element = null;
-        Object page = LoginBeforeAllTests.getPageFactory();
-        name = getMethodNameWithGet(name);
-        try {
-            element = (WebElement)page.getClass().getDeclaredMethod(name,c).invoke(page,paras);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return element;
-    }
-
-    public static List<WebElement> getWebElementsWithName(String name,Object[] paras){
-        Class c[]=null;
-        if(paras!=null){
-            int len=paras.length;
-            c=new Class[len];
-            for(int i=0;i<len;++i){
-                c[i]=paras[i].getClass();
+        if (paras != null) {
+            Class c[] = null;
+            int len = paras.length;
+            c = new Class[len];
+            for (int i = 0; i < len; ++i) {
+                c[i] = paras[i].getClass();
                 c[i] = typeParse(c[i].getName());
             }
+
+            name = getMethodNameWithGet(name);
+            try {
+                element = (WebElement) page.getClass().getDeclaredMethod(name, c).invoke(page, paras);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (name.startsWith("get")) {
+                name = name.split("get")[1];
+            }
+            if (Character.isLowerCase(name.charAt(0))) {
+                System.out.println("\n Wanning: name is " + name + " , might be UpperCase in the first! \n");
+                name = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+            } else {
+                name = "get" + name;
+            }
+            try {
+                element = (WebElement) page.getClass().getDeclaredMethod(name).invoke(page);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
         }
-        List<WebElement> element = null;
-        Object page = LoginBeforeAllTests.getPageFactory();
-        name = getMethodNameWithGet(name);
-        try {
-            element = (List)page.getClass().getDeclaredMethod(name,c).invoke(page,paras);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+
         return element;
     }
 
-    public static WebElement getWebElementsWithoutGet(String name, Object[] paras){
-        Class c[]=null;
-        if(paras!=null){
-            int len=paras.length;
-            c=new Class[len];
-            for(int i=0;i<len;++i){
-                c[i]=paras[i].getClass();
+    public static WebElement getWebElementsWithoutGet(String name, Object[] paras) {
+        Class c[] = null;
+        if (paras != null) {
+            int len = paras.length;
+            c = new Class[len];
+            for (int i = 0; i < len; ++i) {
+                c[i] = paras[i].getClass();
                 c[i] = typeParse(c[i].getName());
             }
         }
         WebElement element = null;
         Object page = LoginBeforeAllTests.getPageFactory();
         try {
-            element = (WebElement)page.getClass().getDeclaredMethod(name,c).invoke(page,paras);
+            element = (WebElement) page.getClass().getDeclaredMethod(name, c).invoke(page, paras);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -104,7 +80,7 @@ public class GetElementFromPage {
         return element;
     }
 
-    public static List<WebElement> getWebElementsWithName(String name){
+    public static List<WebElement> getWebElementsWithName(String name) {
         List<WebElement> list = null;
         Object page = LoginBeforeAllTests.getPageFactory();
         name = getMethodNameWithGet(name);
@@ -116,7 +92,7 @@ public class GetElementFromPage {
         return list;
     }
 
-    public static List<WebElement> getWebElementsWithoutGet(String name){
+    public static List<WebElement> getWebElementsWithoutGet(String name) {
         List<WebElement> list = null;
         Object page = LoginBeforeAllTests.getPageFactory();
         try {
@@ -127,18 +103,18 @@ public class GetElementFromPage {
         return list;
     }
 
-    public static String getCurrentPageTitle(){
+    public static String getCurrentPageTitle() {
         return LoginBeforeAllTests.getWebDriver().getTitle();
     }
 
-    private static String getMethodNameWithGet(String name){
+    private static String getMethodNameWithGet(String name) {
         if (name.startsWith("get")) {
             name = name.split("get")[1];
         }
-        if (Character.isLowerCase(name.charAt(0))){
+        if (Character.isLowerCase(name.charAt(0))) {
             System.out.println("\n Wanning: name is " + name + " , might be UpperCase in the first! \n");
-            name = "get" + name.substring(0,1).toUpperCase() + name.substring(1);
-        }else {
+            name = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+        } else {
             name = "get" + name;
         }
         return name;

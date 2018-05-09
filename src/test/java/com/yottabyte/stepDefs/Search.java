@@ -38,7 +38,7 @@ public class Search {
                 className = webElement.getAttribute("class").split(" ")[0];
             }
         }
-        for (int i = 0; i < paging.size(); i++) {
+        for (int i = paging.size(); i >0; i--) {
             WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.elementToBeClickable(paging.get(i)));
             paging.get(i).click();
             for (WebElement element : tableBody.findElements(By.className(className))) {

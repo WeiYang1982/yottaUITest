@@ -25,9 +25,7 @@ public class ClickSomeButton {
         if (tableAddress.contains("-")) {
             String buttonName = tableAddress.split("-")[0];
             int row = Integer.parseInt(tableAddress.split("-")[1]);
-            Object[] o = new Object[1];
-            o[0] = row;
-            WebElement button = GetElementFromPage.getWebElementWithName(buttonName, o);
+            WebElement button = GetElementFromPage.getWebElementWithName(buttonName, row);
             button.click();
         }else {
             System.out.println("Table Address is wrong!!!");
