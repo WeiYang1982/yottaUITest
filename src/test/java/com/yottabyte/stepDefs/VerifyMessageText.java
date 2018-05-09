@@ -12,13 +12,13 @@ public class VerifyMessageText {
     public void iWillSeeTheSuccessMessage(String messageText) {
         WebElement element = GetElementFromPage.getWebElementWithName("getSuccessMessage");
         String realText = element.getText();
-        assertEquals(realText,messageText);
+        assertEquals(messageText, realText);
     }
 
     @Then("^I will see the error message \"([^\"]*)\"$")
     public void iWillSeeErrorMessage(String errorMessage){
         WebElement element = GetElementFromPage.getWebElementWithName("ErrorMessage");
         String realResult = element.getText();
-        assertEquals(errorMessage,realResult);
+        assertEquals(realResult, errorMessage);
     }
 }
