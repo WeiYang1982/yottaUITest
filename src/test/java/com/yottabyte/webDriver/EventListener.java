@@ -1,6 +1,7 @@
 package com.yottabyte.webDriver;
 
 import com.yottabyte.constants.WebDriverConst;
+import com.yottabyte.utils.HighLightElement;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.ScreenshotException;
@@ -155,10 +156,12 @@ public class EventListener extends AbstractWebDriverEventListener {
         if (by != null && element != null){
             element = element.findElement(by);
             ((JavascriptExecutor) selenium).executeScript("arguments[0].scrollIntoView();", element);
+            HighLightElement.highLightElement(selenium,element);
         }else if (by != null && element == null){
             try {
                 element = selenium.findElement(by);
                 ((JavascriptExecutor) selenium).executeScript("arguments[0].scrollIntoView();", element);
+                HighLightElement.highLightElement(selenium,element);
             }catch (NoSuchElementException e){
                 System.out.println("Element " + by + " doesn't exist!");
             }

@@ -83,6 +83,7 @@ public class SharedDriver extends EventFiringWebDriver {
             LocalChromeDriverService.createAndStartService();
             service = LocalChromeDriverService.getService();
             REAL_DRIVER = new RemoteWebDriver(service.getUrl(),browser);
+            REAL_DRIVER = new EventFiringWebDriver(REAL_DRIVER).register(eventListener);
         }
     }
 
