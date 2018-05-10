@@ -3,7 +3,6 @@ package com.yottabyte.utils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class HighLightElement {
 
@@ -13,7 +12,6 @@ public class HighLightElement {
      * @param element 需要高亮的元素
      */
     public static void highLightElement(WebDriver webDriver, WebElement element) {
-//        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(element));
         ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.border='3px solid red'", element);
         String js = "var target = arguments[0];\n" +
                 "setTimeout(function() {\n" +
