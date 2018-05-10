@@ -74,17 +74,26 @@ public class ListPage extends PageTemplate {
     @FindBy(className = "el-table__header")
     private WebElement tableHeader;
 
-    public WebElement getTableBody() {
-        return tableBody;
-    }
-
     // 表体
     @FindBy(className = "el-table__body")
-
     private WebElement tableBody;
+
+    // 全文搜索后出现的列表
+    @FindBy(className = "search-list-item")
+    private List<WebElement> searchList;
 
     public WebElement getSearchInput() {
         return searchInput;
+    }
+
+    public List<WebElement> getSearchList() {
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOfAllElements(searchList));
+        return searchList;
+    }
+
+    public WebElement getTableBody() {
+
+        return tableBody;
     }
 
     public WebElement getErrorMessage() {
@@ -165,14 +174,10 @@ public class ListPage extends PageTemplate {
         }
         List<WebElement> list = new ArrayList();
         for (int i = 0; i < paging.size(); i++) {
-            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(paging.get(i)));
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.elementToBeClickable(paging.get(i)));
             paging.get(i).click();
             list.addAll(tableBody.findElements(By.className(className)));
         }
         return list;
-    }
-
-    public List<WebElement> getComboBoxs() {
-        return comboBoxs;
     }
 }

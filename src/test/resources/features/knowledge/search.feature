@@ -6,9 +6,11 @@ Feature: 切换资源分组
   Scenario Outline:
     Then I choose the "<GroupList>" from the "GroupList"
     And I set the parameter "SearchInput" with value "<Search>"
-    Then I will see the list of "分组" contains "<GroupList>"
+    Then I will see the list of "<TableHeader>" contains "<GroupList>" or I see the "SearchList" contains "<Search>"
 
   Examples:
-    |GroupList|Search|
-    |sunxj_knowledge||
+    |GroupList|Search|TableHeader|
+    |sunxj_knowledge||分组         |
+    |11             ||分组         |
+    |               |2|          |
 
