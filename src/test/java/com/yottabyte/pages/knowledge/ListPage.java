@@ -3,7 +3,6 @@ package com.yottabyte.pages.knowledge;
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.utils.ElementExist;
 import com.yottabyte.utils.WaitForElement;
-import com.yottabyte.webDriver.BrowserMobProxyService;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -46,9 +45,6 @@ public class ListPage extends PageTemplate {
     @FindBy(xpath = "//label[@class='el-form-item__label'][contains(text(),'解决方案')]/following-sibling::div//textarea")
     private WebElement solution;
 
-    @FindBy(className = "el-message__group")
-    private WebElement success;
-
     // 列表页下的所有名称
     @FindBy(xpath = "//td[@class='el-table_1_column_1']//span[@class='link']")
     private List<WebElement> elementList;
@@ -81,6 +77,14 @@ public class ListPage extends PageTemplate {
     // 全文搜索后出现的列表
     @FindBy(className = "search-list-item")
     private List<WebElement> searchList;
+
+    // 删除成功
+    @FindBy(className = "el-message__group")
+    private WebElement deleteMsg;
+
+    public WebElement getSuccessMessage() {
+        return deleteMsg;
+    }
 
     public WebElement getSearchInput() {
         return searchInput;
