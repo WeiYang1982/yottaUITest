@@ -2,6 +2,8 @@ Feature: 新建知识
   Background: 
     Given I click the "KnowledgePage" button
     And I will see the "knowledge.ListPage" page
+
+  @knowledge
   Scenario Outline:新建知识
     Given I click the "CreateKnowledge" button
     When I set the parameter "EventCode" with value "<EventCodeValue>"
@@ -13,11 +15,13 @@ Feature: 新建知识
     And I click the "Confirm" button
     Then I will see the <Result>
 
+  @smoke @all
   Examples: 保存成功
-    |EventCodeValue|NameValue|Type|TagType|Describe|Solution|Result|
-    |504           |sunxj1   |sunxj_knowledge|测试标签|sunxjTest|do nothing|"sunxj1" in the "ElementList"|
-    |事件代码        |   |资源组-tyf          ||第二个自动化测试用例 | |"事件代码" in the "ElementList"|
+    |EventCodeValue|NameValue|Type           |TagType|Describe          |Solution   |Result|
+    |504           |sunxj1   |sunxj_knowledge|测试标签|sunxjTest         |do nothing |"sunxj1" in the "ElementList"|
+    |事件代码       |         |资源组-tyf      |       |第二个自动化测试用例|           |"事件代码" in the "ElementList"|
 
+  @all
   Examples: 保存失败
     |EventCodeValue|NameValue|Type|TagType|Describe|Solution|Result|
     |              |         |    |       |        |        |error message "请输入事件代码"|
