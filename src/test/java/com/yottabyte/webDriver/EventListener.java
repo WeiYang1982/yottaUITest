@@ -95,7 +95,11 @@ public class EventListener extends AbstractWebDriverEventListener {
 
     @Override
     public void onException(Throwable ex, WebDriver arg1 ) {
-        autoScreenShot(ex);
+        try {
+            autoScreenShot(ex);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         if(ex.getClass().equals(NoSuchElementException.class)){
             System.out.println("\n" + "WebDriver error: Element not found: " + lastFindBy + "\n");
         }else if (ex.getClass().equals(TimeoutException.class)){

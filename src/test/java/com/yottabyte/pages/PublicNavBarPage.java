@@ -1,5 +1,6 @@
 package com.yottabyte.pages;
 
+import com.yottabyte.utils.ElementExist;
 import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -96,7 +97,9 @@ public class PublicNavBarPage extends PageTemplate {
         ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(systemSetButton);
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
         systemSetButton.click();
-//        expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
+        if (ElementExist.isElementExist(webDriver,loadingElement)) {
+            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.invisibilityOf(loadingElement));
+        }
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
         expectedCondition = ExpectedConditions.elementToBeClickable(element);
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);

@@ -103,6 +103,7 @@ public class ListPage extends PageTemplate {
     }
 
     public WebElement getSuccessMessage(){
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(suspensionMessage));
         return suspensionMessage;
     }
 

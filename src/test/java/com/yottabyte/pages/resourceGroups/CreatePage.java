@@ -70,6 +70,7 @@ public class CreatePage extends PageTemplate {
     }
 
     public WebElement getSuccessMessage() {
+        ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(message);
         return message;
     }
 
