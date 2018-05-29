@@ -255,11 +255,33 @@ public class AlertsCreatePage extends PageTemplate {
         WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(alertLevel));
         return alertLevel.findElement(By.className("input-with-unit")).findElement(By.className("el-input__inner"));
     }
+
+    // 选择基线对比监控时搜索结果选择在区间内/外时，右侧输入框
+    public WebElement getBaseLineRightInput() {
+        if (tmpAlertTypes.size()==0){
+            list = check.checkSelected(webDriver, alertTypeButton);
+            tmpAlertTypes.addAll(list);
+        }
+        String tmp = tmpAlertTypes.get(0);
+        if ("基线对比监控".equalsIgnoreCase(tmp)) {
+            String searchResult = check.checkSelected(webDriver,conditionSelects.get(0)).get(0);
+            if (searchResult.contains("区间")) {
+                return webDriver.findElement(By.className("baseline-right")).findElement(By.tagName("input"));
+            }else {
+                throw new NoSuchElementException("没有找到输入框，请检查");
+            }
+        }else {
+            throw new NoSuchElementException("监控类型不正确，请检查！当前选择为：" + tmp);
+        }
+    }
+
     // 告警级别单位下拉框
     public List<WebElement> getAlertLevelUnit() {
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(alertLevel));
-        WebElement element = alertLevel.findElement(By.className("input-with-unit")).findElement(By.className("level-select"));
-        return getSelectors(element).findElements(By.tagName("li"));
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOfElementLocated(By.className("levels")));
+        WebElement element = webDriver.findElement(By.className("levels")).findElement(By.className("input-with-unit")).findElement(By.className("level-select"));
+        WebElement tmpElement = getSelectors(element);
+        List<WebElement> elementList = tmpElement.findElements(By.tagName("li"));
+        return elementList;
     }
 
     public WebElement getAddThresholdButton() {

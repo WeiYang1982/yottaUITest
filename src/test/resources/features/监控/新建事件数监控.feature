@@ -1,4 +1,4 @@
-Feature: 新建告警页面的各个检查项
+Feature: 新建事件数监控及页面的各个检查项
 
   Background:
     Given I click the "AlertsListPage" button

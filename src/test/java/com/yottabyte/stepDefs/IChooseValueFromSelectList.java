@@ -1,13 +1,11 @@
 package com.yottabyte.stepDefs;
 
+import com.sun.media.jfxmedia.logging.Logger;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.utils.GetElementFromPage;
 import com.yottabyte.utils.WaitForElement;
 import cucumber.api.java.en.And;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -22,18 +20,24 @@ public class IChooseValueFromSelectList {
             String value = values.get(0);
             if (value != null && value.trim().length() != 0){
                 List<WebElement> fatherSelectList = GetElementFromPage.getWebElementsWithName(selectListName);
-                for (WebElement e : fatherSelectList){
+                WebElement parentElement = fatherSelectList.get(0).findElement(By.xpath("./parent::*"));
+                for (WebElement e : fatherSelectList) {
                     ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
                     if (value.equalsIgnoreCase(e.getText())){
                         e.click();
+                        break;
                     }
                 }
-                WebElement e = fatherSelectList.get(0).findElement(By.xpath("./parent::*"));
-                if (e.isDisplayed()){
-                    ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", e);
-                    ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(e);
-                    WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+                try {
+                    if (parentElement.isDisplayed()){
+                        ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", parentElement);
+                        ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(parentElement);
+                        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+                    }
+                }catch (StaleElementReferenceException e){
+                    Logger.logMsg(Logger.WARNING,"父元素消失！尝试继续");
                 }
+
             }
         }else {
             List<WebElement> fatherSelectList = GetElementFromPage.getWebElementsWithName(selectListName);
