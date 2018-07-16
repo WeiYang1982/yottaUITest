@@ -3,10 +3,8 @@ package com.yottabyte.pages.alert;
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.utils.CheckSelectedFromDropdownList;
 import com.yottabyte.utils.WaitForElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import net.bytebuddy.implementation.bytecode.Throw;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -22,6 +20,9 @@ public class AlertsCreatePage extends PageTemplate {
     CheckSelectedFromDropdownList check = new CheckSelectedFromDropdownList();
     List<String> list;
     List<String> tmpAlertTypes = new ArrayList<>();
+    // tab页按钮
+    @FindBy (className = "el-tabs__item")
+    private List<WebElement> tabs;
     // 监控名称
     @FindBy (xpath = "//label[@class='el-form-item__label'][contains(text(),'名称')]/following-sibling::div//input")
     private WebElement alertName;
@@ -79,6 +80,51 @@ public class AlertsCreatePage extends PageTemplate {
     // 提示信息弹框
     @FindBy(className = "el-message-box__message")
     private WebElement message;
+    // 高级配置tab的基础路径
+    final private String ADVANCEDCONFIGPATH = "//form//*[text()='扩展搜索']/parent::*";
+    // 扩展搜索搜索内容
+    @FindBy(xpath = ADVANCEDCONFIGPATH + "//textarea")
+    private WebElement exSearchContent;
+    // 扩展搜索日志来源
+    @FindBy(xpath = ADVANCEDCONFIGPATH + "//input[@placeholder='请选择日志来源']")
+    private WebElement exAlertSourceButton;
+    // 启用效果图
+    @FindBy(xpath = "//span[@class='graph-switch-text']//following::label[1]")
+    private WebElement graphEnable;
+    // 告警抑制
+    @FindBy(className = "suppression-radio-group")
+    private WebElement suppressionAlertGroup;
+    // 恢复提示
+    @FindBy(xpath = "//label[contains(text(),'恢复提示')]/parent::*//label[@class='el-switch']")
+    private WebElement recoverNote;
+    // 抑制告警输入框
+    @FindBy(xpath = ADVANCEDCONFIGPATH + "//div[@class='unit-input']")
+    private List<WebElement> unitInputs;
+    // 抑制告警下的复选框
+    @FindBy(className = "el-checkbox__input")
+    private WebElement checkBox;
+    // 添加告警类型下拉框按钮
+    @FindBy(className = "add-config-dropdown-button")
+    private WebElement addAlertNoteTypeButton;
+    // 添加告警类型下拉框
+    @FindBy(className = "add-config-dropdown-menu")
+    private WebElement addAlertNoteTypeGroup;
+    // 告警提醒类型父元素
+    @FindBy(className = "el-collapse")
+    private WebElement alertNoteFrame;
+
+    // 基本配置tab
+    public WebElement getBasicConfigTab() {
+        return tabs.get(0);
+    }
+    // 高级配置tab
+    public WebElement getAdvancedConfigTab() {
+        return tabs.get(1);
+    }
+    // 告警方式tab
+    public WebElement getAlertNoteTypeTab() {
+        return tabs.get(2);
+    }
 
     public WebElement getAlertName() {
         return alertName;
@@ -309,6 +355,88 @@ public class AlertsCreatePage extends PageTemplate {
         return saveButton;
     }
 
+    public WebElement getExSearchContent() {
+        return exSearchContent;
+    }
+
+    public List<WebElement> getExAlertSources() {
+        return getSelectors(exAlertSourceButton).findElements(By.tagName("li"));
+    }
+
+    public WebElement getGraphEnable() {
+        return graphEnable;
+    }
+
+    public WebElement getNotSuppressButton() {
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(suppressionAlertGroup.findElements(By.className("el-radio__input")).get(0)));
+        return suppressionAlertGroup.findElements(By.className("el-radio__input")).get(0);
+    }
+
+    public WebElement getSuppressButton() {
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(suppressionAlertGroup.findElements(By.className("el-radio__input")).get(1)));
+        return suppressionAlertGroup.findElements(By.className("el-radio__input")).get(1);
+    }
+    // 发送第一次告警选项中的输入框
+    public WebElement getFixedPeriodInput() {
+        String tmp = getSuppressButton().getAttribute("class");
+        if (tmp.contains("is-checked")){
+            return unitInputs.get(0).findElement(By.tagName("input"));
+        }else {
+            throw new ElementNotInteractableException("抑制告警选项未激活");
+        }
+    }
+
+    // 发送第一次告警选项中的单位下拉框
+    public List<WebElement> getFixedPeriodUnits() {
+        WebElement tmp = unitInputs.get(0).findElement(By.className("el-select")).findElement(By.tagName("input"));
+        return getSelectors(tmp).findElements(By.tagName("li"));
+    }
+    // 抑制告警中的复选框
+    public WebElement getCheckBox() {
+        return checkBox;
+    }
+    // 取消抑制的输入框
+    public WebElement getCancelSuppressInput() {
+        String tmp = getSuppressButton().getAttribute("class");
+        String tmp1 = checkBox.getAttribute("class");
+        if (tmp.contains("is-checked")) {
+            if (tmp1.contains("is-checked")) {
+                return unitInputs.get(1).findElement(By.tagName("input"));
+            }else {
+                throw new ElementNotInteractableException("取消抑制复选框选项未激活");
+            }
+        }else {
+            throw new ElementNotInteractableException("抑制告警选项未激活");
+        }
+    }
+    // 取消抑制的单位
+    public List<WebElement> getCancelSuppressUnits() {
+        WebElement tmp = unitInputs.get(1).findElement(By.className("el-select")).findElement(By.tagName("input"));
+        return getSelectors(tmp).findElements(By.tagName("li"));
+    }
+
+    public void getRsyslogAlert(String address, String protocol, String level, String facility, List<String> condision, String content) {
+        try {
+            List<String> titles = getAlertNoteTitle();
+            for (int i=0; i<titles.size(); i++){
+                if ("rsyslog告警".equals(titles.get(i))){
+                    WebElement fatherElement = alertNoteFrame.findElements(By.className("el-collapse-item")).get(i);
+                    if (fatherElement.getAttribute("class").contains("is-active")){
+                        WebElement rsysAddress = fatherElement.findElements(By.className("el-input__inner")).get(0);
+                        WebElement rsysProtocol = fatherElement.findElements(By.className("el-input__inner")).get(1);
+                        WebElement rsysLevel = fatherElement.findElements(By.className("el-input__inner")).get(2);
+                        WebElement rsysFacility  = fatherElement.findElements(By.className("el-input__inner")).get(3);
+                        WebElement rsysCondision = fatherElement.findElements(By.className("el-input__inner")).get(4);
+                        WebElement rsysContent = fatherElement.findElement(By.className("el-textarea__inner"));
+
+                    }
+                }
+            }
+        }catch (NoSuchElementException e){
+            throw new NoSuchElementException("没有选择告警方式");
+        }
+    }
+
     public WebElement getSuccessMessage() {
         WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(message));
         return message;
@@ -325,6 +453,20 @@ public class AlertsCreatePage extends PageTemplate {
         List<WebElement> list = webDriver.findElements(By.className("el-select-dropdown__list"));
         WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(list.get(list.size() - 1 ) ));
         return list.get(list.size() - 1 );
+    }
+
+    private List<String> getAlertNoteTitle() {
+        List<String> list = new ArrayList<>();
+        List<WebElement> webElements = alertNoteFrame.findElements(By.className("method-title"));
+        int l = webElements.size();
+        if (l == 0){
+            throw new NoSuchElementException("没有选择告警方式");
+        }else {
+            for (int i=0; i<l; i++){
+                list.add(webElements.get(i).getText());
+            }
+            return list;
+        }
     }
 
 

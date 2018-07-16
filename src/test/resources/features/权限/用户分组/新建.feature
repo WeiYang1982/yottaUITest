@@ -18,6 +18,7 @@ Feature: 创建一个用户分组
     And I click the "CreateButton" button
     Then I will see the <Result>
 
+  @all
   Examples:
     |NeedRun|UserGroupName|UserGroupDes|Owner         |Role          |Result|
     |N      |AutoTest     |des1        |admin         |autotest      |success message "创建成功"|
