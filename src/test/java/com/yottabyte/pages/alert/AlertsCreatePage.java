@@ -1,14 +1,20 @@
 package com.yottabyte.pages.alert;
 
+import com.yottabyte.config.ConfigManager;
+import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.PageTemplate;
+import com.yottabyte.stepDefs.IChooseValueFromSelectList;
+import com.yottabyte.stepDefs.SetKeyWithValue;
 import com.yottabyte.utils.CheckSelectedFromDropdownList;
 import com.yottabyte.utils.WaitForElement;
+import com.yottabyte.webDriver.SharedDriver;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AlertsCreatePage extends PageTemplate {
@@ -415,8 +421,11 @@ public class AlertsCreatePage extends PageTemplate {
         return getSelectors(tmp).findElements(By.tagName("li"));
     }
 
-    public void getRsyslogAlert(String address, String protocol, String level, String facility, List<String> condision, String content) {
+    public void rsyslogAlert(String address, List<String> protocol, List<String> level, String facility, List<String> condision, String content) {
+        SetKeyWithValue set = new SetKeyWithValue();
+        IChooseValueFromSelectList choose = new IChooseValueFromSelectList();
         try {
+            choose.iChooseTheFromThe(new ArrayList<String>(Arrays.asList("rsyslog告警")),getAlertNoteTypes().findElements(By.tagName("li")));
             List<String> titles = getAlertNoteTitle();
             for (int i=0; i<titles.size(); i++){
                 if ("rsyslog告警".equals(titles.get(i))){
@@ -428,13 +437,32 @@ public class AlertsCreatePage extends PageTemplate {
                         WebElement rsysFacility  = fatherElement.findElements(By.className("el-input__inner")).get(3);
                         WebElement rsysCondision = fatherElement.findElements(By.className("el-input__inner")).get(4);
                         WebElement rsysContent = fatherElement.findElement(By.className("el-textarea__inner"));
-
+                        if (address != null && address.trim().length() != 0){
+                            set.iSetTheParameterWithValue1(rsysAddress, address);
+                        }
+                        if (protocol != null && protocol.size() != 0 && !protocol.contains("")){
+                            choose.iChooseTheFromThe(protocol, getSelectors(rsysProtocol).findElements(By.tagName("li")));
+                        }
+                        if (level != null && level.size() != 0 && !level.contains("")){
+                            choose.iChooseTheFromThe(level, getSelectors(rsysLevel).findElements(By.tagName("li")));
+                        }
+                        if (facility != null && facility.trim().length() != 0){
+                            set.iSetTheParameterWithValue1(rsysFacility,facility);
+                        }
+                        if (condision != null && condision.size()!= 0 && !condision.contains("")){
+                            choose.iChooseTheFromThe(condision, getSelectors(rsysCondision).findElements(By.tagName("li")));
+                        }
+                        if (content != null && content.trim().length() != 0){
+                            set.iSetTheParameterWithValue1(rsysContent, content);
+                        }
                     }
                 }
             }
         }catch (NoSuchElementException e){
             throw new NoSuchElementException("没有选择告警方式");
         }
+
+
     }
 
     public WebElement getSuccessMessage() {
@@ -467,6 +495,32 @@ public class AlertsCreatePage extends PageTemplate {
             }
             return list;
         }
+    }
+
+    private WebElement getAlertNoteTypes(){
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(addAlertNoteTypeButton));
+        addAlertNoteTypeButton.click();
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(webDriver.findElement(By.className("add-config-dropdown-menu"))));
+        return webDriver.findElement(By.className("add-config-dropdown-menu"));
+    }
+
+    public static void main(String args[]) throws InterruptedException {
+        SharedDriver driver = new SharedDriver();
+        ConfigManager c = new ConfigManager();
+        LoginBeforeAllTests login = new LoginBeforeAllTests(driver,c);
+        login.beforeScenario();
+        Thread.sleep(10000);
+        driver.get("http://alltest.rizhiyi.com/alerts");
+        AlertsListPage p = new AlertsListPage(driver);
+        Thread.sleep(2000);
+        p.getCreateAlert().click();
+        Thread.sleep(10000);
+        new AlertsCreatePage(driver).tabs.get(2).click();
+        new AlertsCreatePage(driver).rsyslogAlert("192.168.1.82:514",
+                new ArrayList<String>(Arrays.asList("UDP")),
+                new ArrayList<String>(Arrays.asList("INFO")),"local0",
+                new ArrayList<String>(Arrays.asList("")),"{{ alert.name }}|{{ alert.strategy.trigger.start_time|date:\"Y-m-d H:i:s\" }}|{{ alert.strategy.trigger.end_time|date:\"Y-m-d H:i:s\" }}|{{ alert.search.query }}");
+        driver.quit();
     }
 
 

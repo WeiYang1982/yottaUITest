@@ -15,13 +15,17 @@ import java.util.concurrent.ExecutionException;
 public class IChooseValueFromSelectList {
     @And("^I choose the \"([^\"]*)\" from the \"([^\"]*)\"$")
     public void iChooseTheFromThe(List<String> values, String selectListName){
+        List<WebElement> fatherSelectList = GetElementFromPage.getWebElementsWithName(selectListName);
+        iChooseTheFromThe(values,fatherSelectList);
+    }
+
+    public void iChooseTheFromThe(List<String> values, List<WebElement> elements){
         WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
         if (values.size() == 1){
             String value = values.get(0);
             if (value != null && value.trim().length() != 0){
-                List<WebElement> fatherSelectList = GetElementFromPage.getWebElementsWithName(selectListName);
-                WebElement parentElement = fatherSelectList.get(0).findElement(By.xpath("./parent::*"));
-                for (WebElement e : fatherSelectList) {
+                WebElement parentElement = elements.get(0).findElement(By.xpath("./parent::*"));
+                for (WebElement e : elements) {
                     ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
                     if (value.equalsIgnoreCase(e.getText())){
                         e.click();
@@ -40,16 +44,15 @@ public class IChooseValueFromSelectList {
 
             }
         }else {
-            List<WebElement> fatherSelectList = GetElementFromPage.getWebElementsWithName(selectListName);
             for (String s : values){
-                for (WebElement e : fatherSelectList){
+                for (WebElement e : elements){
                     if (s.equalsIgnoreCase(e.getText())){
                         ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
                         e.click();
                     }
                 }
             }
-            WebElement e = fatherSelectList.get(0).findElement(By.xpath("./parent::*"));
+            WebElement e = elements.get(0).findElement(By.xpath("./parent::*"));
             if (e.isDisplayed()){
                 ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", e);
                 ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(e);

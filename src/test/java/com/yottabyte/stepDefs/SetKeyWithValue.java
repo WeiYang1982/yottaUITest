@@ -14,8 +14,14 @@ public class SetKeyWithValue {
      */
     @When("^I set the parameter \"([^\"]*)\" with value \"([^割]*)\"$")
     public void iSetTheParameterWithValue1(String  elementName, String value){
+        if (elementName != null && elementName.trim().length() != 0){
+            WebElement element = GetElementFromPage.getWebElementWithName(elementName);
+            iSetTheParameterWithValue1(element,value);
+        }
+    }
+
+    public void iSetTheParameterWithValue1(WebElement element, String value){
         boolean flag = true;
-        WebElement element = GetElementFromPage.getWebElementWithName(elementName);
         while (flag){
             try {
                 Thread.sleep(1000);

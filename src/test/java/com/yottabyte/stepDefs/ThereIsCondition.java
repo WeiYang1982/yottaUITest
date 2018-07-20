@@ -17,7 +17,7 @@ public class ThereIsCondition {
      * @param arg 调用函数的参数列表，json格式
      */
     @Given("^need run condition \"([^\"]*)\" There is a \"([^\"]*)\" with \"([^\"]*)\"$")
-    public void needRunConditionThereIsAWith(String needRun, String methodName, String arg){
+    public void needRunConditionThereIsAWith(String needRun, String methodName, String arg) {
         if("N".equals(needRun)){
             System.out.println("skip this steps");
         }else if ("Y".equals(needRun)){
