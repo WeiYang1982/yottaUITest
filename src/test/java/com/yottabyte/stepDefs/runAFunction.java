@@ -5,11 +5,11 @@ import com.yottabyte.utils.JsonStringPaser;
 import cucumber.api.java.en.And;
 
 public class runAFunction {
-    @And("^I add a \"([^\"]*)\" with paramter \"([^\"]*)\"$")
+    @And("^I add a \"([^\"]*)\" with parameter \"([^\"]*)\"$")
     public void iAddAWithParamter(String functionName, String parameters){
         JsonStringPaser paser = new JsonStringPaser();
         Object pars[] = paser.jsonParser(parameters);
-        GetElementFromPage.getWebElementsWithoutGet(functionName,pars);
+         GetElementFromPage.getWebElementsWithoutGet(functionName,pars);
     }
 
     public static void main(String args[]){
@@ -20,7 +20,5 @@ public class runAFunction {
         for (Object o:pars){
             System.out.println(o.toString());
         }
-
-
     }
 }

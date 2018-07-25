@@ -8,7 +8,6 @@ import com.yottabyte.stepDefs.SetKeyWithValue;
 import com.yottabyte.utils.CheckSelectedFromDropdownList;
 import com.yottabyte.utils.WaitForElement;
 import com.yottabyte.webDriver.SharedDriver;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -420,8 +419,8 @@ public class AlertsCreatePage extends PageTemplate {
         WebElement tmp = unitInputs.get(1).findElement(By.className("el-select")).findElement(By.tagName("input"));
         return getSelectors(tmp).findElements(By.tagName("li"));
     }
-
-    public void rsyslogAlert(String address, List<String> protocol, List<String> level, String facility, List<String> condision, String content) {
+    // 添加rsyslog告警方式
+    public void rsyslogType(String address, List<String> protocol, List<String> level, String facility, List<String> condition, String content) {
         SetKeyWithValue set = new SetKeyWithValue();
         IChooseValueFromSelectList choose = new IChooseValueFromSelectList();
         try {
@@ -435,7 +434,7 @@ public class AlertsCreatePage extends PageTemplate {
                         WebElement rsysProtocol = fatherElement.findElements(By.className("el-input__inner")).get(1);
                         WebElement rsysLevel = fatherElement.findElements(By.className("el-input__inner")).get(2);
                         WebElement rsysFacility  = fatherElement.findElements(By.className("el-input__inner")).get(3);
-                        WebElement rsysCondision = fatherElement.findElements(By.className("el-input__inner")).get(4);
+                        WebElement rsysCondition = fatherElement.findElements(By.className("el-input__inner")).get(4);
                         WebElement rsysContent = fatherElement.findElement(By.className("el-textarea__inner"));
                         if (address != null && address.trim().length() != 0){
                             set.iSetTheParameterWithValue1(rsysAddress, address);
@@ -449,8 +448,8 @@ public class AlertsCreatePage extends PageTemplate {
                         if (facility != null && facility.trim().length() != 0){
                             set.iSetTheParameterWithValue1(rsysFacility,facility);
                         }
-                        if (condision != null && condision.size()!= 0 && !condision.contains("")){
-                            choose.iChooseTheFromThe(condision, getSelectors(rsysCondision).findElements(By.tagName("li")));
+                        if (condition != null && condition.size()!= 0 && !condition.contains("")){
+                            choose.iChooseTheFromThe(condition, getSelectors(rsysCondition).findElements(By.tagName("li")));
                         }
                         if (content != null && content.trim().length() != 0){
                             set.iSetTheParameterWithValue1(rsysContent, content);
@@ -461,8 +460,99 @@ public class AlertsCreatePage extends PageTemplate {
         }catch (NoSuchElementException e){
             throw new NoSuchElementException("没有选择告警方式");
         }
+    }
 
-
+    // 添加邮件告警方式
+    public void emailType(String title, List<String> emails, List<String> condition, String content){
+        SetKeyWithValue set = new SetKeyWithValue();
+        IChooseValueFromSelectList choose = new IChooseValueFromSelectList();
+        try {
+            choose.iChooseTheFromThe(new ArrayList<String>(Arrays.asList("邮件告警")),getAlertNoteTypes().findElements(By.tagName("li")));
+            List<String> titles = getAlertNoteTitle();
+            for (int i=0; i<titles.size(); i++){
+                if ("邮件告警".equals(titles.get(i))){
+                    WebElement fatherElement = alertNoteFrame.findElements(By.className("el-collapse-item")).get(i);
+                    if (fatherElement.getAttribute("class").contains("is-active")){
+                        WebElement emailTitle = fatherElement.findElements(By.className("el-input__inner")).get(0);
+                        WebElement email = fatherElement.findElements(By.tagName("input")).get(1);
+                        WebElement emailCondition = fatherElement.findElements(By.className("el-input__inner")).get(2);
+                        WebElement emailContent = fatherElement.findElement(By.className("el-textarea__inner"));
+                        if (title != null && title.trim().length() != 0){
+                            set.iSetTheParameterWithValue1(emailTitle, title);
+                        }
+                        if (emails != null && emails.size() != 0 && !emails.contains("")){
+                            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(email));
+                            email.click();
+                            set.iSetTheParameterWithValue1(email,emails.get(0));
+                            List<WebElement> list = webDriver.findElements(By.className("el-select-dropdown__list"));
+                            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(list.get(list.size() - 1 ) ));
+                            WebElement e = list.get(list.size()-1);
+                            choose.iChooseTheFromThe(emails, e.findElements(By.tagName("li")));
+                        }
+                        if (condition != null && condition.size()!= 0 && !condition.contains("")){
+                            choose.iChooseTheFromThe(condition, getSelectors(emailCondition).findElements(By.tagName("li")));
+                        }
+                        if (content != null && content.trim().length() != 0){
+                            set.iSetTheParameterWithValue1(emailContent, content);
+                        }
+                    }
+                }
+            }
+        }catch (NoSuchElementException e){
+            throw new NoSuchElementException("没有选择告警方式");
+        }
+    }
+    // 添加告警转发方式
+    public void forwardType(String address, List<String> condition) {
+        SetKeyWithValue set = new SetKeyWithValue();
+        IChooseValueFromSelectList choose = new IChooseValueFromSelectList();
+        try {
+            choose.iChooseTheFromThe(new ArrayList<String>(Arrays.asList("告警转发")), getAlertNoteTypes().findElements(By.tagName("li")));
+            List<String> titles = getAlertNoteTitle();
+            for (int i = 0; i < titles.size(); i++) {
+                if ("告警转发".equals(titles.get(i))) {
+                    WebElement fatherElement = alertNoteFrame.findElements(By.className("el-collapse-item")).get(i);
+                    if (fatherElement.getAttribute("class").contains("is-active")) {
+                        WebElement forwardAddress = fatherElement.findElements(By.className("el-input__inner")).get(0);
+                        WebElement forwardCondition = fatherElement.findElements(By.tagName("input")).get(1);
+                        if (address != null && address.trim().length() != 0){
+                            set.iSetTheParameterWithValue1(forwardAddress, address);
+                        }
+                        if (condition != null && condition.size()!= 0 && !condition.contains("")){
+                            choose.iCancelSelectionFromThe(condition, getSelectors(forwardCondition));
+                        }
+                    }
+                }
+            }
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("没有选择告警方式");
+        }
+    }
+    // 添加ping主机方式
+    public void pingHostType(String address, List<String> condition) {
+        SetKeyWithValue set = new SetKeyWithValue();
+        IChooseValueFromSelectList choose = new IChooseValueFromSelectList();
+        try {
+            choose.iChooseTheFromThe(new ArrayList<String>(Arrays.asList("ping主机")), getAlertNoteTypes().findElements(By.tagName("li")));
+            List<String> titles = getAlertNoteTitle();
+            for (int i = 0; i < titles.size(); i++) {
+                if ("ping主机".equals(titles.get(i))) {
+                    WebElement fatherElement = alertNoteFrame.findElements(By.className("el-collapse-item")).get(i);
+                    if (fatherElement.getAttribute("class").contains("is-active")) {
+                        WebElement hostAddress = fatherElement.findElements(By.className("el-input__inner")).get(0);
+                        WebElement conditions = fatherElement.findElements(By.tagName("input")).get(1);
+                        if (address != null && address.trim().length() != 0){
+                            set.iSetTheParameterWithValue1(hostAddress, address);
+                        }
+                        if (condition != null && condition.size()!= 0 && !condition.contains("")){
+                            choose.iCancelSelectionFromThe(condition, getSelectors(conditions));
+                        }
+                    }
+                }
+            }
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("没有选择告警方式");
+        }
     }
 
     public WebElement getSuccessMessage() {
@@ -516,7 +606,7 @@ public class AlertsCreatePage extends PageTemplate {
         p.getCreateAlert().click();
         Thread.sleep(10000);
         new AlertsCreatePage(driver).tabs.get(2).click();
-        new AlertsCreatePage(driver).rsyslogAlert("192.168.1.82:514",
+        new AlertsCreatePage(driver).rsyslogType("192.168.1.82:514",
                 new ArrayList<String>(Arrays.asList("UDP")),
                 new ArrayList<String>(Arrays.asList("INFO")),"local0",
                 new ArrayList<String>(Arrays.asList("")),"{{ alert.name }}|{{ alert.strategy.trigger.start_time|date:\"Y-m-d H:i:s\" }}|{{ alert.strategy.trigger.end_time|date:\"Y-m-d H:i:s\" }}|{{ alert.search.query }}");
