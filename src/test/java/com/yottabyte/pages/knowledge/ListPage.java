@@ -24,6 +24,9 @@ public class ListPage extends PageTemplate {
     @FindBy(xpath = "//*[text()='新建']")
     private WebElement createKnowledge;
 
+    @FindBy(xpath = "//*[text()='编辑']")
+    private WebElement edit;
+
     @FindBy(xpath = "//label[@class='el-form-item__label'][contains(text(),'事件代码')]/following-sibling::div//input")
     private WebElement eventCode;
 
@@ -98,6 +101,10 @@ public class ListPage extends PageTemplate {
     public WebElement getTableBody() {
 
         return tableBody;
+    }
+
+    public WebElement getEdit() {
+        return edit;
     }
 
     public WebElement getErrorMessage() {
@@ -182,6 +189,13 @@ public class ListPage extends PageTemplate {
             paging.get(i).click();
             list.addAll(tableBody.findElements(By.className(className)));
         }
+        return list;
+    }
+
+    // 获取列表页所有数据
+    public List<WebElement> getAllData() {
+        String className = null;
+        List<WebElement> list = tableBody.findElements(By.tagName("tr"));
         return list;
     }
 }

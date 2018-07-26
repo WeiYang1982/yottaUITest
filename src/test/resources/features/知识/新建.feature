@@ -18,8 +18,8 @@ Feature: 新建知识
   @smoke @all
   Examples: 保存成功
     |EventCodeValue|NameValue|Type           |TagType|Describe          |Solution   |Result|
-    |504           |sunxj1   |sunxj_knowledge|测试标签|sunxjTest         |do nothing |"sunxj1" in the "ElementList"|
-    |事件代码       |         |资源组-tyf      |       |第二个自动化测试用例|           |"事件代码" in the "ElementList"|
+    |sxjautotest   |sunxj1   |sxj            |200    |sunxjTest         |do nothing |"sunxj1" in the "ElementList"|
+    |sxjautotest2  |         |sxj            |       |第二个自动化测试用例 |           |"sxjautotest2" in the "ElementList"|
 
   @all
   Examples: 保存失败

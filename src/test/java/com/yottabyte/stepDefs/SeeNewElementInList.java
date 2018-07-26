@@ -3,6 +3,7 @@ package com.yottabyte.stepDefs;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.utils.GetElementFromPage;
 import com.yottabyte.utils.WaitForElement;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,10 +14,12 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * 查询新增结果是否已出现在列表中,仅针对列表按创建时间正序排序情况
- */
+
 public class SeeNewElementInList {
+    /**
+     * 查询新增结果是否已出现在列表中,仅针对列表按创建时间正序排序情况
+     */
+
     @Then("I will see the \"([^\"]*)\" in the \"([^\"]*)\"")
     public void iWillSeeNewElement(String name, String elementName) {
         WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
@@ -32,5 +35,20 @@ public class SeeNewElementInList {
         if (!list.get(list.size() - 1).getText().equals(name)) {
             assertTrue(false);
         }
+    }
+
+    /**
+     * 知识中根据名称点击修改
+     */
+    @Given("I click the edit button which name is \"([^\"]*)\"")
+    public void clickEditButton(String name) {
+        List<WebElement> list = GetElementFromPage.getWebElementWithName("AllData");
+        for (WebElement webElement : list) {
+            String td = webElement.findElement(By.className("el-table_1_column_1")).getText();
+            if (name.equals(td)) {
+                webElement.findElement(By.className("el-table_1_column_7")).findElement(By.xpath("./div[@class='cell']//button[@class='el-button el-button--text']//span[contains(text(),'编辑')]")).click();
+            }
+        }
+
     }
 }
