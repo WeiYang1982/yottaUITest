@@ -424,7 +424,7 @@ public class AlertsCreatePage extends PageTemplate {
         SetKeyWithValue set = new SetKeyWithValue();
         IChooseValueFromSelectList choose = new IChooseValueFromSelectList();
         try {
-            choose.iChooseTheFromThe(new ArrayList<String>(Arrays.asList("rsyslog告警")),getAlertNoteTypes().findElements(By.tagName("li")));
+            choose.iChooseTheFromThe(new ArrayList<String>(Arrays.asList("rsyslog告警")),getAlertNoteTypes());
             List<String> titles = getAlertNoteTitle();
             for (int i=0; i<titles.size(); i++){
                 if ("rsyslog告警".equals(titles.get(i))){
@@ -440,16 +440,16 @@ public class AlertsCreatePage extends PageTemplate {
                             set.iSetTheParameterWithValue1(rsysAddress, address);
                         }
                         if (protocol != null && protocol.size() != 0 && !protocol.contains("")){
-                            choose.iChooseTheFromThe(protocol, getSelectors(rsysProtocol).findElements(By.tagName("li")));
+                            choose.iChooseTheFromThe(protocol, getSelectors(rsysProtocol));
                         }
                         if (level != null && level.size() != 0 && !level.contains("")){
-                            choose.iChooseTheFromThe(level, getSelectors(rsysLevel).findElements(By.tagName("li")));
+                            choose.iChooseTheFromThe(level, getSelectors(rsysLevel));
                         }
                         if (facility != null && facility.trim().length() != 0){
                             set.iSetTheParameterWithValue1(rsysFacility,facility);
                         }
                         if (condition != null && condition.size()!= 0 && !condition.contains("")){
-                            choose.iChooseTheFromThe(condition, getSelectors(rsysCondition).findElements(By.tagName("li")));
+                            choose.iChooseTheFromThe(condition, getSelectors(rsysCondition));
                         }
                         if (content != null && content.trim().length() != 0){
                             set.iSetTheParameterWithValue1(rsysContent, content);
@@ -519,7 +519,7 @@ public class AlertsCreatePage extends PageTemplate {
                             set.iSetTheParameterWithValue1(forwardAddress, address);
                         }
                         if (condition != null && condition.size()!= 0 && !condition.contains("")){
-                            choose.iCancelSelectionFromThe(condition, getSelectors(forwardCondition));
+                            choose.iCancelAllSelectionExcept(getSelectors(forwardCondition),condition);
                         }
                     }
                 }
@@ -545,7 +545,7 @@ public class AlertsCreatePage extends PageTemplate {
                             set.iSetTheParameterWithValue1(hostAddress, address);
                         }
                         if (condition != null && condition.size()!= 0 && !condition.contains("")){
-                            choose.iCancelSelectionFromThe(condition, getSelectors(conditions));
+                            choose.iCancelAllSelectionExcept(getSelectors(conditions),condition);
                         }
                     }
                 }
