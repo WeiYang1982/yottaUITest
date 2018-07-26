@@ -66,17 +66,6 @@ public class GetElementFromPage {
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
-//        catch ( exception){
-//            name = name.split("thereIsA")[1];
-//            if (!name.endsWith("s")){
-//                name = name + "s";
-//            }
-//            String packageName = page.getClass().getPackage().getName().substring(0,page.getClass().getPackage().getName().lastIndexOf("."));
-//            name = packageName + "." + name.substring(0,1).toLowerCase() + name.substring(1) + "." + page.getClass().getSimpleName();
-//            System.out.println("//---" + name);
-//            LoginBeforeAllTests.setPageFactory(name);
-//
-//        }
         return element;
     }
 
@@ -134,23 +123,4 @@ public class GetElementFromPage {
         }
     }
 
-//    public static String getSomeString(String methodName){
-//        String s = null;
-//        Object page = LoginBeforeAllTests.getPageFactory();
-//        if (methodName.startsWith("get")) {
-//            methodName = methodName.split("get")[1];
-//        }
-//        if (Character.isLowerCase(methodName.charAt(0))){
-//            System.out.println("\n Wanning: name is " + methodName + " , might be UpperCase in the first! \n");
-//            methodName = "get" + methodName.substring(0,1).toUpperCase() + methodName.substring(1);
-//        }else {
-//            methodName = "get" + methodName;
-//        }
-//        try {
-//            s = (String) page.getClass().getDeclaredMethod(methodName).invoke(page);
-//        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-//            e.printStackTrace();
-//        }
-//        return s;
-//    }
 }

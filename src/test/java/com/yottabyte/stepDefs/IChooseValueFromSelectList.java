@@ -1,6 +1,5 @@
 package com.yottabyte.stepDefs;
 
-import com.sun.media.jfxmedia.logging.Logger;
 import com.yottabyte.config.ConfigManager;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.utils.GetElementFromPage;
@@ -42,9 +41,8 @@ public class IChooseValueFromSelectList {
                         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
                     }
                 }catch (StaleElementReferenceException e){
-                    Logger.logMsg(Logger.WARNING,"父元素消失！尝试继续");
+                    throw e;
                 }
-
             }
         }else {
             for (String s : values){
@@ -102,6 +100,8 @@ public class IChooseValueFromSelectList {
     }
 
     public static void main(String args[]) throws InterruptedException {
+
+
         SharedDriver driver = new SharedDriver();
         ConfigManager c = new ConfigManager();
         LoginBeforeAllTests login = new LoginBeforeAllTests(driver,c);
@@ -116,11 +116,4 @@ public class IChooseValueFromSelectList {
         new IChooseValueFromSelectList().iCancelSelectionFromThe(list,e);
     }
 
-    private void te(List<String> list){
-        if (list.size() == 1){
-            System.out.println("0:" + list.get(0));
-        }else {
-
-        }
-    }
 }
