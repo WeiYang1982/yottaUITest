@@ -63,6 +63,25 @@ public class IChooseValueFromSelectList {
         }
     }
 
+    public void iChooseTheFromThe(List<String> values, WebElement parentElement){
+        List<WebElement> elements = parentElement.findElements(By.tagName("li"));
+        for (String value : values){
+            if (value != null && value.trim().length() != 0){
+                for (WebElement e:elements){
+                    if (value.equals(e.getText())){
+                        e.click();
+                        break;
+                    }
+                }
+                if (parentElement.isDisplayed()){
+                    ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", parentElement);
+                    ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(parentElement);
+                    WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+                }
+            }
+        }
+    }
+
     @And("^I cancel selection \"([^\"]*)\" from the \"([^\"]*)\"$")
     public void iCancelSelectionFromThe(List<String> values, String selectListName){
         WebElement parentElement = GetElementFromPage.getWebElementWithName(selectListName);
@@ -78,14 +97,12 @@ public class IChooseValueFromSelectList {
                     if (e.getAttribute("class").contains("selected")){
                         if (e.getAttribute("style").contains("display: none;")){
                             ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='block';", e);
-                            if (value.equalsIgnoreCase(e.getText())){
+                            if (value.equalsIgnoreCase(e.getText()) || value.equals("all")){
                                 e.click();
-                                continue;
                             }
                         }else {
-                            if (value.equalsIgnoreCase(e.getText())){
+                            if (value.equalsIgnoreCase(e.getText()) || value.equals("all")){
                                 e.click();
-                                continue;
                             }
                         }
                     }
@@ -97,12 +114,34 @@ public class IChooseValueFromSelectList {
             ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(parentElement);
             WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         }
+    }
 
+    @And("^I cancel all selections from the element \"([^\"]*)\" except value \"([^\"]*)\"$")
+    public void iCancelAllSelectionExcept(WebElement parentElement, List<String> values){
+        List<WebElement> selections = parentElement.findElements(By.xpath("./li[contains(@class,'selected')]"));
+        for (WebElement e:selections){
+            ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
+            if (e.getAttribute("class").contains("selected")){
+                if (e.getAttribute("style").contains("display: none;")) {
+                    ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='block';", e);
+                }
+            }
+            boolean flag = false;
+            for (String v:values){
+                if (v.equals(e.getText())){
+                    flag = false;
+                    break;
+                }else {
+                    flag = true;
+                }
+            }
+            if (flag){
+                e.click();
+            }
+        }
     }
 
     public static void main(String args[]) throws InterruptedException {
-
-
         SharedDriver driver = new SharedDriver();
         ConfigManager c = new ConfigManager();
         LoginBeforeAllTests login = new LoginBeforeAllTests(driver,c);
@@ -114,8 +153,9 @@ public class IChooseValueFromSelectList {
         List list = new ArrayList<>();
         list.add("admin");
         list.add("sunxc");
-        GetElementFromPage.getWebElementWithName("aaa");
-        new IChooseValueFromSelectList().iCancelSelectionFromThe(list,e);
+        new IChooseValueFromSelectList().iCancelAllSelectionExcept(e, list);
+
+        System.out.println("done");
     }
 
 }
