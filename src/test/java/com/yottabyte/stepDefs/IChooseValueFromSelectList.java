@@ -18,7 +18,8 @@ public class IChooseValueFromSelectList {
 
     @And("^I choose the \"([^\"]*)\" from the \"([^\"]*)\"$")
     public void iChooseTheFromThe(List<String> values, String selectListName){
-        List<WebElement> fatherSelectList = GetElementFromPage.getWebElementsWithName(selectListName);
+        Object o = GetElementFromPage.getWebElementWithName(selectListName);
+        List fatherSelectList = (List) o;
         iChooseTheFromThe(values,fatherSelectList);
     }
 
@@ -113,6 +114,7 @@ public class IChooseValueFromSelectList {
         List list = new ArrayList<>();
         list.add("admin");
         list.add("sunxc");
+        GetElementFromPage.getWebElementWithName("aaa");
         new IChooseValueFromSelectList().iCancelSelectionFromThe(list,e);
     }
 

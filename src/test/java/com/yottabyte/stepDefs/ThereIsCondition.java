@@ -1,13 +1,8 @@
 package com.yottabyte.stepDefs;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.yottabyte.utils.GetElementFromPage;
 import com.yottabyte.utils.JsonStringPaser;
 import cucumber.api.java.en.Given;
-
-import java.util.*;
 
 public class ThereIsCondition {
     /**
@@ -23,7 +18,7 @@ public class ThereIsCondition {
         }else if ("Y".equals(needRun)){
             JsonStringPaser paser = new JsonStringPaser();
             Object pars[] = paser.jsonParser(arg);
-            GetElementFromPage.getWebElementsWithoutGet(methodName,pars);
+            GetElementFromPage.getWebElementWithoutGet(methodName,pars);
         }
     }
 

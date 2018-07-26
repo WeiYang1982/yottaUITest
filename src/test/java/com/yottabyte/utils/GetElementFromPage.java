@@ -4,6 +4,7 @@ import com.yottabyte.hooks.LoginBeforeAllTests;
 import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -11,8 +12,8 @@ import java.util.List;
  */
 public class GetElementFromPage {
 
-    public static WebElement getWebElementWithName(String name, Object... paras) {
-        WebElement element = null;
+    public static <T>T getWebElementWithName(String name, Object... paras) {
+        Object object = null;
         Object page = LoginBeforeAllTests.getPageFactory();
         if (paras != null) {
             Class c[] = null;
@@ -22,10 +23,9 @@ public class GetElementFromPage {
                 c[i] = paras[i].getClass();
                 c[i] = typeParse(c[i].getName());
             }
-
             name = getMethodNameWithGet(name);
             try {
-                element = (WebElement) page.getClass().getDeclaredMethod(name, c).invoke(page, paras);
+                object = page.getClass().getDeclaredMethod(name, c).invoke(page, paras);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 e.printStackTrace();
             }
@@ -40,17 +40,17 @@ public class GetElementFromPage {
                 name = "get" + name;
             }
             try {
-                element = (WebElement) page.getClass().getDeclaredMethod(name).invoke(page);
+                object = page.getClass().getDeclaredMethod(name).invoke(page);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 e.printStackTrace();
             }
         }
-
-        return element;
+        return (T) object;
     }
 
-    public static WebElement getWebElementsWithoutGet(String name, Object[] paras) {
+    public static <T>T getWebElementWithoutGet(String name, Object... paras) {
         Class c[] = null;
+        Object object = null;
         if (paras != null) {
             int len = paras.length;
             c = new Class[len];
@@ -59,38 +59,37 @@ public class GetElementFromPage {
                 c[i] = typeParse(c[i].getName());
             }
         }
-        WebElement element = null;
         Object page = LoginBeforeAllTests.getPageFactory();
         try {
-            element = (WebElement) page.getClass().getDeclaredMethod(name, c).invoke(page, paras);
+            object = page.getClass().getDeclaredMethod(name, c).invoke(page, paras);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
-        return element;
+        return (T) object;
     }
 
-    public static List<WebElement> getWebElementsWithName(String name) {
-        List<WebElement> list = null;
-        Object page = LoginBeforeAllTests.getPageFactory();
-        name = getMethodNameWithGet(name);
-        try {
-            list = (List<WebElement>) page.getClass().getDeclaredMethod(name).invoke(page);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
+//    public static <T>T getWebElementWithName(String name) {
+//        Object page = LoginBeforeAllTests.getPageFactory();
+//        Object object = null;
+//        name = getMethodNameWithGet(name);
+//        try {
+//            object = page.getClass().getDeclaredMethod(name).invoke(page);
+//        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+//            e.printStackTrace();
+//        }
+//        return (T) object;
+//    }
 
-    public static List<WebElement> getWebElementsWithoutGet(String name) {
-        List<WebElement> list = null;
-        Object page = LoginBeforeAllTests.getPageFactory();
-        try {
-            list = (List<WebElement>) page.getClass().getDeclaredMethod(name).invoke(page);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
+//    public static <T>T getWebElementWithoutGet(String name) {
+//        Object object = null;
+//        Object page = LoginBeforeAllTests.getPageFactory();
+//        try {
+//            object = page.getClass().getDeclaredMethod(name).invoke(page);
+//        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+//            e.printStackTrace();
+//        }
+//        return (T) object;
+//    }
 
     public static String getCurrentPageTitle() {
         return LoginBeforeAllTests.getWebDriver().getTitle();

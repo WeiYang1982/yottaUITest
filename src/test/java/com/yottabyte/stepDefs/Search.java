@@ -59,7 +59,7 @@ public class Search {
             if("".equals(searchList)){
                 throw new Exception("缺少第三个参数！");
             }
-            List<WebElement> search = GetElementFromPage.getWebElementsWithName(searchList);
+            List<WebElement> search = GetElementFromPage.getWebElementWithName(searchList);
             for (WebElement listElement : search) {
                 assertTrue(listElement.getText().contains(searchName));
             }

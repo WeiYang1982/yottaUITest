@@ -19,7 +19,7 @@ public class ICheckValuesFromCheckBox {
     @And("^I check \"([^\"]*)\" from the \"([^\"]*)\"$")
     public void iCheckFromThe(List<String> values , String checkBoxName) {
         WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
-        List<WebElement> fatherSelectList = GetElementFromPage.getWebElementsWithName(checkBoxName);
+        List<WebElement> fatherSelectList = GetElementFromPage.getWebElementWithName(checkBoxName);
         if (values.size() == 1){
             String value = values.get(0);
             if (value != null && value.trim().length() != 0){

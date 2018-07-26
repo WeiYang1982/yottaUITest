@@ -27,7 +27,7 @@ public class SeeNewElementInList {
         // 获取最后一页数据列表
         paging.get(paging.size() - 1).click();
         // 获取当前列表页下的所有数据
-        List<WebElement> list = GetElementFromPage.getWebElementsWithName(elementName);
+        List<WebElement> list = GetElementFromPage.getWebElementWithName(elementName);
         // 判断最后一条数据是否为新增数据
         if (!list.get(list.size() - 1).getText().equals(name)) {
             assertTrue(false);

@@ -250,7 +250,8 @@ public class ListPage extends PageTemplate {
             chooseValueFromSelectList.iChooseTheFromThe(ownerName,"ResourceGroupOwner");
             ClickSomeButton clickSomeButton = new ClickSomeButton();
             clickSomeButton.iClickTheButton("CreateButton");
-            GetElementFromPage.getWebElementWithName("OKButton").click();
+            WebElement element = GetElementFromPage.getWebElementWithName("OKButton");
+            element.click();
             page.iWillSeeNewPage("resourceGroups.ListPage");
         }else if (text.equals(resourceGroupsName)){
             System.out.println("There is a resource groups");
