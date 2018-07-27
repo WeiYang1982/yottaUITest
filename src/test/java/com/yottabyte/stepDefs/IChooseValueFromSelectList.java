@@ -10,6 +10,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,14 @@ public class IChooseValueFromSelectList {
     @And("^I choose the \"([^\"]*)\" from the \"([^\"]*)\"$")
     public void iChooseTheFromThe(List<String> values, String selectListName){
         Object o = GetElementFromPage.getWebElementWithName(selectListName);
-        List fatherSelectList = (List) o;
-        iChooseTheFromThe(values,fatherSelectList);
+        System.out.println(GetElementFromPage.type);
+        if (GetElementFromPage.type.getTypeName().contains("List")){
+            List fatherSelectList = (List) o;
+            iChooseTheFromThe(values,fatherSelectList);
+        }else {
+            WebElement element = (WebElement) o;
+            iChooseTheFromThe(values,element);
+        }
     }
 
     public void iChooseTheFromThe(List<String> values, List<WebElement> elements){

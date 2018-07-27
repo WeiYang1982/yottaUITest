@@ -11,6 +11,7 @@ import java.util.List;
  * Created by A on 2017/4/7.
  */
 public class GetElementFromPage {
+    public static Type type;
 
     public static <T>T getWebElementWithName(String name, Object... paras) {
         Object object = null;
@@ -25,6 +26,7 @@ public class GetElementFromPage {
             }
             name = getMethodNameWithGet(name);
             try {
+                type = page.getClass().getDeclaredMethod(name, c).getAnnotatedReturnType().getType();
                 object = page.getClass().getDeclaredMethod(name, c).invoke(page, paras);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 e.printStackTrace();
