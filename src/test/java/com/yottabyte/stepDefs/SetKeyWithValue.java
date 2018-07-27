@@ -9,29 +9,32 @@ import org.openqa.selenium.WebElement;
 public class SetKeyWithValue {
     /**
      * 为指定变量elementName赋值 elementName需要与page中的getElement方法名一致，可以省略get
+     *
      * @param elementName 元素名称
-     * @param value 输入的值
+     * @param value       输入的值
      */
     @When("^I set the parameter \"([^\"]*)\" with value \"([^割]*)\"$")
-    public void iSetTheParameterWithValue1(String  elementName, String value){
-        if (elementName != null && elementName.trim().length() != 0){
+    public void iSetTheParameterWithValue1(String elementName, String value) {
+        if (elementName != null && elementName.trim().length() != 0) {
             WebElement element = GetElementFromPage.getWebElementWithName(elementName);
-            iSetTheParameterWithValue1(element,value);
+            iSetTheParameterWithValue1(element, value);
         }
     }
 
-    public void iSetTheParameterWithValue1(WebElement element, String value){
+    public void iSetTheParameterWithValue1(WebElement element, String value) {
         boolean flag = true;
-        while (flag){
+        while (flag) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             element.click();
-            element.sendKeys(Keys.CONTROL + "a");
+            //element.sendKeys(Keys.CONTROL + "a");
+            element.sendKeys(Keys.END);
+            element.sendKeys(Keys.SHIFT,Keys.HOME);
             element.sendKeys(Keys.BACK_SPACE);
-            if (element.getText().equalsIgnoreCase("")){
+            if (element.getText().equalsIgnoreCase("")) {
                 flag = false;
             }
         }

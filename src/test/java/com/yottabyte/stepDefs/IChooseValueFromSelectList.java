@@ -18,7 +18,7 @@ public class IChooseValueFromSelectList {
     WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
 
     @And("^I choose the \"([^\"]*)\" from the \"([^\"]*)\"$")
-    public void iChooseTheFromThe(List<String> values, String selectListName){
+    public void iChooseTheFromThe(List<String> values, String selectListName) {
         Object o = GetElementFromPage.getWebElementWithName(selectListName);
         System.out.println(GetElementFromPage.type);
         if (GetElementFromPage.type.getTypeName().contains("List")){
@@ -30,85 +30,86 @@ public class IChooseValueFromSelectList {
         }
     }
 
-    public void iChooseTheFromThe(List<String> values, List<WebElement> elements){
-        if (values.size() == 1){
+    public void iChooseTheFromThe(List<String> values, List<WebElement> elements) {
+        if (values.size() == 1) {
             String value = values.get(0);
-            if (value != null && value.trim().length() != 0){
-                WebElement parentElement = elements.get(0).findElement(By.xpath("./parent::*"));
+            if (value != null && value.trim().length() != 0) {
+                WebElement parentElement = elements.get(0).findElement(By.xpath("//parent::ul[contains(@class,'el-select-dropdown__list')]"));
                 for (WebElement e : elements) {
                     ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
-                    if (value.equalsIgnoreCase(e.getText())){
+                    if (value.equalsIgnoreCase(e.getText())) {
                         e.click();
                         break;
                     }
                 }
                 try {
-                    if (parentElement.isDisplayed()){
+                    if (parentElement.isDisplayed()) {
                         ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", parentElement);
                         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(parentElement);
-                        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+                        WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
                     }
-                }catch (StaleElementReferenceException e){
+                } catch (StaleElementReferenceException e) {
                     throw e;
                 }
             }
-        }else {
-            for (String s : values){
-                for (WebElement e : elements){
-                    if (s.equalsIgnoreCase(e.getText())){
+        } else {
+            for (String s : values) {
+                for (WebElement e : elements) {
+                    if (s.equalsIgnoreCase(e.getText())) {
                         ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
                         e.click();
                     }
                 }
             }
-            WebElement e = elements.get(0).findElement(By.xpath("./parent::*"));
-            if (e.isDisplayed()){
+            WebElement e = elements.get(0).findElement(By.xpath("//parent::ul[contains(@class,'el-select-dropdown__list')]"));
+            if (e.isDisplayed()) {
                 ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", e);
                 ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(e);
-                WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+                WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
             }
         }
     }
 
-    public void iChooseTheFromThe(List<String> values, WebElement parentElement){
+    public void iChooseTheFromThe(List<String> values, WebElement parentElement) {
         List<WebElement> elements = parentElement.findElements(By.tagName("li"));
-        for (String value : values){
-            if (value != null && value.trim().length() != 0){
-                for (WebElement e:elements){
-                    if (value.equals(e.getText())){
+        for (String value : values) {
+            if (value != null && value.trim().length() != 0) {
+                for (WebElement e : elements) {
+                    if (value.equals(e.getText())) {
                         e.click();
                         break;
                     }
                 }
-                if (parentElement.isDisplayed()){
-                    ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", parentElement);
-                    ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(parentElement);
-                    WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-                }
+
             }
+        }
+        if (parentElement.isDisplayed()) {
+            ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", parentElement);
+            ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(parentElement);
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
         }
     }
 
     @And("^I cancel selection \"([^\"]*)\" from the \"([^\"]*)\"$")
-    public void iCancelSelectionFromThe(List<String> values, String selectListName){
+    public void iCancelSelectionFromThe(List<String> values, String selectListName) {
         WebElement parentElement = GetElementFromPage.getWebElementWithName(selectListName);
         iCancelSelectionFromThe(values, parentElement);
     }
 
-    public void iCancelSelectionFromThe(List<String> values, WebElement parentElement){
+    public void iCancelSelectionFromThe(List<String> values, WebElement parentElement) {
         List<WebElement> selectLists = parentElement.findElements(By.xpath("./li[contains(@class,'selected')]"));
-        for (String value: values){
-            if (value != null && value.trim().length() != 0){
-                for (WebElement e : selectLists){
+        for (String value : values) {
+            if (value != null && value.trim().length() != 0) {
+                for (WebElement e : selectLists) {
                     ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
-                    if (e.getAttribute("class").contains("selected")){
-                        if (e.getAttribute("style").contains("display: none;")){
+                    if (e.getAttribute("class").contains("selected")) {
+                        if (e.getAttribute("style").contains("display: none;")) {
                             ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='block';", e);
-                            if (value.equalsIgnoreCase(e.getText()) || value.equals("all")){
+                            if (value.equalsIgnoreCase(e.getText()) || value.equals("all")) {
                                 e.click();
                             }
-                        }else {
-                            if (value.equalsIgnoreCase(e.getText()) || value.equals("all")){
+                        } else {
+                            if (value.equalsIgnoreCase(e.getText()) || value.equals("all")) {
                                 e.click();
                             }
                         }
@@ -116,33 +117,33 @@ public class IChooseValueFromSelectList {
                 }
             }
         }
-        if (parentElement.isDisplayed()){
+        if (parentElement.isDisplayed()) {
             ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", parentElement);
             ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(parentElement);
-            WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
         }
     }
 
     @And("^I cancel all selections from the element \"([^\"]*)\" except value \"([^\"]*)\"$")
-    public void iCancelAllSelectionExcept(WebElement parentElement, List<String> values){
+    public void iCancelAllSelectionExcept(WebElement parentElement, List<String> values) {
         List<WebElement> selections = parentElement.findElements(By.xpath("./li[contains(@class,'selected')]"));
-        for (WebElement e:selections){
+        for (WebElement e : selections) {
             ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
-            if (e.getAttribute("class").contains("selected")){
+            if (e.getAttribute("class").contains("selected")) {
                 if (e.getAttribute("style").contains("display: none;")) {
                     ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='block';", e);
                 }
             }
             boolean flag = false;
-            for (String v:values){
-                if (v.equals(e.getText())){
+            for (String v : values) {
+                if (v.equals(e.getText())) {
                     flag = false;
                     break;
-                }else {
+                } else {
                     flag = true;
                 }
             }
-            if (flag){
+            if (flag) {
                 e.click();
             }
         }
@@ -151,7 +152,7 @@ public class IChooseValueFromSelectList {
     public static void main(String args[]) throws InterruptedException {
         SharedDriver driver = new SharedDriver();
         ConfigManager c = new ConfigManager();
-        LoginBeforeAllTests login = new LoginBeforeAllTests(driver,c);
+        LoginBeforeAllTests login = new LoginBeforeAllTests(driver, c);
         login.beforeScenario();
         Thread.sleep(10000);
         driver.get("http://alltest.rizhiyi.com/account/usergroups/1/");

@@ -4,6 +4,7 @@ import com.yottabyte.hooks.LoginBeforeAllTests;
 import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -42,6 +43,8 @@ public class GetElementFromPage {
                 name = "get" + name;
             }
             try {
+                Method method = page.getClass().getDeclaredMethod(name);
+                Type type = method.getAnnotatedReturnType().getType();
                 object = page.getClass().getDeclaredMethod(name).invoke(page);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 e.printStackTrace();

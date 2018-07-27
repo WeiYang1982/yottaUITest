@@ -39,10 +39,10 @@ public class SharedDriver extends EventFiringWebDriver {
         @Override
         public void run() {
             REAL_DRIVER.close();
-            if (service != null && service.isRunning()){
+            if (service != null && service.isRunning()) {
                 service.stop();
             }
-            if (browserMobProxy != null && browserMobProxy.isStarted()){
+            if (browserMobProxy != null && browserMobProxy.isStarted()) {
                 browserMobProxy.stop();
             }
         }
@@ -53,13 +53,13 @@ public class SharedDriver extends EventFiringWebDriver {
         ConfigManager config = new ConfigManager();
 
         DesiredCapabilities browser = null;
-        if ("chrome".equalsIgnoreCase(config.get("browser"))){
+        if ("chrome".equalsIgnoreCase(config.get("browser"))) {
             browser = ChromeDes();
-        }else if ("firefox".equalsIgnoreCase(config.get("browser"))){
+        } else if ("firefox".equalsIgnoreCase(config.get("browser"))) {
             browser = FirefoxDes();
-        }else if ("internet Explorer".equalsIgnoreCase(config.get("browser"))){
+        } else if ("internet Explorer".equalsIgnoreCase(config.get("browser"))) {
             browser = IEDes();
-        }else {
+        } else {
             System.out.println("没有找到对应浏览器类型");
         }
         EventListener eventListener = new EventListener();
@@ -69,7 +69,7 @@ public class SharedDriver extends EventFiringWebDriver {
         BrowserMobProxyService.startBrowserMobProxy();
         browserMobProxy = BrowserMobProxyService.getBrowserMobProxyServer();
         browser.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
-        browser.setCapability(CapabilityType.PROXY,BrowserMobProxyService.getSeleniumProxy());
+        browser.setCapability(CapabilityType.PROXY, BrowserMobProxyService.getSeleniumProxy());
         String ServerHOst;
         try {
             ServerHOst = config.get("selenium_server_host");
@@ -78,11 +78,11 @@ public class SharedDriver extends EventFiringWebDriver {
             REAL_DRIVER = new EventFiringWebDriver(REAL_DRIVER).register(eventListener);
         } catch (MalformedURLException exceptions) {
 
-        } catch (UnreachableBrowserException e){
+        } catch (UnreachableBrowserException e) {
             System.out.println("Can not find remote server. Start local service");
             LocalChromeDriverService.createAndStartService();
             service = LocalChromeDriverService.getService();
-            REAL_DRIVER = new RemoteWebDriver(service.getUrl(),browser);
+            REAL_DRIVER = new RemoteWebDriver(service.getUrl(), browser);
             REAL_DRIVER = new EventFiringWebDriver(REAL_DRIVER).register(eventListener);
         }
     }
@@ -91,7 +91,7 @@ public class SharedDriver extends EventFiringWebDriver {
         super(REAL_DRIVER);
 //        REAL_DRIVER.manage().window().maximize();
         REAL_DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        REAL_DRIVER.manage().timeouts().pageLoadTimeout(5,TimeUnit.MINUTES);
+        REAL_DRIVER.manage().timeouts().pageLoadTimeout(5, TimeUnit.MINUTES);
     }
 
     @Override
@@ -133,12 +133,13 @@ public class SharedDriver extends EventFiringWebDriver {
 
     /**
      * 配置远程chrome浏览器设置
+     *
      * @return
      */
-    private static DesiredCapabilities ChromeDes(){
+    private static DesiredCapabilities ChromeDes() {
         try {
             ChromeOptions options = new ChromeOptions();
-            if("Mac OS X".equalsIgnoreCase(System.getProperty("os.name"))) {
+            if ("Mac OS X".equalsIgnoreCase(System.getProperty("os.name"))) {
                 ConfigManager config = new ConfigManager();
                 options.setBinary(config.get("macbinary"));
             }
@@ -150,8 +151,8 @@ public class SharedDriver extends EventFiringWebDriver {
             DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
             desiredCapabilities.setBrowserName("chrome");
             desiredCapabilities.setJavascriptEnabled(true);
-            desiredCapabilities.setCapability(CapabilityType.LOGGING_PREFS,loggingPreferences);
-            desiredCapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS,true);
+            desiredCapabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingPreferences);
+            desiredCapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
             desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
             return desiredCapabilities;
         } catch (Exception e) {
@@ -162,9 +163,10 @@ public class SharedDriver extends EventFiringWebDriver {
 
     /**
      * 配置远程IE浏览器设置
+     *
      * @return
      */
-    private static DesiredCapabilities IEDes(){
+    private static DesiredCapabilities IEDes() {
         try {
             DesiredCapabilities desiredCapabilities = DesiredCapabilities.internetExplorer();
             desiredCapabilities.setBrowserName("internet Explorer");
@@ -173,7 +175,7 @@ public class SharedDriver extends EventFiringWebDriver {
             desiredCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
             desiredCapabilities.setCapability("ignoreProtectedModeSettings", true);
             return desiredCapabilities;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -181,14 +183,15 @@ public class SharedDriver extends EventFiringWebDriver {
 
     /**
      * 配置远程firefox浏览器设置
+     *
      * @return
      */
-    private static DesiredCapabilities FirefoxDes(){
+    private static DesiredCapabilities FirefoxDes() {
         try {
             DesiredCapabilities desiredCapabilities = DesiredCapabilities.firefox();
             desiredCapabilities.setBrowserName("firefox");
             return desiredCapabilities;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

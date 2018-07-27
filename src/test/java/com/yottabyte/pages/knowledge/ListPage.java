@@ -45,8 +45,22 @@ public class ListPage extends PageTemplate {
     @FindBy(xpath = "//div[@class='el-dialog el-dialog--small']//span[@class='modal-footer']//span[contains(text(),'确定')]")
     private WebElement confirm;
 
+    @FindBy(xpath = "//div[@class='el-dialog el-dialog--tiny']//span[@class='modal-footer']//span[contains(text(),'确定')]")
+    private WebElement ensure;
+
+    public WebElement getEnsure() {
+        return ensure;
+    }
+
     @FindBy(xpath = "//label[@class='el-form-item__label'][contains(text(),'解决方案')]/following-sibling::div//textarea")
     private WebElement solution;
+
+    @FindBy(className = "el-dialog--tiny")
+    private WebElement tinyChangeGroup;
+
+    public WebElement getTinyChangeGroup() {
+        return tinyChangeGroup;
+    }
 
     // 列表页下的所有名称
     @FindBy(xpath = "//td[@class='el-table_1_column_1']//span[@class='link']")
@@ -145,10 +159,10 @@ public class ListPage extends PageTemplate {
     }
 
     // 获取分组下拉菜单
-    public List<WebElement> getGroupComboBox() {
+    public WebElement getGroupComboBox() {
         comboBoxs.get(1).click();
         WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(selectors.get(selectors.size() - 1)));
-        return selectors.get(selectors.size() - 1).findElements(By.tagName("li"));
+        return selectors.get(selectors.size() - 1);
     }
 
     // 获取标签下拉菜单

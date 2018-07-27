@@ -22,13 +22,13 @@ public class SeeNewElementInList {
 
     @Then("I will see the \"([^\"]*)\" in the \"([^\"]*)\"")
     public void iWillSeeNewElement(String name, String elementName) {
-        WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
-        webDriver.navigate().refresh();
-        // 获取分页
-        List<WebElement> paging = webDriver.findElements(By.className("number"));
-        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.elementToBeClickable(paging.get(paging.size() - 1)));
+//        WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
+//        webDriver.navigate().refresh();
+//        // 获取分页
+//        List<WebElement> paging = webDriver.findElements(By.className("number"));
+//        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.elementToBeClickable(paging.get(paging.size() - 1)));
         // 获取最后一页数据列表
-        paging.get(paging.size() - 1).click();
+//        paging.get(paging.size() - 1).click();
         // 获取当前列表页下的所有数据
         List<WebElement> list = GetElementFromPage.getWebElementWithName(elementName);
         // 判断最后一条数据是否为新增数据
@@ -40,15 +40,42 @@ public class SeeNewElementInList {
     /**
      * 知识中根据名称点击修改
      */
-    @Given("I click the edit button which name is \"([^\"]*)\"")
-    public void clickEditButton(String name) {
+    @Given("I click the \"([^\"]*)\" button which name is \"([^\"]*)\"")
+    public void clickEditButton(String button, String name) {
         List<WebElement> list = GetElementFromPage.getWebElementWithName("AllData");
+        boolean flag = this.findButton(list, name, button);
+        while (flag) {
+            this.clickPage();
+            flag = this.findButton(list, name, button);
+        }
+    }
+
+    public boolean findButton(List<WebElement> list, String name, String button) {
+        boolean flag = true;
         for (WebElement webElement : list) {
             String td = webElement.findElement(By.className("el-table_1_column_1")).getText();
             if (name.equals(td)) {
-                webElement.findElement(By.className("el-table_1_column_7")).findElement(By.xpath("./div[@class='cell']//button[@class='el-button el-button--text']//span[contains(text(),'编辑')]")).click();
+                flag = false;
+                if ("edit".equals(button))
+                    webElement.findElement(By.className("el-table_1_column_7")).findElement(By.xpath("./div[@class='cell']//button[@class='el-button el-button--text']//span[contains(text(),'编辑')]")).click();
+                else if ("changegroup".equals(button)) {
+                    webElement.findElement(By.className("el-table_1_column_7")).findElement(By.xpath("./div[@class='cell']//button[@class='el-button el-button--text']//span[contains(text(),'分组')]"))
+                            .click();
+                    WebElement edit = GetElementFromPage.getWebElementWithName("tinyChangeGroup");
+                    WaitForElement.waitForElementWithExpectedCondition(LoginBeforeAllTests.getWebDriver(), ExpectedConditions.visibilityOf(edit));
+                }
+                break;
             }
         }
+        return flag;
+    }
 
+    public void clickPage() {
+        WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
+        webDriver.navigate().refresh();
+        List<WebElement> paging = webDriver.findElements(By.className("number"));
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.elementToBeClickable(paging.get(paging.size() - 1)));
+        // 获取最后一页数据列表
+        paging.get(paging.size() - 1).click();
     }
 }
