@@ -1,5 +1,6 @@
 Feature: 切换资源分组
-  Background: 
+
+  Background:
     Given I click the "KnowledgePage" button
     And I will see the "knowledge.ListPage" page
 
@@ -10,9 +11,9 @@ Feature: 切换资源分组
     Then I will see the list of "<TableHeader>" contains "<GroupList>" or I see the "SearchList" contains "<Search>"
 
   @smoke @all
-  Examples:
-    |GroupList      |Search|TableHeader|
-    |sunxj_knowledge|      |分组       |
-    |11             |      |分组       |
-    |               |2     |           |
+    Examples:
+      | GroupList | Search | TableHeader |
+      | sxj       |        | 分组          |
+      | sunxc2    |        | 分组          |
+      |           | 2      |             |
 

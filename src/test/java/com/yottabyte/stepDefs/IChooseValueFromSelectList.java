@@ -10,7 +10,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +20,12 @@ public class IChooseValueFromSelectList {
     public void iChooseTheFromThe(List<String> values, String selectListName) {
         Object o = GetElementFromPage.getWebElementWithName(selectListName);
         System.out.println(GetElementFromPage.type);
-        if (GetElementFromPage.type.getTypeName().contains("List")){
+        if (GetElementFromPage.type.getTypeName().contains("List")) {
             List fatherSelectList = (List) o;
-            iChooseTheFromThe(values,fatherSelectList);
-        }else {
+            iChooseTheFromThe(values, fatherSelectList);
+        } else {
             WebElement element = (WebElement) o;
-            iChooseTheFromThe(values,element);
+            iChooseTheFromThe(values, element);
         }
     }
 
@@ -34,7 +33,12 @@ public class IChooseValueFromSelectList {
         if (values.size() == 1) {
             String value = values.get(0);
             if (value != null && value.trim().length() != 0) {
-                WebElement parentElement = elements.get(0).findElement(By.xpath("//parent::ul[contains(@class,'el-select-dropdown__list')]"));
+                String attribute = elements.get(0).findElement(By.xpath("./parent::ul")).getAttribute("class");
+                WebElement parentElement = null;
+                if (attribute.contains("el-dropdown-menu"))
+                    parentElement = elements.get(0).findElement(By.xpath("./parent::ul[contains(@class,'el-dropdown-menu')]"));
+                else if (attribute.contains("el-select-dropdown__list"))
+                    parentElement = elements.get(0).findElement(By.xpath("./parent::ul[contains(@class,'el-select-dropdown__list')]"));
                 for (WebElement e : elements) {
                     ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
                     if (value.equalsIgnoreCase(e.getText())) {
@@ -61,7 +65,12 @@ public class IChooseValueFromSelectList {
                     }
                 }
             }
-            WebElement e = elements.get(0).findElement(By.xpath("//parent::ul[contains(@class,'el-select-dropdown__list')]"));
+            String attribute = elements.get(0).findElement(By.xpath("./parent::ul")).getAttribute("class");
+            WebElement e = null;
+            if (attribute.contains("el-dropdown-menu"))
+                e = elements.get(0).findElement(By.xpath("./parent::ul[contains(@class,'el-dropdown-menu')]"));
+            else if (attribute.contains("el-select-dropdown__list"))
+                e = elements.get(0).findElement(By.xpath("./parent::ul[contains(@class,'el-select-dropdown__list')]"));
             if (e.isDisplayed()) {
                 ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", e);
                 ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(e);

@@ -16,19 +16,15 @@ import static org.junit.Assert.assertTrue;
 
 
 public class SeeNewElementInList {
+
     /**
      * 查询新增结果是否已出现在列表中,仅针对列表按创建时间正序排序情况
+     *
+     * @param name
+     * @param elementName
      */
-
     @Then("I will see the \"([^\"]*)\" in the \"([^\"]*)\"")
     public void iWillSeeNewElement(String name, String elementName) {
-//        WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
-//        webDriver.navigate().refresh();
-//        // 获取分页
-//        List<WebElement> paging = webDriver.findElements(By.className("number"));
-//        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.elementToBeClickable(paging.get(paging.size() - 1)));
-        // 获取最后一页数据列表
-//        paging.get(paging.size() - 1).click();
         // 获取当前列表页下的所有数据
         List<WebElement> list = GetElementFromPage.getWebElementWithName(elementName);
         // 判断最后一条数据是否为新增数据
@@ -38,18 +34,30 @@ public class SeeNewElementInList {
     }
 
     /**
-     * 知识中根据名称点击修改
+     * 知识中，根据名称确定需要编辑或分组的信息
+     *
+     * @param button 支持edit/changegroup
+     * @param name
      */
     @Given("I click the \"([^\"]*)\" button which name is \"([^\"]*)\"")
-    public void clickEditButton(String button, String name) {
+    public void clickButton(String button, String name) {
         List<WebElement> list = GetElementFromPage.getWebElementWithName("AllData");
         boolean flag = this.findButton(list, name, button);
+        // 若该页找不到对应的数据，则点击最后一页
         while (flag) {
             this.clickPage();
             flag = this.findButton(list, name, button);
         }
     }
 
+    /**
+     * 找到编辑或分组按钮
+     *
+     * @param list
+     * @param name
+     * @param button
+     * @return
+     */
     public boolean findButton(List<WebElement> list, String name, String button) {
         boolean flag = true;
         for (WebElement webElement : list) {
@@ -70,6 +78,9 @@ public class SeeNewElementInList {
         return flag;
     }
 
+    /**
+     * 分页操作
+     */
     public void clickPage() {
         WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
         webDriver.navigate().refresh();
