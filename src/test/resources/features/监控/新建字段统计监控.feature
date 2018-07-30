@@ -35,10 +35,10 @@ Feature: 新建字段统计监控
     Then I will see the <Result>
 
   @all @smoke
-    Examples: 创建字段统计监控成功
-      | AlertName     | AlertGroup     | AlertUser | AlertSource | SearchContent | AlertPlanTime | TimeUnits | AlertTriggerFields  |AlertTrigger | AlertTriggerTimeUnits | ConditionTypes  |AlertLevelInput | AlertLevel | MiddleLevelInput | HighLevelInput | Result |
-      | AutoTest      | default_Alert  | owner     | 所有日志     | *             | 2             | 分钟       | apache.resp_len 50  |50           | 小时内                | 独立数           |1000            | 低         | 2700             | 3000           |success message "保存成功" |
-      | AutoTest_sum  | default_Alert  | owner     | 所有日志     | *             | 2             | 分钟       | apache.resp_len 50  |50           | 小时内                | 总计             |1000            | 低         | 101800000        | 101855742      |success message "保存成功" |
-      | AutoTest_avg  | default_Alert  | owner     | 所有日志     | *             | 2             | 分钟       | apache.resp_len 50  |50           | 小时内                | 平均数           |3000            | 低         | 4000             | 5000           |success message "保存成功" |
-      | AutoTest_max  | default_Alert  | owner     | 所有日志     | *             | 2             | 分钟       | apache.resp_len 50  |50           | 小时内                | 最大数           |1               | 低         | 20               | 30             |success message "保存成功" |
-      | AutoTest_min  | default_Alert  | owner     | 所有日志     | *             | 2             | 分钟       | apache.status       |5            | 小时内                | 最小数           |199             | 低         | 404              | 500            |success message "保存成功" |
+  Examples: 创建字段统计监控成功
+    | AlertName     | AlertGroup     | AlertUser | AlertSource | SearchContent | AlertPlanTime | TimeUnits | AlertTriggerFields  |AlertTrigger | AlertTriggerTimeUnits | ConditionTypes  |AlertLevelInput | AlertLevel | MiddleLevelInput | HighLevelInput | Result |
+    | AutoTest      | default_Alert  | owner     | 所有日志     | *             | 2             | 分钟       | apache.resp_len 50  |50           | 小时内                | 独立数           |1000            | 低         | 2700             | 3000           |success message "保存成功" |
+    | AutoTest_sum  | default_Alert  | owner     | 所有日志     | *             | 2             | 分钟       | apache.resp_len 50  |50           | 小时内                | 总计             |1000            | 低         | 101800000        | 101855742      |success message "保存成功" |
+    | AutoTest_avg  | default_Alert  | owner     | 所有日志     | *             | 2             | 分钟       | apache.resp_len 50  |50           | 小时内                | 平均数           |3000            | 低         | 4000             | 5000           |success message "保存成功" |
+    | AutoTest_max  | default_Alert  | owner     | 所有日志     | *             | 2             | 分钟       | apache.resp_len 50  |50           | 小时内                | 最大数           |1               | 低         | 20               | 30             |success message "保存成功" |
+    | AutoTest_min  | default_Alert  | owner     | 所有日志     | *             | 2             | 分钟       | apache.status       |5            | 小时内                | 最小数           |199             | 低         | 404              | 500            |success message "保存成功" |

@@ -448,9 +448,7 @@ public class AlertsCreatePage extends PageTemplate {
                         if (facility != null && facility.trim().length() != 0){
                             set.iSetTheParameterWithValue1(rsysFacility,facility);
                         }
-                        if (condition != null && condition.size()!= 0 && !condition.contains("")){
-                            choose.iChooseTheFromThe(condition, getSelectors(rsysCondition));
-                        }
+                        choose.iCancelAllSelectionExcept(getSelectors(rsysCondition), condition);
                         if (content != null && content.trim().length() != 0){
                             set.iSetTheParameterWithValue1(rsysContent, content);
                         }
@@ -489,9 +487,7 @@ public class AlertsCreatePage extends PageTemplate {
                             WebElement e = list.get(list.size()-1);
                             choose.iChooseTheFromThe(emails, e.findElements(By.tagName("li")));
                         }
-                        if (condition != null && condition.size()!= 0 && !condition.contains("")){
-                            choose.iChooseTheFromThe(condition, getSelectors(emailCondition).findElements(By.tagName("li")));
-                        }
+                        choose.iCancelAllSelectionExcept(getSelectors(emailCondition), condition);
                         if (content != null && content.trim().length() != 0){
                             set.iSetTheParameterWithValue1(emailContent, content);
                         }
@@ -518,9 +514,7 @@ public class AlertsCreatePage extends PageTemplate {
                         if (address != null && address.trim().length() != 0){
                             set.iSetTheParameterWithValue1(forwardAddress, address);
                         }
-                        if (condition != null && condition.size()!= 0 && !condition.contains("")){
-                            choose.iCancelAllSelectionExcept(getSelectors(forwardCondition),condition);
-                        }
+                        choose.iCancelAllSelectionExcept(getSelectors(forwardCondition),condition);
                     }
                 }
             }
@@ -544,9 +538,7 @@ public class AlertsCreatePage extends PageTemplate {
                         if (address != null && address.trim().length() != 0){
                             set.iSetTheParameterWithValue1(hostAddress, address);
                         }
-                        if (condition != null && condition.size()!= 0 && !condition.contains("")){
-                            choose.iCancelAllSelectionExcept(getSelectors(conditions),condition);
-                        }
+                        choose.iCancelAllSelectionExcept(getSelectors(conditions),condition);
                     }
                 }
             }

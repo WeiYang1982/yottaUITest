@@ -34,6 +34,6 @@ Feature: 新建Spl统计监控
     Then I will see the <Result>
 
   @all @smoke
-    Examples: 创建字段统计监控成功
-      | AlertName | AlertGroup    | AlertUser | AlertSource |              SearchContent                   | AlertPlanTime | TimeUnits | AlertTrigger | AlertTriggerTimeUnits | FieldInput | AlertLevelInput | AlertLevel | MiddleLevelInput| HighLevelInput | Result                 |
-      | AutoTest  | default_Alert | owner     | 所有日志     | * \| stats count() as cnt by apache.clientip | 2             | 分钟      |  5            | 分钟内                | cnt        | 100             | 低          |200              | 250            | success message "保存成功" |
+  Examples: 创建字段统计监控成功
+    | AlertName | AlertGroup    | AlertUser | AlertSource |              SearchContent                   | AlertPlanTime | TimeUnits | AlertTrigger | AlertTriggerTimeUnits | FieldInput | AlertLevelInput | AlertLevel | MiddleLevelInput| HighLevelInput | Result                 |
+    | AutoTest  | default_Alert | owner     | 所有日志     | * \| stats count() as cnt by apache.clientip | 2             | 分钟      |  5            | 分钟内                | cnt        | 100             | 低          |200              | 250            | success message "保存成功" |
