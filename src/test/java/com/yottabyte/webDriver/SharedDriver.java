@@ -69,7 +69,6 @@ public class SharedDriver extends EventFiringWebDriver {
         BrowserMobProxyService.startBrowserMobProxy();
         browserMobProxy = BrowserMobProxyService.getBrowserMobProxyServer();
         browser.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
-        browser.setCapability(CapabilityType.PROXY, BrowserMobProxyService.getSeleniumProxy());
         String ServerHOst;
         try {
             ServerHOst = config.get("selenium_server_host");

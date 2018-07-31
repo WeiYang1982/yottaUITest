@@ -2,23 +2,29 @@ package com.yottabyte.webDriver;
 
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
+import net.lightbody.bmp.proxy.CaptureType;
 import org.openqa.selenium.Proxy;
 
-import java.io.IOException;
-import java.net.ServerSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 
 public class BrowserMobProxyService {
     private static BrowserMobProxyServer browserMobProxyServer;
     private static Proxy seleniumProxy;
 
     static void startBrowserMobProxy() {
-        browserMobProxyServer = new BrowserMobProxyServer();
         try {
-            int port = new ServerSocket().getLocalPort();
-            browserMobProxyServer.start();
-            System.out.println("port:" + port);
-            seleniumProxy = ClientUtil.createSeleniumProxy(browserMobProxyServer);
-        } catch (IOException e) {
+            browserMobProxyServer = new BrowserMobProxyServer();
+            browserMobProxyServer.start(0);
+            int port = browserMobProxyServer.getPort();
+            String PROXY = "localhost:" + port;
+            System.out.println("port: " + port);
+            seleniumProxy = ClientUtil.createSeleniumProxy(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(), port));
+            System.out.println("seleniumProxy: " + seleniumProxy);
+            seleniumProxy.setHttpProxy(PROXY).setSslProxy(PROXY);
+            browserMobProxyServer.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.REQUEST_HEADERS);
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
     }
