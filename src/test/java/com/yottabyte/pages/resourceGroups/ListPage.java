@@ -244,7 +244,7 @@ public class ListPage extends PageTemplate {
             getCreateResourceGroup().click();
             IWillSeeNewPage page = new IWillSeeNewPage();
             page.iWillSeeNewPage("resourceGroups.CreatePage");
-            setKeyWithValue.iSetTheParameterWithValue1("ResourceGroupName",resourceGroupsName);
+            setKeyWithValue.iSetTheParameterWithValue("ResourceGroupName",resourceGroupsName);
             IChooseValueFromSelectList chooseValueFromSelectList = new IChooseValueFromSelectList();
             chooseValueFromSelectList.iChooseTheFromThe(typeName,"ResourceGroupType");
             chooseValueFromSelectList.iChooseTheFromThe(ownerName,"ResourceGroupOwner");

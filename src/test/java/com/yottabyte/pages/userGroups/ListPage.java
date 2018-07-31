@@ -121,7 +121,7 @@ public class ListPage extends PageTemplate {
             getCreateUserGroup().click();
             IWillSeeNewPage page = new IWillSeeNewPage();
             page.iWillSeeNewPage("userGroups.CreatePage");
-            setKey.iSetTheParameterWithValue1("UserGroupName",userGroupName);
+            setKey.iSetTheParameterWithValue("UserGroupName",userGroupName);
             choose.iChooseTheFromThe(ownerName,"UserGroupOwner");
             choose.iChooseTheFromThe(roleName,"UserGroupRole");
             click.iClickTheButton("CreateButton");

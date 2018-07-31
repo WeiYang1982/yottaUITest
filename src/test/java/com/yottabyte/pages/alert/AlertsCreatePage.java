@@ -139,36 +139,36 @@ public class AlertsCreatePage extends PageTemplate {
         return alertDes;
     }
 
-    public List<WebElement> getAlertGroups() {
+    public WebElement getAlertGroups() {
         WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.elementToBeClickable(alertGroupButton));
         alertGroupButton.click();
         WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(alertGroupSelectors));
-        return alertGroupSelectors.findElements(By.tagName("li"));
+        return alertGroupSelectors;
     }
 
-    public List<WebElement> getAlertUsers() {
-        return getSelectors(alertUserButton).findElements(By.tagName("li"));
+    public WebElement getAlertUsers() {
+        return getSelectors(alertUserButton);
     }
 
-    public List<WebElement> getAlertSources() {return getSelectors(alertSourceButton).findElements(By.tagName("li"));}
+    public WebElement getAlertSources() {return getSelectors(alertSourceButton);}
 
     public WebElement getSearchContent() {
         return searchContent;
     }
 
-    public List<WebElement> getSavedSearch() {
+    public WebElement getSavedSearch() {
         WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(savedSearchButton));
         savedSearchButton.click();
         List<WebElement> list = webDriver.findElements(By.className("saved-search-dropdown-menu"));
         WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(list.get(list.size() - 1 ) ));
-        return list.get(list.size() - 1).findElements(By.tagName("li"));
+        return list.get(list.size() - 1);
     }
     public WebElement getAlertEnable() {
         WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(alertEnable));
         return alertEnable;
     }
 
-    public List<WebElement> getAlertTypes() {return getSelectors(alertTypeButton).findElements(By.tagName("li")); }
+    public WebElement getAlertTypes() {return getSelectors(alertTypeButton); }
 
     public WebElement getAlertPlanTimeButton() {
         return alertPlanTimeButton;
@@ -208,8 +208,8 @@ public class AlertsCreatePage extends PageTemplate {
         return alertTrigger.findElement(By.className("input-with-unit")).findElement(By.tagName("input"));
     }
     // 通用-触发条件时间单位下拉框
-    public List<WebElement> getAlertTriggerHourOrMinute() {
-        return getSelectors(alertTrigger.findElement(By.className("el-select"))).findElements(By.tagName("li"));
+    public WebElement getAlertTriggerHourOrMinute() {
+        return getSelectors(alertTrigger.findElement(By.className("el-select")));
     }
 
     // 监控类型选择事件数监控、字段统计监控、连续统计监控时，条件类型下拉框，如：计数、独立数等
@@ -437,7 +437,7 @@ public class AlertsCreatePage extends PageTemplate {
                         WebElement rsysCondition = fatherElement.findElements(By.className("el-input__inner")).get(4);
                         WebElement rsysContent = fatherElement.findElement(By.className("el-textarea__inner"));
                         if (address != null && address.trim().length() != 0){
-                            set.iSetTheParameterWithValue1(rsysAddress, address);
+                            set.iSetTheParameterWithValue(rsysAddress, address);
                         }
                         if (protocol != null && protocol.size() != 0 && !protocol.contains("")){
                             choose.iChooseTheFromThe(protocol, getSelectors(rsysProtocol));
@@ -446,11 +446,11 @@ public class AlertsCreatePage extends PageTemplate {
                             choose.iChooseTheFromThe(level, getSelectors(rsysLevel));
                         }
                         if (facility != null && facility.trim().length() != 0){
-                            set.iSetTheParameterWithValue1(rsysFacility,facility);
+                            set.iSetTheParameterWithValue(rsysFacility,facility);
                         }
                         choose.iCancelAllSelectionExcept(getSelectors(rsysCondition), condition);
                         if (content != null && content.trim().length() != 0){
-                            set.iSetTheParameterWithValue1(rsysContent, content);
+                            set.iSetTheParameterWithValue(rsysContent, content);
                         }
                     }
                 }
@@ -476,12 +476,12 @@ public class AlertsCreatePage extends PageTemplate {
                         WebElement emailCondition = fatherElement.findElements(By.className("el-input__inner")).get(2);
                         WebElement emailContent = fatherElement.findElement(By.className("el-textarea__inner"));
                         if (title != null && title.trim().length() != 0){
-                            set.iSetTheParameterWithValue1(emailTitle, title);
+                            set.iSetTheParameterWithValue(emailTitle, title);
                         }
                         if (emails != null && emails.size() != 0 && !emails.contains("")){
                             WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(email));
                             email.click();
-                            set.iSetTheParameterWithValue1(email,emails.get(0));
+                            set.iSetTheParameterWithValue(email,emails.get(0));
                             List<WebElement> list = webDriver.findElements(By.className("el-select-dropdown__list"));
                             WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(list.get(list.size() - 1 ) ));
                             WebElement e = list.get(list.size()-1);
@@ -489,7 +489,7 @@ public class AlertsCreatePage extends PageTemplate {
                         }
                         choose.iCancelAllSelectionExcept(getSelectors(emailCondition), condition);
                         if (content != null && content.trim().length() != 0){
-                            set.iSetTheParameterWithValue1(emailContent, content);
+                            set.iSetTheParameterWithValue(emailContent, content);
                         }
                     }
                 }
@@ -512,7 +512,7 @@ public class AlertsCreatePage extends PageTemplate {
                         WebElement forwardAddress = fatherElement.findElements(By.className("el-input__inner")).get(0);
                         WebElement forwardCondition = fatherElement.findElements(By.tagName("input")).get(1);
                         if (address != null && address.trim().length() != 0){
-                            set.iSetTheParameterWithValue1(forwardAddress, address);
+                            set.iSetTheParameterWithValue(forwardAddress, address);
                         }
                         choose.iCancelAllSelectionExcept(getSelectors(forwardCondition),condition);
                     }
@@ -536,7 +536,7 @@ public class AlertsCreatePage extends PageTemplate {
                         WebElement hostAddress = fatherElement.findElements(By.className("el-input__inner")).get(0);
                         WebElement conditions = fatherElement.findElements(By.tagName("input")).get(1);
                         if (address != null && address.trim().length() != 0){
-                            set.iSetTheParameterWithValue1(hostAddress, address);
+                            set.iSetTheParameterWithValue(hostAddress, address);
                         }
                         choose.iCancelAllSelectionExcept(getSelectors(conditions),condition);
                     }
@@ -579,11 +579,38 @@ public class AlertsCreatePage extends PageTemplate {
         }
     }
 
-    private WebElement getAlertNoteTypes(){
+    private WebElement getAlertNoteTypes() {
         WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(addAlertNoteTypeButton));
         addAlertNoteTypeButton.click();
         WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(webDriver.findElement(By.className("add-config-dropdown-menu"))));
         return webDriver.findElement(By.className("add-config-dropdown-menu"));
+    }
+
+    public void createAlert(String alertName, List<String> alertGroup, List<String> alertSource, List<String> alertLevel ) {
+        SetKeyWithValue setKey = new SetKeyWithValue();
+        IChooseValueFromSelectList choose = new IChooseValueFromSelectList();
+        setKey.iSetTheParameterWithValue(getAlertName(), alertName);
+        choose.iChooseTheFromThe(alertGroup, getAlertGroups());
+        choose.iChooseTheFromThe(alertSource, getAlertSources());
+        setKey.iSetTheParameterWithValue(getSearchContent(), "*");
+        setKey.iSetTheParameterWithValue(getAlertTriggerInput(), "5");
+        switch (alertLevel.size()) {
+            case 1 :
+                setKey.iSetTheParameterWithValue(getAlertLevelInput(), alertLevel.get(0));
+                break;
+            case 2 :
+                setKey.iSetTheParameterWithValue(getAlertLevelInput(), alertLevel.get(0));
+                getAddThresholdButton().click();
+                setKey.iSetTheParameterWithValue(getMiddleLevelInput(),alertLevel.get(1));
+                break;
+            case 3 :
+                setKey.iSetTheParameterWithValue(getAlertLevelInput(), alertLevel.get(0));
+                getAddThresholdButton().click();
+                setKey.iSetTheParameterWithValue(getMiddleLevelInput(), alertLevel.get(1));
+                getAddThresholdButton().click();
+                setKey.iSetTheParameterWithValue(getHighLevelInput(), alertLevel.get(2));
+        }
+        getSaveButton().click();
     }
 
     public static void main(String args[]) throws InterruptedException {
@@ -592,16 +619,26 @@ public class AlertsCreatePage extends PageTemplate {
         LoginBeforeAllTests login = new LoginBeforeAllTests(driver,c);
         login.beforeScenario();
         Thread.sleep(10000);
-        driver.get("http://alltest.rizhiyi.com/alerts");
+        driver.get("http://alltest.rizhiyi.com/alerts/new/");
         AlertsListPage p = new AlertsListPage(driver);
         Thread.sleep(2000);
-        p.getCreateAlert().click();
-        Thread.sleep(10000);
-        new AlertsCreatePage(driver).tabs.get(2).click();
-        new AlertsCreatePage(driver).rsyslogType("192.168.1.82:514",
-                new ArrayList<String>(Arrays.asList("UDP")),
-                new ArrayList<String>(Arrays.asList("INFO")),"local0",
-                new ArrayList<String>(Arrays.asList("")),"{{ alert.name }}|{{ alert.strategy.trigger.start_time|date:\"Y-m-d H:i:s\" }}|{{ alert.strategy.trigger.end_time|date:\"Y-m-d H:i:s\" }}|{{ alert.search.query }}");
+//        p.getCreateAlert().click();
+//        Thread.sleep(10000);
+//        new AlertsCreatePage(driver).tabs.get(2).click();
+//        new AlertsCreatePage(driver).rsyslogType("192.168.1.82:514",
+//                new ArrayList<String>(Arrays.asList("UDP")),
+//                new ArrayList<String>(Arrays.asList("INFO")),"local0",
+//                new ArrayList<String>(Arrays.asList("")),"{{ alert.name }}|{{ alert.strategy.trigger.start_time|date:\"Y-m-d H:i:s\" }}|{{ alert.strategy.trigger.end_time|date:\"Y-m-d H:i:s\" }}|{{ alert.search.query }}");
+        List list = new ArrayList<>();
+        List list1 = new ArrayList<>();
+        List list2 = new ArrayList<>();
+        list.add("default_Alert");
+        list1.add("所有日志");
+        list2.add("1");
+        list2.add("3");
+        list2.add("10");
+
+        new AlertsCreatePage(driver).createAlert("autotest", list, list1, list2);
         driver.quit();
     }
 

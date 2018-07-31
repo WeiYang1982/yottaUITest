@@ -14,14 +14,14 @@ public class SetKeyWithValue {
      * @param value       输入的值
      */
     @When("^I set the parameter \"([^\"]*)\" with value \"([^割]*)\"$")
-    public void iSetTheParameterWithValue1(String elementName, String value) {
+    public void iSetTheParameterWithValue(String elementName, String value) {
         if (elementName != null && elementName.trim().length() != 0) {
             WebElement element = GetElementFromPage.getWebElementWithName(elementName);
-            iSetTheParameterWithValue1(element, value);
+            iSetTheParameterWithValue(element, value);
         }
     }
 
-    public void iSetTheParameterWithValue1(WebElement element, String value) {
+    public void iSetTheParameterWithValue(WebElement element, String value) {
         boolean flag = true;
         while (flag) {
             try {

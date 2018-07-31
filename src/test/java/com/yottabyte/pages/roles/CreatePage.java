@@ -75,8 +75,8 @@ public class CreatePage extends PageTemplate {
         SetKeyWithValue setKey = new SetKeyWithValue();
         ClickSomeButton click = new ClickSomeButton();
         ICheckValuesFromCheckBox checkBox = new ICheckValuesFromCheckBox();
-        setKey.iSetTheParameterWithValue1("RoleName",roleName);
-        setKey.iSetTheParameterWithValue1("RoleDes",roleDes);
+        setKey.iSetTheParameterWithValue("RoleName",roleName);
+        setKey.iSetTheParameterWithValue("RoleDes",roleDes);
         checkBox.iCheckFromThe(roleResourceGroup,"ResourceGroupCheckbox");
         click.iClickTheButton("CreateButton");
         click.iClickTheButton("OKButton");

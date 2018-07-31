@@ -100,11 +100,11 @@ public class CreatePage extends PageTemplate{
         SetKeyWithValue setKey = new SetKeyWithValue();
         ClickSomeButton click = new ClickSomeButton();
         IChooseValueFromSelectList choose = new IChooseValueFromSelectList();
-        setKey.iSetTheParameterWithValue1("UserName",userName);
-        setKey.iSetTheParameterWithValue1("FullName",fullName);
-        setKey.iSetTheParameterWithValue1("Email",email);
-        setKey.iSetTheParameterWithValue1("Telephone",telephone);
-        setKey.iSetTheParameterWithValue1("Password",password);
+        setKey.iSetTheParameterWithValue("UserName",userName);
+        setKey.iSetTheParameterWithValue("FullName",fullName);
+        setKey.iSetTheParameterWithValue("Email",email);
+        setKey.iSetTheParameterWithValue("Telephone",telephone);
+        setKey.iSetTheParameterWithValue("Password",password);
         choose.iChooseTheFromThe(userGroup,"UserGroups");
         click.iClickTheButton("CreateButton");
         click.iClickTheButton("OKButton");
