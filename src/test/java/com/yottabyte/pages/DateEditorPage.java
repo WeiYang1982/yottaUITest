@@ -19,30 +19,47 @@ public class DateEditorPage extends PageTemplate {
     }
 
 
-    @FindBy( className = "el-date-editor")
+    @FindBy(xpath = "//input[@placeholder='请选择快捷时间或时间范围']")
     private WebElement publicDateEditor;
 
-    @FindBy ( xpath = "//*[text()='实时/最近']")   // "//div[contains(text(),'最近') and contains(text(),'/')] "
+    @FindBy(xpath = "//*[text()='实时/最近']")   // "//div[contains(text(),'最近') and contains(text(),'/')] "
     private WebElement dateMenuRecent;
 
-    @FindBy ( xpath = "//*[text()='快捷选项']")
+    @FindBy(xpath = "//*[text()='快捷选项']")
     private WebElement dateMenuFastChoose;
 
-    @FindBy ( xpath = "//*[text()='快捷选项']/following-sibling::div//button[text()='最近7天']")
+    @FindBy(xpath = "//button[text()='最近7天']")
     private WebElement recentSevenDay;
 
-    public WebElement getPublicDateEditor(){
-        ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(publicDateEditor);
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        return publicDateEditor;
+    @FindBy(xpath = "//button[text()='今天']")
+    private WebElement today;
+
+    public WebElement getToday() {
+        return this.getDateButton(today);
     }
 
     public WebElement getRecentSevenDay() {
-        ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(recentSevenDay);
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        WebElement e = recentSevenDay;
+        return this.getDateButton(recentSevenDay);
+    }
+
+    public WebElement getPublicDateEditor() {
+        ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(publicDateEditor);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
+        return publicDateEditor;
+    }
+
+    /**
+     * 获取时间控件上的按钮
+     *
+     * @param webElement 按钮元素
+     * @return
+     */
+    private WebElement getDateButton(WebElement webElement) {
+        ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(webElement);
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
+        WebElement e = webElement;
         ConstructPageFactoryWithName c = new ConstructPageFactoryWithName();
-        c.constructPageFactoryWithName(parentPageName);
+        c.constructPageFactoryWithName("splSearch." + parentPageName);
         return e;
     }
 
