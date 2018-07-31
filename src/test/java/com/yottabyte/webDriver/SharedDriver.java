@@ -73,6 +73,7 @@ public class SharedDriver extends EventFiringWebDriver {
         String ServerHOst;
         try {
             ServerHOst = config.get("selenium_server_host");
+            System.out.println("ServerHOst: " + ServerHOst);
             URL url = new URL("http://" + ServerHOst + ":4444/wd/hub");
             REAL_DRIVER = new RemoteWebDriver(url, browser);
             REAL_DRIVER = new EventFiringWebDriver(REAL_DRIVER).register(eventListener);
