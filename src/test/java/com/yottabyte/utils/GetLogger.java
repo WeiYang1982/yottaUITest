@@ -1,17 +1,30 @@
 package com.yottabyte.utils;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 
 public class GetLogger {
 
-    private static Logger logger = Logger.getLogger(GetLogger.class);
+    private static Logger logger;
 
-    public static void main(String args[]) {
-        int i =0;
-        System.out.println("debug" );
-        System.out.println(logger);
-        logger.debug("this is debug message {}" +  i);
-        logger.info("console");
+    static {
+        File conFile = new File("config/log4j2.xml");
+        try {
+            ConfigurationSource config = new ConfigurationSource(new BufferedInputStream(new FileInputStream(conFile)));
+            Configurator.initialize(null, config);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger = LoggerFactory.getLogger(GetLogger.class);
     }
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
 }
