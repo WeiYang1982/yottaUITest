@@ -6,11 +6,13 @@ import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.stepDefs.IChooseValueFromSelectList;
 import com.yottabyte.stepDefs.SetKeyWithValue;
 import com.yottabyte.utils.CheckSelectedFromDropdownList;
+import com.yottabyte.utils.GetLogger;
 import com.yottabyte.utils.WaitForElement;
 import com.yottabyte.webDriver.SharedDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -614,6 +616,9 @@ public class AlertsCreatePage extends PageTemplate {
     }
 
     public static void main(String args[]) throws InterruptedException {
+        GetLogger.getLogger().debug("test");
+        GetLogger.getLogger().info("test");
+        GetLogger.getLogger().warn("test");
         SharedDriver driver = new SharedDriver();
         ConfigManager c = new ConfigManager();
         LoginBeforeAllTests login = new LoginBeforeAllTests(driver,c);

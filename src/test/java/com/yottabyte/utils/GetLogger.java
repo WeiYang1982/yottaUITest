@@ -6,7 +6,10 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class GetLogger {
 
@@ -20,7 +23,8 @@ public class GetLogger {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger = LoggerFactory.getLogger(GetLogger.class);
+        logger = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[2].getFileName());
+//        logger = LoggerFactory.getLogger(GetLogger.class);
     }
 
     public static Logger getLogger() {

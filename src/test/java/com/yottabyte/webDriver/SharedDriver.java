@@ -1,6 +1,7 @@
 package com.yottabyte.webDriver;
 
 import com.yottabyte.config.ConfigManager;
+import com.yottabyte.utils.GetLogger;
 import com.yottabyte.utils.TakeScreenShot;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -72,7 +73,7 @@ public class SharedDriver extends EventFiringWebDriver {
         String ServerHOst;
         try {
             ServerHOst = config.get("selenium_server_host");
-            System.out.println("ServerHOst: " + ServerHOst);
+            GetLogger.getLogger().info("ServerHOst: {}", ServerHOst);
             URL url = new URL("http://" + ServerHOst + ":4444/wd/hub");
             REAL_DRIVER = new RemoteWebDriver(url, browser);
             REAL_DRIVER = new EventFiringWebDriver(REAL_DRIVER).register(eventListener);

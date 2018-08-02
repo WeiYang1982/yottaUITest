@@ -1,10 +1,16 @@
 package com.yottabyte.cucumber;
 
 import cucumber.api.junit.Cucumber;
+import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
@@ -16,6 +22,13 @@ public class CustomCucumberRunner extends Runner{
     private Cucumber cucumber;
 
     public CustomCucumberRunner(Class<?> classValue) throws Exception {
+        File conFile = new File("config/log4j2.xml");
+        try {
+            ConfigurationSource config = new ConfigurationSource(new BufferedInputStream(new FileInputStream(conFile)));
+            Configurator.initialize(null, config);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.classValue = classValue;
         cucumber = new Cucumber(classValue);
     }
