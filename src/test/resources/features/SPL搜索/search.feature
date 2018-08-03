@@ -8,7 +8,7 @@ Feature: 输入SPL语句，检查搜索完成后的事件数
   Scenario Outline: 根据生成的事件个数进行判断
     Given I set the parameter "SearchInput" with value "<splQuery>"
     And I click the "DateEditor" button
-    And I click the "Today" button
+    And I click the "Yesterday" button
     And I click the "SearchButton" button
     And I wait element "SearchStatus" change text to "搜索完成!"
     Then I will see the "SearchResult" of "<splQuery>" will between "<range>"

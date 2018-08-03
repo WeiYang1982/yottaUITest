@@ -28,11 +28,20 @@ public class DateEditorPage extends PageTemplate {
     @FindBy(xpath = "//*[text()='快捷选项']")
     private WebElement dateMenuFastChoose;
 
+
     @FindBy(xpath = "//button[text()='最近7天']")
+
     private WebElement recentSevenDay;
 
     @FindBy(xpath = "//button[text()='今天']")
     private WebElement today;
+
+    @FindBy(xpath = "//button[text()='昨天']")
+    private WebElement yesterday;
+
+    public WebElement getYesterday() {
+        return this.getDateButton(yesterday);
+    }
 
     public WebElement getToday() {
         return this.getDateButton(today);

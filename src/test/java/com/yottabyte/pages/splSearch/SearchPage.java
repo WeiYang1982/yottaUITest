@@ -80,6 +80,14 @@ public class SearchPage extends PageTemplate {
         return webElement;
     }
 
+    // 获取昨天按钮
+    public WebElement getYesterday() {
+        DateEditorPage dateEditorPage = new DateEditorPage(webDriver);
+        LoginBeforeAllTests.setPageFactory(dateEditorPage);
+        WebElement webElement = dateEditorPage.getYesterday();
+        return webElement;
+    }
+
     public WebElement getSearchInput() throws InterruptedException {
         ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(searchInput);
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
