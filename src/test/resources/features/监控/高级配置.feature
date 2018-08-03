@@ -2,13 +2,13 @@ Feature: 新建事件数监控并填写高级设置
 
   Background:
     Given I click the "AlertsListPage" button
-    Then I will see the "alert.AlertsListPage" page
+    Then I will see the "alert.ListPage" page
     And There is a "thereIsNoAlert" with "{'name':'AutoTest'}"
 
   @alert
   Scenario Outline: 创建一个事件数监控-高级配置-扩展搜索
     Given I click the "CreateAlert" button
-    And I will see the "alert.AlertsCreatePage" page
+    And I will see the "alert.CreatePage" page
     When I set the parameter "AlertName" with value "<AlertName>"
     And I set the parameter "AlertDes" with value "<AlertDes>"
     And I choose the "<AlertGroup>" from the "AlertGroups"
@@ -46,7 +46,7 @@ Feature: 新建事件数监控并填写高级设置
   @alert
   Scenario Outline: 创建一个事件数监控-高级配置-抑制告警-固定时间
     Given I click the "CreateAlert" button
-    And I will see the "alert.AlertsCreatePage" page
+    And I will see the "alert.CreatePage" page
     When I set the parameter "AlertName" with value "<AlertName>"
     And I set the parameter "AlertDes" with value "<AlertDes>"
     And I choose the "<AlertGroup>" from the "AlertGroups"
@@ -87,7 +87,7 @@ Feature: 新建事件数监控并填写高级设置
   @alert
   Scenario Outline: 创建一个事件数监控-高级配置-抑制告警-倍增时间
     Given I click the "CreateAlert" button
-    And I will see the "alert.AlertsCreatePage" page
+    And I will see the "alert.CreatePage" page
     When I set the parameter "AlertName" with value "<AlertName>"
     And I set the parameter "AlertDes" with value "<AlertDes>"
     And I choose the "<AlertGroup>" from the "AlertGroups"
@@ -130,7 +130,7 @@ Feature: 新建事件数监控并填写高级设置
   @alert
   Scenario Outline: 创建一个事件数监控-高级配置-启用效果插图
     Given I click the "CreateAlert" button
-    And I will see the "alert.AlertsCreatePage" page
+    And I will see the "alert.CreatePage" page
     When I set the parameter "AlertName" with value "<AlertName>"
     And I set the parameter "AlertDes" with value "<AlertDes>"
     And I choose the "<AlertGroup>" from the "AlertGroups"

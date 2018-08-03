@@ -12,15 +12,14 @@ import com.yottabyte.webDriver.SharedDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AlertsCreatePage extends PageTemplate {
+public class CreatePage extends PageTemplate {
 
-    public AlertsCreatePage(WebDriver driver) {
+    public CreatePage(WebDriver driver) {
         super(driver);
     }
 
@@ -625,12 +624,12 @@ public class AlertsCreatePage extends PageTemplate {
         login.beforeScenario();
         Thread.sleep(10000);
         driver.get("http://alltest.rizhiyi.com/alerts/new/");
-        AlertsListPage p = new AlertsListPage(driver);
+        ListPage p = new ListPage(driver);
         Thread.sleep(2000);
 //        p.getCreateAlert().click();
 //        Thread.sleep(10000);
-//        new AlertsCreatePage(driver).tabs.get(2).click();
-//        new AlertsCreatePage(driver).rsyslogType("192.168.1.82:514",
+//        new CreatePage(driver).tabs.get(2).click();
+//        new CreatePage(driver).rsyslogType("192.168.1.82:514",
 //                new ArrayList<String>(Arrays.asList("UDP")),
 //                new ArrayList<String>(Arrays.asList("INFO")),"local0",
 //                new ArrayList<String>(Arrays.asList("")),"{{ alert.name }}|{{ alert.strategy.trigger.start_time|date:\"Y-m-d H:i:s\" }}|{{ alert.strategy.trigger.end_time|date:\"Y-m-d H:i:s\" }}|{{ alert.search.query }}");
@@ -643,7 +642,7 @@ public class AlertsCreatePage extends PageTemplate {
         list2.add("3");
         list2.add("10");
 
-        new AlertsCreatePage(driver).createAlert("autotest", list, list1, list2);
+        new CreatePage(driver).createAlert("autotest", list, list1, list2);
         driver.quit();
     }
 

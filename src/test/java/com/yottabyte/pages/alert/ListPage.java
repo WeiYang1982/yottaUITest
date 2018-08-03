@@ -4,6 +4,7 @@ import com.yottabyte.config.ConfigManager;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.utils.ElementExist;
+import com.yottabyte.utils.GetLogger;
 import com.yottabyte.utils.WaitForElement;
 import com.yottabyte.webDriver.SharedDriver;
 import org.openqa.selenium.*;
@@ -12,9 +13,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class AlertsListPage extends PageTemplate {
+public class ListPage extends PageTemplate {
 
-    public AlertsListPage(WebDriver driver) {
+    public ListPage(WebDriver driver) {
         super(driver);
     }
 
@@ -46,8 +47,10 @@ public class AlertsListPage extends PageTemplate {
         if (element.findElements(By.tagName("tr")).size() > 0) {
             return element.findElements(By.tagName("tr")).get(row - 1).findElement(By.xpath("//td[@class='el-table_1_column_5']//span[contains(text(),'删除')]"));
         }else if (noSearchResultMessage.isDisplayed()){
+            GetLogger.getLogger().error("没有搜索结果");
             throw new NoSuchElementException("没有搜索结果");
         }else {
+            GetLogger.getLogger().error("请检查输入");
             throw new NoSuchElementException("请检查输入");
         }
     }
@@ -72,13 +75,15 @@ public class AlertsListPage extends PageTemplate {
         }else if (ElementExist.isElementExist(webDriver,noSearchResultMessage)){
             return noSearchResultMessage;
         }else {
+            GetLogger.getLogger().error("请检查输入");
             throw new NoSuchElementException("请检查输入");
         }
     }
 
     void deleteAlert(String alertName) {
         while (true) {
-            getSearchInput().sendKeys(Keys.CONTROL + "a");
+            getSearchInput().sendKeys(Keys.END);
+            getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
             getSearchInput().sendKeys(Keys.BACK_SPACE);
             getSearchInput().sendKeys(alertName);
             try {
@@ -96,12 +101,14 @@ public class AlertsListPage extends PageTemplate {
                     System.out.println("do not need delete!");
                     break;
                 }else {
+                    GetLogger.getLogger().error("没有找到搜索结果");
                     throw new NoSuchElementException("没有找到搜索结果");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            getSearchInput().sendKeys(Keys.CONTROL + "a");
+            getSearchInput().sendKeys(Keys.END);
+            getSearchInput().sendKeys(Keys.SHIFT,Keys.HOME);
             getSearchInput().sendKeys(Keys.BACK_SPACE);
             getSearchInput().sendKeys(alertName);
         }
@@ -115,7 +122,7 @@ public class AlertsListPage extends PageTemplate {
         login.beforeScenario();
         Thread.sleep(2000);
         driver.get("http://alltest.rizhiyi.com/alerts");
-        AlertsListPage p = new AlertsListPage(driver);
+        ListPage p = new ListPage(driver);
         p.deleteAlert("AutoTest");
     }
 
