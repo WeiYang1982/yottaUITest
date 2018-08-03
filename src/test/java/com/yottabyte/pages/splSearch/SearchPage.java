@@ -57,6 +57,13 @@ public class SearchPage extends PageTemplate {
     @FindBy(xpath = "//div[contains(@class,'yw-search-stats')]/div[@class='yw-search-info']//span")
     private WebElement statsWarningMessage;
 
+    @FindBy(className = "detail-table")
+    private WebElement detailTable;
+
+    public WebElement getDetailTable() {
+        return detailTable;
+    }
+
     // 获取最近7天按钮
     public WebElement getRecentSevenDay() {
         DateEditorPage dateEditorPage = new DateEditorPage(webDriver);
