@@ -235,7 +235,8 @@ public class ListPage extends PageTemplate {
     public void thereIsAResourceGroup(String resourceGroupsName, List<String> typeName, List<String> ownerName){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        getSearchInput().sendKeys(Keys.CONTROL + "a");
+        getSearchInput().sendKeys(Keys.END);
+        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
         getSearchInput().sendKeys(Keys.BACK_SPACE);
         getSearchInput().sendKeys(resourceGroupsName);
         String text = getSearchResult().getText();
@@ -299,11 +300,13 @@ public class ListPage extends PageTemplate {
             groupTypeButton.click();
         }
         WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(groupTypeSelectors));
-        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.CONTROL + "a");
+        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.END);
+        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.SHIFT, Keys.HOME);
         groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.BACK_SPACE);
         groupTypeSelectors.findElement(By.tagName("input")).sendKeys(resourceGroupType);
         groupTypeSelectors.findElements(By.className("el-dropdown-menu__item")).get(2).click();
-        getSearchInput().sendKeys(Keys.CONTROL + "a");
+        getSearchInput().sendKeys(Keys.END);
+        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
         getSearchInput().sendKeys(Keys.BACK_SPACE);
         getSearchInput().sendKeys(resourceGroupsName);
         String text = getSearchResult().getText();
@@ -320,7 +323,8 @@ public class ListPage extends PageTemplate {
             WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(groupTypeButton));
             groupTypeButton.click();
         }
-        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.CONTROL + "a");
+        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.END);
+        groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.SHIFT, Keys.HOME);
         groupTypeSelectors.findElement(By.tagName("input")).sendKeys(Keys.BACK_SPACE);
         groupTypeSelectors.findElements(By.className("el-dropdown-menu__item")).get(2).click();
     }

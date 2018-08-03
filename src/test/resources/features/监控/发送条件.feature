@@ -2,13 +2,13 @@ Feature: 新建事件数监控并填写发送条件
 
   Background:
     Given I click the "AlertsListPage" button
-    Then I will see the "alert.AlertsListPage" page
+    Then I will see the "alert.ListPage" page
     And There is a "thereIsNoAlert" with "{'name':'AutoTest'}"
 
   @alert @all @smoke
   Scenario Outline: 创建一个发送条件的监控
     Given I click the "CreateAlert" button
-    And I will see the "alert.AlertsCreatePage" page
+    And I will see the "alert.CreatePage" page
     When I set the parameter "AlertName" with value "AutoTest"
     And I choose the "default_Alert" from the "AlertGroups"
     And I choose the "所有日志" from the "AlertSources"
@@ -37,7 +37,7 @@ Feature: 新建事件数监控并填写发送条件
   @alert @all
   Scenario Outline: 创建三个相同告警方式不同发送条件的监控
     Given I click the "CreateAlert" button
-    And I will see the "alert.AlertsCreatePage" page
+    And I will see the "alert.CreatePage" page
     When I set the parameter "AlertName" with value "AutoTest"
     And I choose the "default_Alert" from the "AlertGroups"
     And I choose the "所有日志" from the "AlertSources"

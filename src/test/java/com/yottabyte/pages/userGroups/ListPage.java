@@ -110,7 +110,8 @@ public class ListPage extends PageTemplate {
     public void thereIsAUserGroup(String userGroupName, List<String> ownerName, List<String> roleName){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        getSearchInput().sendKeys(Keys.CONTROL + "a");
+        getSearchInput().sendKeys(Keys.END);
+        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
         getSearchInput().sendKeys(Keys.BACK_SPACE);
         getSearchInput().sendKeys(userGroupName);
         String text = getSearchResult().getText();
@@ -129,7 +130,8 @@ public class ListPage extends PageTemplate {
             page.iWillSeeNewPage("userGroups.ListPage");
         }else if (text.equals(userGroupName)){
             System.out.println("There is a user groups");
-            getSearchInput().sendKeys(Keys.CONTROL + "a");
+            getSearchInput().sendKeys(Keys.END);
+            getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
             getSearchInput().sendKeys(Keys.BACK_SPACE);
         }
     }
@@ -137,7 +139,8 @@ public class ListPage extends PageTemplate {
     public void thereIsNoUserGroup(String userGroupName){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        getSearchInput().sendKeys(Keys.CONTROL + "a");
+        getSearchInput().sendKeys(Keys.END);
+        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
         getSearchInput().sendKeys(Keys.BACK_SPACE);
         getSearchInput().sendKeys(userGroupName);
         String text = getSearchResult().getText();

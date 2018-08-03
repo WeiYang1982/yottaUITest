@@ -2,13 +2,13 @@ Feature: 新建事件数监控及页面的各个检查项
 
   Background:
     Given I click the "AlertsListPage" button
-    Then I will see the "alert.AlertsListPage" page
+    Then I will see the "alert.ListPage" page
     And There is a "thereIsNoAlert" with "{'name':'AutoTest'}"
 
   @alert
   Scenario Outline: 创建一个新的告警-事件数监控-定时执行
     Given I click the "CreateAlert" button
-    And I will see the "alert.AlertsCreatePage" page
+    And I will see the "alert.CreatePage" page
     When I set the parameter "AlertName" with value "<AlertName>"
     And I set the parameter "AlertDes" with value "<AlertDes>"
     And I choose the "<AlertGroup>" from the "AlertGroups"
@@ -52,7 +52,7 @@ Feature: 新建事件数监控及页面的各个检查项
   @alert
   Scenario Outline: 创建一个新的告警-事件数监控-crontab
     Given I click the "CreateAlert" button
-    And I will see the "alert.AlertsCreatePage" page
+    And I will see the "alert.CreatePage" page
     When I set the parameter "AlertName" with value "<AlertName>"
     And I set the parameter "AlertDes" with value "<AlertDes>"
     And I choose the "<AlertGroup>" from the "AlertGroups"
@@ -81,7 +81,7 @@ Feature: 新建事件数监控及页面的各个检查项
   @alert @smoke @all
   Scenario: 创建一个新的告警-事件数监控-设置三种监控级别
     Given I click the "CreateAlert" button
-    And I will see the "alert.AlertsCreatePage" page
+    And I will see the "alert.CreatePage" page
     When I set the parameter "AlertName" with value "AutoTest"
     And I set the parameter "AlertDes" with value "alertDes"
     And I choose the "default_Alert" from the "AlertGroups"

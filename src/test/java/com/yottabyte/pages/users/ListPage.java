@@ -153,7 +153,8 @@ public class ListPage extends PageTemplate{
     public void thereIsAUser(String userName, String fullName, String email, String telephone, String password, List<String> userGroup){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        getSearchInput().sendKeys(Keys.CONTROL + "a");
+        getSearchInput().sendKeys(Keys.END);
+        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
         getSearchInput().sendKeys(Keys.BACK_SPACE);
         getSearchInput().sendKeys(userName);
         String text = getSearchResult().getText();
@@ -166,7 +167,8 @@ public class ListPage extends PageTemplate{
             page.iWillSeeNewPage("users.ListPage");
         }else if (text.equals(userName)){
             System.out.println("There is a user");
-            getSearchInput().sendKeys(Keys.CONTROL + "a");
+            getSearchInput().sendKeys(Keys.END);
+            getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
             getSearchInput().sendKeys(Keys.BACK_SPACE);
         }
     }
@@ -174,7 +176,8 @@ public class ListPage extends PageTemplate{
     public void thereIsNoUser(String userName){
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        getSearchInput().sendKeys(Keys.CONTROL + "a");
+        getSearchInput().sendKeys(Keys.END);
+        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
         getSearchInput().sendKeys(Keys.BACK_SPACE);
         getSearchInput().sendKeys(userName);
         String text = getSearchResult().getText();

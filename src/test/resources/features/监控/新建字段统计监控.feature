@@ -2,13 +2,13 @@ Feature: 新建字段统计监控
 
   Background:
     Given I click the "AlertsListPage" button
-    Then I will see the "alert.AlertsListPage" page
+    Then I will see the "alert.ListPage" page
     And There is a "thereIsNoAlert" with "{'name':'AutoTest'}"
 
   @alert
   Scenario Outline: 创建一个新的告警-字段统计监控-定时执行
     Given I click the "CreateAlert" button
-    And I will see the "alert.AlertsCreatePage" page
+    And I will see the "alert.CreatePage" page
     When I set the parameter "AlertName" with value "<AlertName>"
     And I set the parameter "AlertDes" with value "alertDes"
     And I choose the "<AlertGroup>" from the "AlertGroups"

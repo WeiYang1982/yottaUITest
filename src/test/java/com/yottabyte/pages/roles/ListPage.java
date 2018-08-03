@@ -119,7 +119,8 @@ public class ListPage extends PageTemplate {
 
     public void thereIsARole(String roleName, String roleDes, List<String> resourceGroups) {
         if (searchARole(roleName)){
-            getSearchInput().sendKeys(Keys.CONTROL + "a");
+            getSearchInput().sendKeys(Keys.END);
+            getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
             getSearchInput().sendKeys(Keys.BACK_SPACE);
         }else {
             getCreateRoleButton().click();
@@ -145,7 +146,8 @@ public class ListPage extends PageTemplate {
     }
 
     private boolean searchARole(String roleName){
-        getSearchInput().sendKeys(Keys.CONTROL + "a");
+        getSearchInput().sendKeys(Keys.END);
+        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
         getSearchInput().sendKeys(Keys.BACK_SPACE);
         getSearchInput().sendKeys(roleName);
         String text = getSearchResult().getText();
