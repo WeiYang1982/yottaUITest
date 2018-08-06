@@ -7,6 +7,8 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import net.lightbody.bmp.BrowserMobProxyServer;
+import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -24,6 +26,10 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
@@ -52,7 +58,13 @@ public class SharedDriver extends EventFiringWebDriver {
     static {
         Runtime.getRuntime().addShutdownHook(CLOSE_THREAD);
         ConfigManager config = new ConfigManager();
-
+        File conFile = new File("config/log4j2.xml");
+        try {
+            ConfigurationSource c = new ConfigurationSource(new BufferedInputStream(new FileInputStream(conFile)));
+            Configurator.initialize(null, c);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         DesiredCapabilities browser = null;
         if ("chrome".equalsIgnoreCase(config.get("browser"))) {
             browser = ChromeDes();

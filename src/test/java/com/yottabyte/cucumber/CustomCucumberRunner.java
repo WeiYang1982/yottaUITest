@@ -22,13 +22,6 @@ public class CustomCucumberRunner extends Runner{
     private Cucumber cucumber;
 
     public CustomCucumberRunner(Class<?> classValue) throws Exception {
-        File conFile = new File("config/log4j2.xml");
-        try {
-            ConfigurationSource config = new ConfigurationSource(new BufferedInputStream(new FileInputStream(conFile)));
-            Configurator.initialize(null, config);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         this.classValue = classValue;
         cucumber = new Cucumber(classValue);
     }
