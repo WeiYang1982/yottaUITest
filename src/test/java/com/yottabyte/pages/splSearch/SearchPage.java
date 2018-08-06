@@ -60,6 +60,9 @@ public class SearchPage extends PageTemplate {
     @FindBy(className = "detail-table")
     private WebElement detailTable;
 
+    @FindBy(className = "yw-search-pages-table")
+    private WebElement searchTable;
+
     public WebElement getDetailTable() {
         return detailTable;
     }
@@ -86,6 +89,10 @@ public class SearchPage extends PageTemplate {
         LoginBeforeAllTests.setPageFactory(dateEditorPage);
         WebElement webElement = dateEditorPage.getYesterday();
         return webElement;
+    }
+
+    public WebElement getSearchTable() {
+        return searchTable;
     }
 
     public WebElement getSearchInput() throws InterruptedException {

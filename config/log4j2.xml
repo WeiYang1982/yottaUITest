@@ -64,7 +64,7 @@
             <Filters>
                 <ThresholdFilter level="fatal" onMatch="DENY" onMismatch="NEUTRAL" />
                 <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
-            </Filters>k
+            </Filters>
             <PatternLayout
                     pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%l] %-5level - %msg%n" />
             <Policies>
