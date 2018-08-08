@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 
@@ -47,7 +48,7 @@ public class SplSearch {
                 }
                 List<WebElement> trList = table.findElements(By.tagName("tr"));
                 // 总行数
-                int realRowNum = 20 * (page.size() - 1) + trList.size() - 1;
+                int realRowNum = 20 * (Integer.parseInt(page.get(page.size() - 1).getText()) - 1) + trList.size() - 1;
                 int expect;
                 if (rows.startsWith("+")) {
                     expect = Integer.parseInt(rows.substring(1, rows.length()));
@@ -64,58 +65,86 @@ public class SplSearch {
 
     @Then("^I will see the top \"([^\"]*)\" of \"([^\"]*)\" is \"([^\"]*)\" when search \"([^割]*)\"$")
     public void checkValue(String rowNum, List<String> name, List<String> value, String spl) {
-        WebElement table = GetElementFromPage.getWebElementWithName("DetailTable");
-        List<WebElement> tdList = table.findElements(By.tagName("td"));
-        // 分页参数
-        List<WebElement> page = webDriver.findElements(By.className("number"));
+        List<Map<String, String>> tdList = GetElementFromPage.getWebElementWithName("TdList");
         boolean flag = false;
-        // header
         for (int i = 0; i < name.size(); i++) {
-            if ("".equals(rowNum) || "x".equals(rowNum)) {
-                for (WebElement td : tdList) {
-                    // 任意一行结果匹配即可
-                    if ("x".equals(rowNum) && td.getAttribute("data-col-name").equals(name.get(i)) && td.getText().equals(value.get(i))) {
+            if (value.size() == 1 && value.get(0).startsWith(">")) {
+                String str = value.get(0);
+                int base = Integer.parseInt(str.substring(1, str.length()));
+                for (Map<String, String> map : tdList) {
+                    if (!map.containsKey(name.get(0)))
+                        continue;
+                    int status = Integer.parseInt(map.get(name.get(0)));
+                    if (status < base) {
+                        logger.error("\n搜索语句：" + spl + "\n有一行的" + name.get(i) + "的值小于" + base);
+                        assertTrue(false);
+                    }
+                }
+
+            } else if (("x".equals(rowNum) || "".equals(rowNum)) && name.size() == value.size()) {
+                for (Map<String, String> map : tdList) {
+                    if (!map.containsKey(name.get(i))) {
+                        continue;
+                    }
+                    if ("x".equals(rowNum) && map.get(name.get(i)).equals(value.get(i))) {
                         flag = true;
-                        break;
-                    } else if (name.size() == value.size()) {
-                        if (td.getAttribute("data-col-name").equals(name.get(i)) && !td.getText().equals(value.get(i))) {
-                            logger.error("\n搜索语句：" + spl + "\n" + name.get(i) + "列期望结果为：" + value.get(i) + "\n实际结果为：" + td.getText());
-                            break;
-                        }
+                    } else if (!"x".equals(rowNum) && !map.get(name.get(i)).equals(value.get(i))) {
+                        logger.error("\n搜索语句：" + spl + "\n有一行的" + name.get(i) + "的值不等于" + value.get(i));
+                        assertTrue(false);
+                    }
+                }
+                if (flag)
+                    flag = false;
+                else if ("x".equals(rowNum)) {
+                    logger.error("\n搜索语句：" + spl + "\n没有任意一行" + name.get(i) + "的值等于" + value.get(i));
+                    assertTrue(false);
+                }
+            } else if (tdList.size() == 1 && value.size() == 4) {
+                String[] datas = tdList.get(0).get("top(len)").split("\n");
+                for (int j = 0; j < datas.length; j++) {
+                    if (!datas[j].equals(value.get(j))) {
+                        logger.error("\n搜索语句：" + spl + "\n第" + j + "行期望结果：" + value.get(j) + "\n实际结果：" + datas[j]);
+                        assertTrue(false);
                     }
                 }
             } else {
-                int topRowNum = Integer.parseInt(rowNum);
-                for (int j = 0; j < topRowNum; j++) {
-                    if (tdList.get(j).getAttribute("data-col-name").equals(name.get(i)) && !tdList.get(j).getText().equals(value.get(i))) {
-                        logger.error("\n搜索语句：" + spl + "\n" + name.get(i) + "列期望结果为：" + value.get(i) + "\n实际结果为：" + tdList.get(j).getText());
+                int loopNum = Integer.parseInt(rowNum);
+                for (int j = 0; j < loopNum; j++) {
+                    if (loopNum == 1) {
+                        if (i == 0) {
+                            if (!tdList.get(i + name.size() * j).get(name.get(i)).equals(value.get(i))) {
+                                logger.error("\n搜索语句：" + spl + "\n第1行期望结果：" + value.get(i) + "\n实际结果：" + tdList.get(i + name.size() * j).get(name.get(i)));
+                                assertTrue(false);
+                            }
+                            break;
+                        } else {
+                            if (!tdList.get(i + j).get(name.get(i)).equals(value.get(i))) {
+                                logger.error("\n搜索语句：" + spl + "\n第" + j + "行期望结果：" + value.get(i) + "\n实际结果：" + tdList.get(i + j).get(name.get(i)));
+                                assertTrue(false);
+                            }
+                            break;
+                        }
+                    } else {
+                        if (!tdList.get(i + name.size() * j).get(name.get(i)).equals(value.get(i + name.size() * j))) {
+                            assertTrue(false);
+                        }
                     }
                 }
             }
         }
-        if (!flag) {
-            logger.error("\n搜索语句：" + spl + "\n没有一行与之匹配");
-        }
-
     }
 
     @Then("^I will see the number of log is \"([^\"]*)\" when search \"([^割]*)\"$")
     public void checkLogNum(String logNum, String spl) {
         WebElement table = GetElementFromPage.getWebElementWithName("SearchTable");
         int totalLogNum = Integer.parseInt(logNum);
-        List<WebElement> pages = table.findElements(By.className("number"));
-
-        if (pages.size() == 1 && totalLogNum != table.findElements(By.tagName("tr")).size()) {
-            logger.error("\n搜索语句：" + spl + "\n期望日志条数：" + logNum + "\n实际日志条数：" + table.findElements(By.tagName("tr")).size());
+        List<WebElement> pages = webDriver.findElements(By.className("number"));
+        pages.get(pages.size() - 1).click();
+        int totalPage = Integer.parseInt(pages.get(pages.size() - 1).getText());
+        int realTotalLogNum = 20 * (totalPage - 1) + table.findElements(By.tagName("tr")).size();
+        if (realTotalLogNum != totalLogNum) {
+            logger.error("\n搜索语句：" + spl + "\n期望日志条数：" + logNum + "\n实际日志条数：" + realTotalLogNum);
             assertTrue(false);
-        } else {
-            pages.get(pages.size() - 1).click();
-            int totalPage = Integer.parseInt(pages.get(pages.size()).getText());
-            int realTotalLogNum = 20 * (totalPage - 1) + table.findElements(By.tagName("tr")).size();
-            if (realTotalLogNum != totalLogNum) {
-                logger.error("\n搜索语句：" + spl + "\n期望日志条数：" + logNum + "\n实际日志条数：" + realTotalLogNum);
-                assertTrue(false);
-            }
         }
     }
 
@@ -127,35 +156,49 @@ public class SplSearch {
      */
     @Then("^I will see the result order by \"([^\"]*)\" when search \"([^割]*)\"$")
     public void checkSequence(List<String> field, String spl) {
-        WebElement table = GetElementFromPage.getWebElementWithName("DetailTable");
-        // 分页参数
-        List<WebElement> page = webDriver.findElements(By.className("number"));
-        // 下一页按钮
-        WebElement nextPage = webDriver.findElements(By.className("btn-next")).get(1);
-        int pageNum = 0;
-        while (pageNum < page.size()) {
-            nextPage.click();
-            List<WebElement> header = table.findElements(By.tagName("th"));
-            List<WebElement> tr = table.findElements(By.tagName("tr"));
-            for (String columnName : field) {
-                String name = columnName.substring(1, columnName.length());
-                for (int i = 0; i < header.size(); i++) {
-                    for (int j = 0; j < tr.size() - 1; j++) {
-                        // 正序
-                        if (columnName.startsWith("+") && name.equals(header.get(i))) {
-                            if (Integer.parseInt(tr.get(j).findElements(By.tagName("td")).get(i).getText()) > Integer.parseInt(tr.get(j + 1).findElements(By.tagName("td")).get(i).getText())) {
-                                logger.error("\n搜索语句：" + spl + "\n未按" + columnName + "进行排序");
-                                assertTrue(false);
-                            }
-                        } else if (Integer.parseInt(tr.get(j).findElements(By.tagName("td")).get(i).getText()) < Integer.parseInt(tr.get(j + 1).findElements(By.tagName("td")).get(i).getText())) {
-                            // 逆序
-                            logger.error("\n搜索语句：" + spl + "\n未按" + columnName + "进行排序");
+        List<Map<String, String>> table = GetElementFromPage.getWebElementWithName("TdList");
+        if (field.size() == 1) {
+            int i = 0;
+            for (Map<String, String> map : table) {
+                String name = field.get(0).substring(1, field.get(0).length() - 1);
+                if (!"".equals(map.get(field.get(0)))) {
+                    if (field.get(0).startsWith("+") && map.containsKey(name)) {
+                        if (Integer.parseInt(map.get(field.get(0))) >= i) {
+                            i = Integer.parseInt(map.get(field.get(0)));
+                        } else {
+                            logger.error("\n搜索语句：" + spl + "\n未按" + field.get(0) + "排序");
+                            assertTrue(false);
+                        }
+                    } else if (field.get(0).startsWith("-") && map.containsKey(name)) {
+                        if (Integer.parseInt(map.get(field.get(0))) <= i) {
+                            i = Integer.parseInt(map.get(field.get(0)));
+                        } else {
+                            logger.error("\n搜索语句：" + spl + "\n未按" + field.get(0) + "排序");
                             assertTrue(false);
                         }
                     }
                 }
             }
-            pageNum++;
+        } else {
+            // 当按两个字段值进行排序时
+            for (int j = 0; j < field.size(); j++) {
+                for (int i = 0; i < table.size() / 2 - 2; i++) {
+                    String name = field.get(j).substring(1, field.get(j).length());
+                    if (!"".equals(table.get(i * field.size() + j).get(name)) && !"".equals(table.get(i * field.size() + j + 2).get(name))) {
+                        int before = Integer.parseInt(table.get(i * field.size() + j).get(name));
+                        int after = Integer.parseInt(table.get(i * field.size() + j + 2).get(name));
+                        if (after < before && j == 0) {
+                            logger.error("\n搜索语句：" + spl + "\n未按" + field.get(j) + "排序");
+                            assertTrue(false);
+                        } else if (j == 1 && after < before) {
+                            if (Integer.parseInt(table.get(i * field.size() + j - 1).get("apache.status")) > Integer.parseInt(table.get(i * field.size() + j + 1).get("apache.status"))) {
+                                logger.error("\n搜索语句：" + spl + "\n未按" + field.get(j) + "排序");
+                                assertTrue(false);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

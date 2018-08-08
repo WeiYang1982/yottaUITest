@@ -15,6 +15,10 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 搜索页面页面元素
@@ -73,6 +77,42 @@ public class SearchPage extends PageTemplate {
         LoginBeforeAllTests.setPageFactory(dateEditorPage);
         WebElement webElement = dateEditorPage.getRecentSevenDay();
         return webElement;
+    }
+
+    /**
+     * 获取每一页的td数据
+     *
+     * @return
+     */
+    public List<Map<String, String>> getTdList() {
+        List<WebElement> list;
+        List<Map<String, String>> data = new ArrayList<>();
+        WebElement nextPage = webDriver.findElements(By.className("btn-next")).get(1);
+        List<WebElement> pages = webDriver.findElements(By.className("number"));
+        int totalPageNum = Integer.parseInt(pages.get(pages.size() - 1).getText());
+        list = this.getDetailTable().findElements(By.tagName("td"));
+        for (WebElement webElement : list) {
+            Map<String, String> map = new HashMap<>();
+            map.put(webElement.getAttribute("data-col-name"), webElement.getText());
+            data.add(map);
+        }
+        if (pages.size() != 1) {
+            for (int i = 0; i < totalPageNum - 1; i++) {
+                nextPage.click();
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                list = this.getDetailTable().findElements(By.tagName("td"));
+                for (WebElement webElement : list) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put(webElement.getAttribute("data-col-name"), webElement.getText());
+                    data.add(map);
+                }
+            }
+        }
+        return data;
     }
 
     // 获取今天按钮
