@@ -3,6 +3,8 @@ package com.yottabyte.stepDefs;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.utils.GetElementFromPage;
 import com.yottabyte.utils.GetLogger;
+import com.yottabyte.utils.TakeScreenShot;
+import com.yottabyte.webDriver.SharedDriver;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;
@@ -20,6 +22,7 @@ public class SplSearch {
 
     private Logger logger = GetLogger.getLogger();
     private WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
+    private TakeScreenShot shot = SharedDriver.getScreenShot();
 
     @And("^I will see \"([^\"]*)\" rows and \"([^\"]*)\" columns of \"([^割]*)\" in the table$")
     public void checkRowsNum(String rows, String columns, String spl) {
@@ -35,6 +38,7 @@ public class SplSearch {
                 int columnNum = Integer.parseInt(columns);
                 if (thList.size() != columnNum) {
                     logger.error("\n搜索语句：" + spl + "\n期望列数为" + columns + "\n实际列数为" + thList.size());
+                    shot.screenShot();
                     assert (false);
                 }
             }
@@ -57,6 +61,7 @@ public class SplSearch {
                 }
                 if (realRowNum < expect || realRowNum != expect) {
                     logger.error("\n搜索语句：" + spl + "\n期望行数为" + rows + "\n实际行数为" + realRowNum);
+                    shot.screenShot();
                     assertTrue(false);
                 }
             }
@@ -77,6 +82,7 @@ public class SplSearch {
                     int status = Integer.parseInt(map.get(name.get(0)));
                     if (status < base) {
                         logger.error("\n搜索语句：" + spl + "\n有一行的" + name.get(i) + "的值小于" + base);
+                        shot.screenShot();
                         assertTrue(false);
                     }
                 }
@@ -90,6 +96,7 @@ public class SplSearch {
                         flag = true;
                     } else if (!"x".equals(rowNum) && !map.get(name.get(i)).equals(value.get(i))) {
                         logger.error("\n搜索语句：" + spl + "\n有一行的" + name.get(i) + "的值不等于" + value.get(i));
+                        shot.screenShot();
                         assertTrue(false);
                     }
                 }
@@ -97,6 +104,7 @@ public class SplSearch {
                     flag = false;
                 else if ("x".equals(rowNum)) {
                     logger.error("\n搜索语句：" + spl + "\n没有任意一行" + name.get(i) + "的值等于" + value.get(i));
+                    shot.screenShot();
                     assertTrue(false);
                 }
             } else if (tdList.size() == 1 && value.size() == 4) {
@@ -104,6 +112,7 @@ public class SplSearch {
                 for (int j = 0; j < datas.length; j++) {
                     if (!datas[j].equals(value.get(j))) {
                         logger.error("\n搜索语句：" + spl + "\n第" + j + "行期望结果：" + value.get(j) + "\n实际结果：" + datas[j]);
+                        shot.screenShot();
                         assertTrue(false);
                     }
                 }
@@ -114,18 +123,22 @@ public class SplSearch {
                         if (i == 0) {
                             if (!tdList.get(i + name.size() * j).get(name.get(i)).equals(value.get(i))) {
                                 logger.error("\n搜索语句：" + spl + "\n第1行期望结果：" + value.get(i) + "\n实际结果：" + tdList.get(i + name.size() * j).get(name.get(i)));
+                                shot.screenShot();
                                 assertTrue(false);
                             }
                             break;
                         } else {
                             if (!tdList.get(i + j).get(name.get(i)).equals(value.get(i))) {
                                 logger.error("\n搜索语句：" + spl + "\n第" + j + "行期望结果：" + value.get(i) + "\n实际结果：" + tdList.get(i + j).get(name.get(i)));
+                                shot.screenShot();
                                 assertTrue(false);
                             }
                             break;
                         }
                     } else {
                         if (!tdList.get(i + name.size() * j).get(name.get(i)).equals(value.get(i + name.size() * j))) {
+                            logger.error("\n搜索语句：" + spl + "\n第" + j + "行期望结果：" + value.get(i + name.size() * j) + "\n实际结果：" + tdList.get(i + name.size() * j).get(name.get(i)));
+                            shot.screenShot();
                             assertTrue(false);
                         }
                     }
@@ -144,6 +157,7 @@ public class SplSearch {
         int realTotalLogNum = 20 * (totalPage - 1) + table.findElements(By.tagName("tr")).size();
         if (realTotalLogNum != totalLogNum) {
             logger.error("\n搜索语句：" + spl + "\n期望日志条数：" + logNum + "\n实际日志条数：" + realTotalLogNum);
+            shot.screenShot();
             assertTrue(false);
         }
     }
@@ -167,6 +181,7 @@ public class SplSearch {
                             i = Integer.parseInt(map.get(field.get(0)));
                         } else {
                             logger.error("\n搜索语句：" + spl + "\n未按" + field.get(0) + "排序");
+                            shot.screenShot();
                             assertTrue(false);
                         }
                     } else if (field.get(0).startsWith("-") && map.containsKey(name)) {
@@ -174,6 +189,7 @@ public class SplSearch {
                             i = Integer.parseInt(map.get(field.get(0)));
                         } else {
                             logger.error("\n搜索语句：" + spl + "\n未按" + field.get(0) + "排序");
+                            shot.screenShot();
                             assertTrue(false);
                         }
                     }
@@ -189,10 +205,12 @@ public class SplSearch {
                         int after = Integer.parseInt(table.get(i * field.size() + j + 2).get(name));
                         if (after < before && j == 0) {
                             logger.error("\n搜索语句：" + spl + "\n未按" + field.get(j) + "排序");
+                            shot.screenShot();
                             assertTrue(false);
                         } else if (j == 1 && after < before) {
                             if (Integer.parseInt(table.get(i * field.size() + j - 1).get("apache.status")) > Integer.parseInt(table.get(i * field.size() + j + 1).get("apache.status"))) {
                                 logger.error("\n搜索语句：" + spl + "\n未按" + field.get(j) + "排序");
+                                shot.screenShot();
                                 assertTrue(false);
                             }
                         }
@@ -217,12 +235,14 @@ public class SplSearch {
                     // 判断搜索事件数是否在范围内
                     if (!(realNum >= Long.parseLong(lowerLimit) && realNum <= Long.parseLong(topLimit))) {
                         logger.error("\n搜索语句:" + spl + "\n期望事件数：" + lowerLimit + "至" + topLimit + "\n实际事件数：" + realNum);
+                        shot.screenShot();
                         assertTrue(false);
                     }
                 } else if (range.size() == 1) {
                     // 当事件数固定时
                     if (realNum != Long.parseLong(range.get(0))) {
                         logger.error("\n搜索语句:" + spl + "\n期望事件数：" + Long.parseLong(range.get(0)) + "\n实际事件数：" + realNum);
+                        shot.screenShot();
                         assertTrue(false);
                     }
                 } else {
@@ -253,6 +273,7 @@ public class SplSearch {
                     continue;
                 } else {
                     logger.error("es未计算出数据");
+                    shot.screenShot();
                     assertTrue(false);
                 }
             }
