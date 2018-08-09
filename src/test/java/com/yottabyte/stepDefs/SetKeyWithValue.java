@@ -21,6 +21,12 @@ public class SetKeyWithValue {
         }
     }
 
+    public void clearElementValue(WebElement element) {
+        element.sendKeys(Keys.END);
+        element.sendKeys(Keys.SHIFT, Keys.HOME);
+        element.sendKeys(Keys.BACK_SPACE);
+    }
+
     public void iSetTheParameterWithValue(WebElement element, String value) {
         boolean flag = true;
         while (flag) {

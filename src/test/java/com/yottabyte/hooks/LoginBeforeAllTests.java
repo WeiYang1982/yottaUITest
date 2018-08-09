@@ -2,18 +2,25 @@ package com.yottabyte.hooks;
 
 import com.yottabyte.config.ConfigManager;
 import com.yottabyte.pages.LoginPage;
+import com.yottabyte.utils.WaitForElement;
 import com.yottabyte.webDriver.SharedDriver;
 import cucumber.api.java.Before;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class LoginBeforeAllTests {
     private static WebDriver webDriver;
     private static String baseURL;
     private static Object pageFactory;
     private static ConfigManager config;
+    private static Cookie cookie;
 
     public LoginBeforeAllTests(SharedDriver driver,ConfigManager manager){
         webDriver = driver;
@@ -23,6 +30,26 @@ public class LoginBeforeAllTests {
 
     @Before
     public void beforeScenario() {
+        if (cookie == null) {
+            login();
+            cookie = webDriver.manage().getCookieNamed("sessionid");
+        }else {
+            webDriver.get(baseURL);
+            Date exDate = cookie.getExpiry();
+            if (exDate.before(new Date())){
+                Calendar calendar   =   new GregorianCalendar();
+                calendar.setTime(exDate);
+                calendar.add(Calendar.DATE,7);
+                exDate = calendar.getTime();
+                cookie = new Cookie(cookie.getName(), cookie.getValue(), cookie.getDomain(), cookie.getPath(), exDate);
+            }
+            webDriver.manage().addCookie(cookie);
+            webDriver.get(baseURL);
+        }
+        setPageFactory("PublicNavBarPage");
+    }
+
+    private void login() {
         System.out.println("Login Before Test!");
         webDriver.manage().deleteAllCookies();
         webDriver.get(baseURL + "/auth/login/");
@@ -33,7 +60,7 @@ public class LoginBeforeAllTests {
         loginPage.getPassword().clear();
         loginPage.getPassword().sendKeys(config.get("password"));
         loginPage.getLoginButton().click();
-        setPageFactory("PublicNavBarPage");
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.not(ExpectedConditions.titleIs("登录")));
     }
 
     public static WebDriver getWebDriver() {
