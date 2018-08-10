@@ -54,7 +54,6 @@ public class SearchPage extends PageTemplate {
     @FindBy(xpath = "//div[contains(@class,'yw-search-tabbar-item')]//span")
     private WebElement eventCount;
 
-
     @FindBy(xpath = "//div[@class='yw-search-events']/div[@class='yw-search-info']//span")
     private WebElement eventWarningMessage;
 
@@ -67,8 +66,81 @@ public class SearchPage extends PageTemplate {
     @FindBy(className = "yw-search-pages-table")
     private WebElement searchTable;
 
+    @FindBy(className = "yw-search-stats-charts-title-label")
+    private List<WebElement> buttons;
+
+    @FindBy(xpath = "//li[text()='定时任务']")
+    private WebElement timedTask;
+
+    @FindBy(xpath = "//div[@class='yw-search-form-group']/label[text()='名称']/following-sibling::input")
+    private WebElement taskName;
+
+    @FindBy(xpath = "//div[@class='yw-search-form-group']/label[text()='描述']/following-sibling::input")
+    private WebElement describe;
+
+    @FindBy(className = "el-select-dropdown__list")
+    private List<WebElement> dropdownList;
+
+    @FindBy(xpath = "//div[@class='custom']//div[@class='value el-input']/input")
+    private WebElement period;
+
+    @FindBy(className = "el-input__inner")
+    private List<WebElement> selectList;
+
+    @FindBy(xpath = "//span[text()='确定']")
+    private List<WebElement> ensure;
+
+    @FindBy(className = "el-message-box__message")
+    private WebElement successMessage;
+
+    public WebElement getEnsure() {
+        return ensure.get(1);
+    }
+
+    public WebElement getPeriod() {
+        return period;
+    }
+
+    public WebElement getStartTime() {
+        return selectList.get(8);
+    }
+
+    // 运行用户分组
+    public List<WebElement> getUserComboBox() {
+        selectList.get(4).click();
+        ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(dropdownList.get(dropdownList.size() - 1));
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
+        return this.dropdownList.get(dropdownList.size() - 1).findElements(By.tagName("li"));
+    }
+
+    // 运行用户分组
+    public List<WebElement> getGroupComboBox() {
+        selectList.get(5).click();
+        ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(dropdownList.get(dropdownList.size() - 1));
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
+        return this.dropdownList.get(dropdownList.size() - 1).findElements(By.tagName("li"));
+    }
+
+    public WebElement getDescribe() {
+        return describe;
+    }
+
+    public WebElement getTaskName() {
+
+        return taskName;
+    }
+
+    public WebElement getTimedTask() {
+        return timedTask;
+    }
+
     public WebElement getDetailTable() {
         return detailTable;
+    }
+
+    // 保存为
+    public WebElement getSaveAsOther() {
+        return buttons.get(3);
     }
 
     // 获取最近7天按钮
@@ -194,5 +266,9 @@ public class SearchPage extends PageTemplate {
 
     public TakeScreenShot getShot() {
         return shot;
+    }
+
+    public WebElement getSuccessMessage() {
+        return successMessage;
     }
 }

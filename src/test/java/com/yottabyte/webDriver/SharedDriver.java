@@ -103,7 +103,7 @@ public class SharedDriver extends EventFiringWebDriver {
     public SharedDriver() {
         super(REAL_DRIVER);
 //        REAL_DRIVER.manage().window().maximize();
-        REAL_DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        REAL_DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         REAL_DRIVER.manage().timeouts().pageLoadTimeout(5, TimeUnit.MINUTES);
     }
 
