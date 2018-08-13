@@ -5,6 +5,7 @@ import com.yottabyte.pages.LoginPage;
 import com.yottabyte.utils.WaitForElement;
 import com.yottabyte.webDriver.SharedDriver;
 import cucumber.api.java.Before;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,7 +23,7 @@ public class LoginBeforeAllTests {
     private static ConfigManager config;
     private static Cookie cookie;
 
-    public LoginBeforeAllTests(SharedDriver driver,ConfigManager manager){
+    public LoginBeforeAllTests(SharedDriver driver, ConfigManager manager) {
         webDriver = driver;
         config = manager;
         baseURL = manager.get("yottaweb");
@@ -37,13 +38,13 @@ public class LoginBeforeAllTests {
         if (cookie == null) {
             login();
             cookie = webDriver.manage().getCookieNamed("sessionid");
-        }else {
+        } else {
             webDriver.get(baseURL);
             Date exDate = cookie.getExpiry();
-            if (exDate.before(new Date())){
-                Calendar calendar   =   new GregorianCalendar();
+            if (exDate.before(new Date())) {
+                Calendar calendar = new GregorianCalendar();
                 calendar.setTime(exDate);
-                calendar.add(Calendar.DATE,7);
+                calendar.add(Calendar.DATE, 7);
                 exDate = calendar.getTime();
                 cookie = new Cookie(cookie.getName(), cookie.getValue(), cookie.getDomain(), cookie.getPath(), exDate);
             }
@@ -60,7 +61,8 @@ public class LoginBeforeAllTests {
         loginPage.getPassword().clear();
         loginPage.getPassword().sendKeys(config.get("password"));
         loginPage.getLoginButton().click();
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.not(ExpectedConditions.titleIs("登录")));
+//        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.not(ExpectedConditions.titleIs("登录")));
+//        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.stalenessOf(webDriver.findElement(By.xpath("/html"))));
     }
 
     public static WebDriver getWebDriver() {
@@ -77,14 +79,15 @@ public class LoginBeforeAllTests {
 
     public static Object getPageFactory() {
         return pageFactory;
+
     }
 
     public static void setPageFactory(Object pageFactory) {
         LoginBeforeAllTests.pageFactory = pageFactory;
     }
 
-    public static void setPageFactory(String pageFactoryName){
-        if (!pageFactoryName.startsWith("com.yottabyte.pages.")){
+    public static void setPageFactory(String pageFactoryName) {
+        if (!pageFactoryName.startsWith("com.yottabyte.pages.")) {
             pageFactoryName = "com.yottabyte.pages." + pageFactoryName;
         }
         Constructor c = null;
