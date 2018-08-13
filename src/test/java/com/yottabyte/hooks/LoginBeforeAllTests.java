@@ -30,6 +30,10 @@ public class LoginBeforeAllTests {
 
     @Before
     public void beforeScenario() {
+        System.out.println("Login Before Test!");
+        webDriver.manage().deleteAllCookies();
+        webDriver.get(baseURL + "/auth/login/");
+        System.out.println(webDriver + "login driver");
         if (cookie == null) {
             login();
             cookie = webDriver.manage().getCookieNamed("sessionid");
@@ -49,11 +53,7 @@ public class LoginBeforeAllTests {
         setPageFactory("PublicNavBarPage");
     }
 
-    private void login() {
-        System.out.println("Login Before Test!");
-        webDriver.manage().deleteAllCookies();
-        webDriver.get(baseURL + "/auth/login/");
-        System.out.println(webDriver + "login driver");
+    public static void login() {
         LoginPage loginPage = new LoginPage(webDriver);
         loginPage.getUsername().clear();
         loginPage.getUsername().sendKeys(config.get("username"));
