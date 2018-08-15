@@ -21,7 +21,7 @@ public class Delete {
 
 
     /**
-     * @param elementName 包含待删除元素待列表
+     * @param elementName 包含待删除元素的列表
      * @param header      待删除元素所在列的表头名称
      * @param name        待删除元素
      */

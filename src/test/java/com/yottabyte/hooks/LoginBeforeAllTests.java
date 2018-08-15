@@ -1,23 +1,18 @@
 package com.yottabyte.hooks;
 
 import com.yottabyte.config.ConfigManager;
-import com.yottabyte.constants.WebDriverConst;
 import com.yottabyte.pages.LoginPage;
 import com.yottabyte.utils.WaitForElement;
 import com.yottabyte.webDriver.SharedDriver;
 import cucumber.api.java.Before;
-import gherkin.lexer.Th;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 public class LoginBeforeAllTests {
     private static WebDriver webDriver;
@@ -26,7 +21,7 @@ public class LoginBeforeAllTests {
     private static ConfigManager config;
     private static Cookie cookie;
 
-    public LoginBeforeAllTests(SharedDriver driver,ConfigManager manager){
+    public LoginBeforeAllTests(SharedDriver driver, ConfigManager manager) {
         webDriver = driver;
         config = manager;
         baseURL = manager.get("yottaweb");
@@ -53,10 +48,10 @@ public class LoginBeforeAllTests {
         }else {
             webDriver.get(baseURL);
             Date exDate = cookie.getExpiry();
-            if (exDate.before(new Date())){
-                Calendar calendar   =   new GregorianCalendar();
+            if (exDate.before(new Date())) {
+                Calendar calendar = new GregorianCalendar();
                 calendar.setTime(exDate);
-                calendar.add(Calendar.DATE,7);
+                calendar.add(Calendar.DATE, 7);
                 exDate = calendar.getTime();
                 cookie = new Cookie(cookie.getName(), cookie.getValue(), cookie.getDomain(), cookie.getPath(), exDate);
             }
@@ -100,8 +95,8 @@ public class LoginBeforeAllTests {
         LoginBeforeAllTests.pageFactory = pageFactory;
     }
 
-    public static void setPageFactory(String pageFactoryName){
-        if (!pageFactoryName.startsWith("com.yottabyte.pages.")){
+    public static void setPageFactory(String pageFactoryName) {
+        if (!pageFactoryName.startsWith("com.yottabyte.pages.")) {
             pageFactoryName = "com.yottabyte.pages." + pageFactoryName;
         }
         Constructor c = null;

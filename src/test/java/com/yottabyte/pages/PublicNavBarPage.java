@@ -26,6 +26,9 @@ public class PublicNavBarPage extends PageTemplate {
     @FindBy(partialLinkText = "知识")
     private WebElement knowledgePage;
 
+    @FindBy(partialLinkText = "定时任务")
+    private WebElement timedTaskPage;
+
     @FindBy(id = "yw-nav-set")
     private WebElement systemSetButton;
 
@@ -49,6 +52,11 @@ public class PublicNavBarPage extends PageTemplate {
 
     @FindBy(className = "el-loading-mask")
     private WebElement loadingElement;
+
+    public WebElement getTimedTaskPage() {
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.elementToBeClickable(timedTaskPage));
+        return timedTaskPage;
+    }
 
     public WebElement getLocateSearchPage() {
         return locateSearchPage;
@@ -97,8 +105,8 @@ public class PublicNavBarPage extends PageTemplate {
         ExpectedCondition expectedCondition = ExpectedConditions.elementToBeClickable(systemSetButton);
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
         systemSetButton.click();
-        if (ElementExist.isElementExist(webDriver,loadingElement)) {
-            WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.invisibilityOf(loadingElement));
+        if (ElementExist.isElementExist(webDriver, loadingElement)) {
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.invisibilityOf(loadingElement));
         }
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
         expectedCondition = ExpectedConditions.elementToBeClickable(element);

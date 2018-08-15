@@ -1,4 +1,4 @@
-Feature:
+Feature:spl搜索新增定时任务
 
   Background:
     Given I click the "LocateSearchPage" button
@@ -18,7 +18,7 @@ Feature:
     Then I choose the "<users>" from the "UserComboBox"
     Then I choose the "<groups>" from the "GroupComboBox"
     Then I set the parameter "Period" with value "<period>"
-    Then I set the parameter "StartTime" with value "<startTime>"
+    Then I set the "StartTime" with "<startTime>"
     Then I click the "Ensure" button
     Then I will see the success message "<message>"
 
