@@ -29,6 +29,9 @@ public class ListPage extends PageTemplate {
     @FindBy(xpath = "//*[contains(text(),'分组')]")
     private List<WebElement> changeGroup;
 
+    @FindBy(xpath = "//*[contains(text(),'删除')]")
+    private List<WebElement> delete;
+
     @FindBy(className = "number")
     private List<WebElement> number;
 
@@ -40,6 +43,48 @@ public class ListPage extends PageTemplate {
 
     @FindBy(className = "el-select-dropdown__list")
     private List<WebElement> dropdownLists;
+
+    @FindBy(className = "el-button--primary")
+    private List<WebElement> ensureButton;
+
+    // 表体
+    @FindBy(className = "el-table__body")
+    private WebElement tableBody;
+
+    @FindBy(className = "el-switch")
+    private WebElement switchButton;
+
+    @FindBy(className = "el-button--default")
+    private List<WebElement> selectLists;
+
+    @FindBy(className = "el-dropdown-menu__item")
+    private List<WebElement> selectOptions;
+
+    public List<WebElement> getGroupList() {
+        selectLists.get(0).click();
+        return selectOptions;
+    }
+
+    public WebElement getSwitchButton() {
+        return switchButton;
+    }
+
+    public WebElement getDelete() {
+        this.clickLastPage();
+        return delete.get(delete.size() - 1);
+    }
+
+    public WebElement getTableBody() {
+        return tableBody;
+    }
+
+    public WebElement getEnsureChangeGroup() {
+        return ensureButton.get(0);
+    }
+
+    public WebElement getEnsureDelete() {
+        return ensureButton.get(1);
+    }
 
     public List<WebElement> getGroup() {
         groups.get(groups.size() - 1).click();

@@ -39,6 +39,94 @@ public class EditPage extends PageTemplate {
     @FindBy(className = "el-message-box__message")
     private WebElement result;
 
+    @FindBy(className = "el-tabs__item")
+    private List<WebElement> resultHandling;
+
+    @FindBy(className = "add-jdbc")
+    private WebElement addJDBC;
+
+    @FindBy(className = "yw-title")
+    private WebElement jdbc;
+
+    @FindBy(xpath = "//label[contains(text(),'连接名称')]/following-sibling::div/input")
+    private WebElement connectName;
+
+    @FindBy(xpath = "//label[contains(text(),'用户名')]/following-sibling::div/input")
+    private WebElement userName;
+
+    @FindBy(xpath = "//label[contains(text(),'密码')]/following-sibling::div/input")
+    private WebElement password;
+
+    @FindBy(xpath = "//label[contains(text(),'主机')]/following-sibling::div/input")
+    private WebElement host;
+
+    @FindBy(xpath = "//label[contains(text(),'端口')]/following-sibling::div/input")
+    private WebElement port;
+
+    @FindBy(xpath = "//label[contains(text(),'数据库类型')]/following-sibling::div/input")
+    private WebElement databaseType;
+
+    @FindBy(xpath = "//label[contains(text(),'数据库名')]/following-sibling::div/input")
+    private WebElement dbName;
+
+    @FindBy(xpath = "//label[contains(text(),'数据库表名称')]/following-sibling::div/input")
+    private WebElement tableName;
+
+    @FindBy(className = "verify_button")
+    private WebElement verify;
+
+    @FindBy(className = "el-select-dropdown__list")
+    private List<WebElement> selectLists;
+
+    public WebElement getDbType() {
+        databaseType.click();
+        return selectLists.get(selectLists.size() - 1);
+    }
+
+    public WebElement getAddJDBC() {
+        return addJDBC;
+    }
+
+    public WebElement getJdbc() {
+        return jdbc;
+    }
+
+    public WebElement getUserName() {
+        return userName;
+    }
+
+    public WebElement getPassword() {
+        return password;
+    }
+
+    public WebElement getHost() {
+        return host;
+    }
+
+    public WebElement getPort() {
+        return port;
+    }
+
+    public WebElement getDbName() {
+        return dbName;
+    }
+
+    public WebElement getTableName() {
+        return tableName;
+    }
+
+    public WebElement getVerify() {
+        return verify;
+    }
+
+    public WebElement getConnectName() {
+        return connectName;
+    }
+
+    public WebElement getResultHandling() {
+        return resultHandling.get(resultHandling.size() - 1);
+    }
+
     public WebElement getSuccessMessage() {
         return result;
     }
