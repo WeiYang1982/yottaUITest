@@ -19,6 +19,6 @@ public class VerifyMessageText {
     public void iWillSeeErrorMessage(String errorMessage){
         WebElement element = GetElementFromPage.getWebElementWithName("ErrorMessage");
         String realResult = element.getText();
-        assertEquals(realResult, errorMessage);
+        assertEquals(errorMessage, realResult);
     }
 }

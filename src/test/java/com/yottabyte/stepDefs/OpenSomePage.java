@@ -3,6 +3,7 @@ package com.yottabyte.stepDefs;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.utils.ConstructPageFactoryWithName;
 import cucumber.api.java.en.Given;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import java.net.URI;
 
@@ -16,6 +17,10 @@ public class OpenSomePage {
      */
     @Given("^open the \"([^\"]*)\" page for uri \"([^\"]*)\"$")
     public void openThePageForURI(String pageName, URI uri){
+        Cookie cookie = LoginBeforeAllTests.getCookie();
+        if (webDriver.manage().getCookies() == null) {
+            webDriver.manage().addCookie(cookie);
+        }
         webDriver.get(baseURL + uri);
         ConstructPageFactoryWithName c = new ConstructPageFactoryWithName();
         c.constructPageFactoryWithName(pageName);

@@ -1,19 +1,23 @@
 package com.yottabyte.hooks;
 
 import com.yottabyte.config.ConfigManager;
+import com.yottabyte.constants.WebDriverConst;
 import com.yottabyte.pages.LoginPage;
 import com.yottabyte.utils.WaitForElement;
 import com.yottabyte.webDriver.SharedDriver;
 import cucumber.api.java.Before;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import gherkin.lexer.Th;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.*;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 public class LoginBeforeAllTests {
     private static WebDriver webDriver;
@@ -36,7 +40,16 @@ public class LoginBeforeAllTests {
         System.out.println(webDriver + "login driver");
         if (cookie == null) {
             login();
-            cookie = webDriver.manage().getCookieNamed("sessionid");
+            WebDriverWait wait = new WebDriverWait(webDriver, 10, 1000);
+            wait.until(new ExpectedCondition<Boolean>() {
+                @Override
+                public Boolean apply(WebDriver driver) {
+                    while (driver.manage().getCookieNamed("sessionid") == null) {
+                        cookie = driver.manage().getCookieNamed("sessionid");
+                    }
+                    return true;
+                }
+            });
         }else {
             webDriver.get(baseURL);
             Date exDate = cookie.getExpiry();
@@ -60,7 +73,7 @@ public class LoginBeforeAllTests {
         loginPage.getPassword().clear();
         loginPage.getPassword().sendKeys(config.get("password"));
         loginPage.getLoginButton().click();
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.not(ExpectedConditions.titleIs("登录")));
+//        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.stalenessOf(webDriver.findElement(By.xpath("/html"))));
     }
 
     public static WebDriver getWebDriver() {
@@ -69,6 +82,10 @@ public class LoginBeforeAllTests {
 
     public static void setWebDriver(WebDriver webDriver) {
         LoginBeforeAllTests.webDriver = webDriver;
+    }
+
+    public static Cookie getCookie() {
+        return cookie;
     }
 
     public static String getBaseURL() {
