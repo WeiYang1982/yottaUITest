@@ -75,6 +75,7 @@ public class IChooseValueFromSelectList {
             else if (attribute.contains("el-select-dropdown__list"))
 //                e = elements.get(0).findElement(By.xpath("./parent::ul[contains(@class,'el-select-dropdown__list')]"));
                 e = elements.get(elements.size()-1).findElement(By.xpath("./parent::ul[contains(@class,'el-select-dropdown__list')]"));
+
             if (e.isDisplayed()) {
                 ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", e);
                 ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(e);
@@ -84,6 +85,9 @@ public class IChooseValueFromSelectList {
     }
 
     public void iChooseTheFromThe(List<String> values, WebElement parentElement) {
+        if (parentElement.getAttribute("style").contains("display: none;")) {
+            ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='block';", parentElement);
+        }
         List<WebElement> elements = parentElement.findElements(By.tagName("li"));
         for (String value : values) {
             if (value != null && value.trim().length() != 0) {

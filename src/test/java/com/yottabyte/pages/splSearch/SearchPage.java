@@ -201,12 +201,25 @@ public class SearchPage extends PageTemplate {
     @FindBy(className = "yw-search-setting-select")
     private List<WebElement> yaxisGroup;
 
+    @FindBy(xpath = "//label[text()='运行用户']/following-sibling::div")
+    private WebElement runningUser;
+
+    @FindBy(xpath = "//label[text()='分组']/following-sibling::div")
+    private WebElement group;
+
+    @FindBy(xpath = "//button[@class='el-time-panel__btn confirm']")
+    private WebElement ensureButton;
+
+    public WebElement getEnsureButton() {
+        return ensureButton;
+    }
+
     public WebElement getYaxis() {
         return yaxis.get(1);
     }
 
     public WebElement getActuralData() {
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='block';", dropdownList.get(dropdownList.size() - 1));
+//        ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='block';", dropdownList.get(dropdownList.size() - 1));
 
         yaxisGroup.get(0).click();
         return dropdownList.get(dropdownList.size() - 1);
@@ -381,21 +394,24 @@ public class SearchPage extends PageTemplate {
         return period;
     }
 
+    @FindBy(xpath = "//span[text()='开始']/preceding-sibling::div/input")
+    private WebElement startTime;
+
     public WebElement getStartTime() {
-        return selectList.get(8);
+        return startTime;
     }
 
-    // 运行用户分组
+    // 运行用户
     public List<WebElement> getUserComboBox() {
-        selectList.get(4).click();
+        runningUser.click();
         ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(dropdownList.get(dropdownList.size() - 1));
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
         return this.dropdownList.get(dropdownList.size() - 1).findElements(By.tagName("li"));
     }
 
-    // 运行用户分组
+    // 分组
     public List<WebElement> getGroupComboBox() {
-        selectList.get(5).click();
+        group.click();
         ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(dropdownList.get(dropdownList.size() - 1));
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
         return this.dropdownList.get(dropdownList.size() - 1).findElements(By.tagName("li"));

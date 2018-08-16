@@ -60,7 +60,7 @@ Feature:spl搜索新增定时任务
     Then I will see the success message "保存成功"
 
     Examples:
-      | splQuery                                                                                                                       | groupType  | type       | name               | describe | users | groups | period | startTime |
+      | splQuery | groupType | type | name | describe | users | groups | period | startTime |
 #      | (tag:heka) \|bucket timestamp timeranges=((2018-07-26:10:39:50, 2018-07-27:10:40:02)) as tr \| stats dc('appname') as ct by tr | Order      | Line       | lineAutoTest       |          | owner | sxj    | 10     | 15:36:55  |
 #      | tag:"sample04061424" \| eval status = apache.status \| stats count() as cnt by status \| eval newField = cnt + status          | Orther     | Wordcloud  | wordcloudAutoTest  |          | owner | sxj    | 15     | 15:36:55  |
 #      | tag:"sample04061424" \| eval status = apache.status \| stats count() as cnt by status \| eval newField = cnt + status          | Orther     | Single     | singleAutoTest     |          | owner | sxj    | 15     | 15:36:55  |
@@ -110,7 +110,7 @@ Feature:spl搜索新增定时任务
     Then I will see the success message "保存成功"
 
     Examples:
-      | splQuery                                      | groupType | type     | timeSequence | source          | target   | cut             | mark            | name             | describe | users | groups | period | startTime |
+      | splQuery | groupType | type | timeSequence | source | target | cut | mark | name | describe | users | groups | period | startTime |
 #      | *\| stats count() by hostname,apache.clientip | Other     | Sequence | hostname     | apache.clientip | hostname | apache.clientip | apache.clientip | sequenceAutoTest |          | owner | sxj    | 15     | 15:36:55  |
 
   @smoke @spl
@@ -146,7 +146,7 @@ Feature:spl搜索新增定时任务
     Then I will see the success message "保存成功"
 
     Examples:
-      | splQuery                                                                                                            | groupType  | type  | source  | target  | weight   | name          | describe | users | groups | period | startTime |
+      | splQuery | groupType | type | source | target | weight | name | describe | users | groups | period | startTime |
 #      | * \| stats avg(raw_message_length) as avg_length, count(apache.clientip) as ip_count by appname \| sort by ip_count | Connection | Force | appname | appname | ip_count | forceAutoTest |          | owner | sxj    | 15     | 15:36:55  |
 
   @smoke @spl
@@ -175,7 +175,9 @@ Feature:spl搜索新增定时任务
     Then I choose the "<users>" from the "UserComboBox"
     Then I choose the "<groups>" from the "GroupComboBox"
     Then I set the parameter "Period" with value "<period>"
-    Then I set the "StartTime" with "<startTime>"
+#    Then I set the "StartTime" with "<startTime>"
+    Then I set the parameter "StartTime" with value "<startTime>"
+    Then I click the "EnsureButton" button
     Then I click the "Ensure" button
     Then I will see the success message "保存成功"
 

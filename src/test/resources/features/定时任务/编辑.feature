@@ -13,7 +13,8 @@ Feature: 编辑定时任务
     Then I choose the "<resource>" from the "Resource"
     Then I choose the "<taskGroup>" from the "TaskGroup"
     Then I set the parameter "Period" with value "<period>"
-    Then I set the "StartTime" with "<startTime>"
+    Then I set the parameter "StartTime" with value "<startTime>"
+    Then I click the "EnsureButton" button
     Then I click the "SaveButton" button
     Then I will see the success message "<result>"
 
