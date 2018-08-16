@@ -56,11 +56,15 @@ public class Search {
                 }
             }
         } else {
-            if("".equals(searchList)){
+            if ("".equals(searchList)) {
                 throw new Exception("缺少第三个参数！");
             }
+            WebElement loading = webDriver.findElement(By.className("el-loading-mask"));
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.invisibilityOf(loading));
+
             List<WebElement> search = GetElementFromPage.getWebElementWithName(searchList);
             for (WebElement listElement : search) {
+                System.out.println(listElement.getText());
                 assertTrue(listElement.getText().contains(searchName));
             }
         }

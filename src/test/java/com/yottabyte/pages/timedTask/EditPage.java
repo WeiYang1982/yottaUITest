@@ -1,6 +1,7 @@
 package com.yottabyte.pages.timedTask;
 
 import com.yottabyte.pages.PageTemplate;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -63,7 +64,7 @@ public class EditPage extends PageTemplate {
     @FindBy(xpath = "//label[contains(text(),'端口')]/following-sibling::div/input")
     private WebElement port;
 
-    @FindBy(xpath = "//label[contains(text(),'数据库类型')]/following-sibling::div/input")
+    @FindBy(xpath = "//input[@placeholder='请选择数据库类型']")
     private WebElement databaseType;
 
     @FindBy(xpath = "//label[contains(text(),'数据库名')]/following-sibling::div/input")
@@ -77,6 +78,24 @@ public class EditPage extends PageTemplate {
 
     @FindBy(className = "el-select-dropdown__list")
     private List<WebElement> selectLists;
+
+    @FindBy(className = "el-message__group")
+    private WebElement verifySuccessful;
+
+    @FindBy(className = "column-value")
+    private List<WebElement> dataMappings;
+
+    public WebElement getFirstDataMapping() {
+        return dataMappings.get(0).findElement(By.tagName("input"));
+    }
+
+    public WebElement getSecondDataMapping() {
+        return dataMappings.get(1).findElement(By.tagName("input"));
+    }
+
+    public WebElement getAlert() {
+        return verifySuccessful;
+    }
 
     public WebElement getDbType() {
         databaseType.click();

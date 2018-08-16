@@ -60,6 +60,20 @@ public class ListPage extends PageTemplate {
     @FindBy(className = "el-dropdown-menu__item")
     private List<WebElement> selectOptions;
 
+    @FindBy(xpath = "//span[@class='link switch-margin switch-text']")
+    private List<WebElement> names;
+
+    @FindBy(xpath = "//input[@class='el-input__inner'][@placeholder='请输入']")
+    private WebElement searchInput;
+
+    public WebElement getSearchInput() {
+        return searchInput;
+    }
+
+    public List<WebElement> getNames() {
+        return names;
+    }
+
     public List<WebElement> getGroupList() {
         selectLists.get(0).click();
         return selectOptions;
