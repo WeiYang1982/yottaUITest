@@ -18,7 +18,7 @@ public class OpenSomePage {
     @Given("^open the \"([^\"]*)\" page for uri \"([^\"]*)\"$")
     public void openThePageForURI(String pageName, URI uri){
         Cookie cookie = LoginBeforeAllTests.getCookie();
-        if (webDriver.manage().getCookies() == null) {
+        if (webDriver.manage().getCookieNamed("sessionid") == null) {
             webDriver.manage().addCookie(cookie);
         }
         webDriver.get(baseURL + uri);

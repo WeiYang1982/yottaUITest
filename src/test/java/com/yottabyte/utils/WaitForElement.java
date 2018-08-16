@@ -18,7 +18,9 @@ public class WaitForElement {
         FluentWait wait = new FluentWait(driver)
                 .withTimeout(WebDriverConst.WAIT_FOR_DOM_READY_TIMEOUT, TimeUnit.MILLISECONDS)
                 .pollingEvery(WebDriverConst.WAIT_FOR_ELEMENT_POLLING_DURING,TimeUnit.MILLISECONDS)
-                .ignoring(NoSuchElementException.class);
+                .ignoring(NoSuchElementException.class)
+                .ignoring(TimeoutException.class)
+                .ignoring(StaleElementReferenceException.class);
         wait.until(expectedCondition);
     }
 

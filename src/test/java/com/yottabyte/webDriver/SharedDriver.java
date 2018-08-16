@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -150,16 +151,26 @@ public class SharedDriver extends EventFiringWebDriver {
      * @return
      */
     private static DesiredCapabilities ChromeDes() {
+        String sp = File.separator;
+        String downloadFilepath = System.getProperty("user.dir") + sp + "target" + sp + "download-files";
         try {
             ChromeOptions options = new ChromeOptions();
             if ("Mac OS X".equalsIgnoreCase(System.getProperty("os.name"))) {
                 ConfigManager config = new ConfigManager();
                 options.setBinary(config.get("macbinary"));
             }
+            HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+            // 设置为禁止弹出下载窗口
+            chromePrefs.put("profile.default_content_settings.popups", 0);
+            // 设置为文件下载路径
+            chromePrefs.put("download.default_directory", downloadFilepath);
+
             LoggingPreferences loggingPreferences = new LoggingPreferences();
 
             loggingPreferences.enable(LogType.BROWSER, Level.ALL);
+            options.setExperimentalOption("prefs",chromePrefs);
             options.addArguments("test-type", "start-maximized");
+//            options.addArguments("--trace-to-console", "--auto-open-devtools-for-tabs");  // 浏览器启动时自动打开开发者工具
 //            options.addArguments("--headless", "--disable-gpu"); //使用chromeheadless模式
             DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
             desiredCapabilities.setBrowserName("chrome");

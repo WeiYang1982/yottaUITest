@@ -53,6 +53,8 @@ public class ElementExist {
             System.out.println("'" + element + "' doesn't exist for time out! \n");
         }catch (StaleElementReferenceException s){
             System.out.println("'" + element + "' wait refresh the page \n");
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return status;
 
