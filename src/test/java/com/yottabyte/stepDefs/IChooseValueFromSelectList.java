@@ -38,6 +38,9 @@ public class IChooseValueFromSelectList {
                     parentElement = elements.get(0).findElement(By.xpath("./parent::ul[contains(@class,'el-dropdown-menu')]"));
                 else if (attribute.contains("el-select-dropdown__list"))
                     parentElement = elements.get(0).findElement(By.xpath("./parent::ul[contains(@class,'el-select-dropdown__list')]"));
+                if (parentElement.getAttribute("style").contains("display='none'")) {
+                    ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='block';", parentElement);
+                }
                 for (WebElement e : elements) {
                     ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
                     if (value.equalsIgnoreCase(e.getText())) {
