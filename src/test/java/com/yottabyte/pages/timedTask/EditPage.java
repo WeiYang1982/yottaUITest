@@ -85,6 +85,13 @@ public class EditPage extends PageTemplate {
     @FindBy(className = "column-value")
     private List<WebElement> dataMappings;
 
+    @FindBy(xpath = "//button[@class='el-time-panel__btn confirm']")
+    private WebElement ensureButton;
+
+    public WebElement getEnsureButton() {
+        return ensureButton;
+    }
+
     public WebElement getFirstDataMapping() {
         return dataMappings.get(0).findElement(By.tagName("input"));
     }
