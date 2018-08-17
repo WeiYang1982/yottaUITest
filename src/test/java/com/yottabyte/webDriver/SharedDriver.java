@@ -121,7 +121,7 @@ public class SharedDriver extends EventFiringWebDriver {
     public void deleteAllCookies(Scenario scenario) throws InterruptedException {
         this.scenario = scenario;
         System.out.println("===========开始测试   Feature: " + scenario.getName() + " Tags: " + scenario.getSourceTagNames().toString() + " ==========");
-        manage().deleteAllCookies();
+//        manage().deleteAllCookies();
     }
 
     @After
