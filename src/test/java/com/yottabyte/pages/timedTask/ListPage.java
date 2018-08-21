@@ -15,9 +15,9 @@ public class ListPage extends PageTemplate {
 
     public ListPage(WebDriver driver) {
         super(driver);
-        if (driver.manage().getCookieNamed("sessionid") == null) {
-            LoginBeforeAllTests.login();
-        }
+//        if (driver.manage().getCookieNamed("sessionid") == null) {
+//            LoginBeforeAllTests.login();
+//        }
     }
 
     @FindBy(xpath = "//*[contains(text(),'编辑')]")
@@ -65,6 +65,13 @@ public class ListPage extends PageTemplate {
 
     @FindBy(xpath = "//input[@class='el-input__inner'][@placeholder='请输入']")
     private WebElement searchInput;
+
+    @FindBy(className = "el-table__body-wrapper")
+    private WebElement table;
+
+    public WebElement getTable() {
+        return table;
+    }
 
     public WebElement getSearchInput() {
         return searchInput;

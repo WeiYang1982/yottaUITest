@@ -40,7 +40,7 @@ public class ElementExist {
         boolean status = false;
         try {
             FluentWait wait = new FluentWait(driver)
-                    .withTimeout(500, TimeUnit.MILLISECONDS)
+                    .withTimeout(5000, TimeUnit.MILLISECONDS)
                     .pollingEvery(100,TimeUnit.MILLISECONDS)
                     .ignoring(NoSuchElementException.class);
             ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(element);
