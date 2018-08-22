@@ -4,13 +4,11 @@ import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.timedTask.ListPage;
 import com.yottabyte.utils.GetElementFromPage;
 import com.yottabyte.utils.TakeScreenShot;
-import com.yottabyte.utils.WaitForElement;
 import com.yottabyte.webDriver.SharedDriver;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -29,7 +27,6 @@ public class ClickDataInTable {
         WebElement previousButton = webDriver.findElement(By.className("el-icon-arrow-left"));
         // 总页数
         int totalPages = Integer.parseInt(paging.get(paging.size() - 1).getText());
-
 
         List<WebElement> trList = table.findElements(By.tagName("tr"));
         int trSize = trList.size();

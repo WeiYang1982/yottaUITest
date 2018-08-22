@@ -15,9 +15,6 @@ public class ListPage extends PageTemplate {
 
     public ListPage(WebDriver driver) {
         super(driver);
-//        if (driver.manage().getCookieNamed("sessionid") == null) {
-//            LoginBeforeAllTests.login();
-//        }
     }
 
     @FindBy(xpath = "//*[contains(text(),'编辑')]")

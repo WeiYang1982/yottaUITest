@@ -18,7 +18,7 @@ public class IChooseValueFromSelectList {
 
     @And("^I choose the \"([^\"]*)\" from the \"([^\"]*)\"$")
     public void iChooseTheFromThe(List<String> values, String selectListName) {
-         Object o = GetElementFromPage.getWebElementWithName(selectListName);
+        Object o = GetElementFromPage.getWebElementWithName(selectListName);
         if (GetElementFromPage.type.getTypeName().contains("List")) {
             List fatherSelectList = (List) o;
             iChooseTheFromThe(values, fatherSelectList);
@@ -74,7 +74,7 @@ public class IChooseValueFromSelectList {
                 e = elements.get(0).findElement(By.xpath("./parent::ul[contains(@class,'el-dropdown-menu')]"));
             else if (attribute.contains("el-select-dropdown__list"))
 //                e = elements.get(0).findElement(By.xpath("./parent::ul[contains(@class,'el-select-dropdown__list')]"));
-                e = elements.get(elements.size()-1).findElement(By.xpath("./parent::ul[contains(@class,'el-select-dropdown__list')]"));
+                e = elements.get(elements.size() - 1).findElement(By.xpath("./parent::ul[contains(@class,'el-select-dropdown__list')]"));
 
             if (e.isDisplayed()) {
                 ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='none';", e);
@@ -94,7 +94,7 @@ public class IChooseValueFromSelectList {
                 for (WebElement e : elements) {
                     if (value.equals(e.getText())) {
                         e.click();
-                        break;
+//                        break;
                     }
                 }
 
