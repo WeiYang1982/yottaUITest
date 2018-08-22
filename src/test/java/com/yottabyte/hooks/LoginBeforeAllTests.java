@@ -35,16 +35,6 @@ public class LoginBeforeAllTests {
         System.out.println(webDriver + "login driver");
         if (cookie == null) {
             login();
-            WebDriverWait wait = new WebDriverWait(webDriver, 10, 1000);
-            wait.until(new ExpectedCondition<Boolean>() {
-                @Override
-                public Boolean apply(WebDriver driver) {
-                    while (driver.manage().getCookieNamed("sessionid") == null) {
-                        cookie = driver.manage().getCookieNamed("sessionid");
-                    }
-                    return true;
-                }
-            });
         }else {
             webDriver.get(baseURL);
             Date exDate = cookie.getExpiry();
@@ -69,6 +59,16 @@ public class LoginBeforeAllTests {
         loginPage.getPassword().sendKeys(config.get("password"));
         loginPage.getLoginButton().click();
 //        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.stalenessOf(webDriver.findElement(By.xpath("/html"))));
+        WebDriverWait wait = new WebDriverWait(webDriver, 10, 1000);
+        wait.until(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                while (driver.manage().getCookieNamed("sessionid") == null) {
+                    cookie = driver.manage().getCookieNamed("sessionid");
+                }
+                return true;
+            }
+        });
     }
 
     public static WebDriver getWebDriver() {

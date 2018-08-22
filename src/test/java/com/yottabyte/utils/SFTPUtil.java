@@ -231,14 +231,15 @@ public class SFTPUtil {
 
     //上传文件测试
     public static void main(String[] args) throws Exception {
-        SFTPUtil sftp = new SFTPUtil("root", "123456", "192.168.1.171", 22);
+        SFTPUtil sftp = new SFTPUtil("ftp", "YottaByte&2018", "192.168.1.164", 22);
         sftp.login();
-        File file = new File("./src/test/resources/testdata/splConfig/upload.config");
+        String fileName = "src/test/resources/testdata/alertPlugins/hengshuiyinhang_socket.py";
+        File file = new File(fileName);
         InputStream is = new FileInputStream(file);
-
-//        sftp.upload("/home/sendlog", "all_format_log", "test", is);
-        String result = sftp.execCommand("/usr/bin/python /home/sendlog/200/log_gen.py -d192.168.1.200 -p5140 -l/home/sendlog/all_format_log/baimi -c/home/sendlog/200/200.conf -r2");
-        System.out.println(result);
+        String s = File.separator;
+        sftp.upload("/", "alertPlugins/a", "hengshuiyinhang_socket.py", is);
+//        String result = sftp.execCommand("/usr/bin/python /home/sendlog/200/log_gen.py -d192.168.1.200 -p5140 -l/home/sendlog/all_format_log/baimi -c/home/sendlog/200/200.conf -r2");
+//        System.out.println(result);
         sftp.logout();
     }
 }

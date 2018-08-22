@@ -1,6 +1,8 @@
 package com.yottabyte.pages;
 
+import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.utils.ElementExist;
+import com.yottabyte.utils.GetLogger;
 import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -111,5 +113,26 @@ public class PublicNavBarPage extends PageTemplate {
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
         expectedCondition = ExpectedConditions.elementToBeClickable(element);
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
+    }
+
+    @Override
+    protected void load() {
+        if (LoginBeforeAllTests.getCookie() != null) {
+            webDriver.get("http://alltest.rizhiyi.com/dashboard/");
+            webDriver.manage().addCookie(LoginBeforeAllTests.getCookie());
+        }else {
+            LoginBeforeAllTests.login();
+        }
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+        super.isLoaded();
+        try {
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(getLocateSearchPage()));
+        }catch (Exception e){
+            GetLogger.getLogger().error("can not load % with error %", this.getClass().getSimpleName(), e);
+        }
+
     }
 }

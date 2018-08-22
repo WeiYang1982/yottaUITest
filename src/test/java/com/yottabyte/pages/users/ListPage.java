@@ -37,7 +37,7 @@ public class ListPage extends PageTemplate{
 
     @FindBy (className = "el-table__body")
     private WebElement searchResultTable;
-
+    // 搜索结果 (只搜索显示出来的元素)
     @FindBy (xpath = "//div[@class='runner-cell']/*[not(@style='display: none;')]")
     private List<WebElement> searchResultRows;
 

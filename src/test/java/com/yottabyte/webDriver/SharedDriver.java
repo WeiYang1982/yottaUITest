@@ -38,6 +38,7 @@ import java.util.logging.Level;
 
 
 public class SharedDriver extends EventFiringWebDriver {
+    public static String WebDriverType;
     private static WebDriver REAL_DRIVER = null;
     private static Scenario scenario;
     private static TakeScreenShot screenShot = new TakeScreenShot();
@@ -67,37 +68,54 @@ public class SharedDriver extends EventFiringWebDriver {
             e.printStackTrace();
         }
         DesiredCapabilities browser = null;
-        if ("chrome".equalsIgnoreCase(config.get("browser"))) {
-            browser = ChromeDes();
-        } else if ("firefox".equalsIgnoreCase(config.get("browser"))) {
-            browser = FirefoxDes();
-        } else if ("internet Explorer".equalsIgnoreCase(config.get("browser"))) {
-            browser = IEDes();
-        } else {
-            System.out.println("没有找到对应浏览器类型");
-        }
-        EventListener eventListener = new EventListener();
-
-        LoggingPreferences logPrefs = new LoggingPreferences();
-        logPrefs.enable(LogType.BROWSER, Level.ALL);
-        BrowserMobProxyService.startBrowserMobProxy();
-        browserMobProxy = BrowserMobProxyService.getBrowserMobProxyServer();
-        browser.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
-        String ServerHOst;
         try {
+            if ("chrome".equalsIgnoreCase(config.get("browser"))) {
+                browser = ChromeDes();
+            } else if ("firefox".equalsIgnoreCase(config.get("browser"))) {
+                browser = FirefoxDes();
+            } else if ("internet Explorer".equalsIgnoreCase(config.get("browser"))) {
+                browser = IEDes();
+            } else {
+                System.out.println("没有找到对应浏览器类型");
+            }
+            EventListener eventListener = new EventListener();
+
+            LoggingPreferences logPrefs = new LoggingPreferences();
+            logPrefs.enable(LogType.BROWSER, Level.ALL);
+            BrowserMobProxyService.startBrowserMobProxy();
+            browserMobProxy = BrowserMobProxyService.getBrowserMobProxyServer();
+            browser.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+            String ServerHOst;
             ServerHOst = config.get("selenium_server_host");
             GetLogger.getLogger().info("ServerHOst: {}", ServerHOst);
             URL url = new URL("http://" + ServerHOst + ":4444/wd/hub");
             REAL_DRIVER = new RemoteWebDriver(url, browser);
             REAL_DRIVER = new EventFiringWebDriver(REAL_DRIVER).register(eventListener);
+            WebDriverType = "Remote";
         } catch (MalformedURLException exceptions) {
 
         } catch (UnreachableBrowserException e) {
             System.out.println("Can not find remote server. Start local service");
+            if ("chrome".equalsIgnoreCase(config.get("browser"))) {
+                browser = LocalChromeDes();
+            } else if ("firefox".equalsIgnoreCase(config.get("browser"))) {
+                browser = FirefoxDes();
+            } else if ("internet Explorer".equalsIgnoreCase(config.get("browser"))) {
+                browser = IEDes();
+            } else {
+                System.out.println("没有找到对应浏览器类型");
+            }
+            EventListener eventListener = new EventListener();
+            LoggingPreferences logPrefs = new LoggingPreferences();
+            logPrefs.enable(LogType.BROWSER, Level.ALL);
+            BrowserMobProxyService.startBrowserMobProxy();
+            browserMobProxy = BrowserMobProxyService.getBrowserMobProxyServer();
+            browser.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
             LocalChromeDriverService.createAndStartService();
             service = LocalChromeDriverService.getService();
             REAL_DRIVER = new RemoteWebDriver(service.getUrl(), browser);
             REAL_DRIVER = new EventFiringWebDriver(REAL_DRIVER).register(eventListener);
+            WebDriverType = "Local";
         }
     }
 
@@ -151,6 +169,42 @@ public class SharedDriver extends EventFiringWebDriver {
      * @return
      */
     private static DesiredCapabilities ChromeDes() {
+        String sp = File.separator;
+        ConfigManager config = new ConfigManager();
+        try {
+            String downloadFilepath = config.get("ftp_base_path") + sp + "target" + sp + "download-files";
+            ChromeOptions options = new ChromeOptions();
+            if ("Mac OS X".equalsIgnoreCase(System.getProperty("os.name"))) {
+                options.setBinary(config.get("macbinary"));
+            }
+            HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+            // 设置为禁止弹出下载窗口
+            chromePrefs.put("profile.default_content_settings.popups", 0);
+            // 设置为文件下载路径
+            chromePrefs.put("download.default_directory", downloadFilepath);
+
+            LoggingPreferences loggingPreferences = new LoggingPreferences();
+
+            loggingPreferences.enable(LogType.BROWSER, Level.ALL);
+            options.setExperimentalOption("prefs",chromePrefs);
+            options.addArguments("test-type", "start-maximized");
+//            options.addArguments("--trace-to-console", "--auto-open-devtools-for-tabs");  // 浏览器启动时自动打开开发者工具
+//            options.addArguments("--headless", "--disable-gpu"); //使用chromeheadless模式
+            DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
+            desiredCapabilities.setBrowserName("chrome");
+            desiredCapabilities.setJavascriptEnabled(true);
+            desiredCapabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingPreferences);
+            desiredCapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+            desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+            return desiredCapabilities;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    private static DesiredCapabilities LocalChromeDes() {
         String sp = File.separator;
         String downloadFilepath = System.getProperty("user.dir") + sp + "target" + sp + "download-files";
         try {

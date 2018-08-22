@@ -15,6 +15,6 @@ public class VerifyElementTextWillBe {
     public void iWillSeeTheResultWillBe(String elementName, String excpText){
         WebElement element = GetElementFromPage.getWebElementWithName(elementName);
         String realText = element.getText();
-        assertEquals(realText,excpText);
+        assertEquals(excpText, realText);
     }
 }
