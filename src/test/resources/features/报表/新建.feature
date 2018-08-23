@@ -1,7 +1,9 @@
 Feature: 新建报表
 
   Background:
-    Given open the "report.ListPage" page for uri "/reports/"
+    Given I delete from "Report" where "name" in "sxjautotest,自动化测试"
+    And I insert into table "Report" which columnName in "name,owner,domain,frequency,lastupdate,triggertime,count,domain_id,crontab,enabled,report_type" and values in "自动化测试用例,34|AutoTestTmp|86bb700c6f5e48b094bbc73dd8f46a6a,ops,day,2018-08-23 15:10:05,001130,0,1,0,1,pdf"
+    And open the "report.ListPage" page for uri "/reports/"
 
   @report
   Scenario Outline:
@@ -25,13 +27,14 @@ Feature: 新建报表
   @all @smoke
     Examples: 保存成功
       | name        | describe | runningUser | reportGroup    | reportType | email               | subject   | hour | minute | chartLists                        | layout  | result |
-      | sxjautotest | autotest | AutoTestTmp | default_Report | PDF        | 15194315230@163.com | hello sxj | 11   | 30     | bin-zft,bin-zft-spl,bin-zft-local | Layout1 | 保存成功   |
-      | 自动化测试       |          | AutoTestTmp | default_Report | PDF        |                     | 我是自动化用例   | 11   | 30     | bin-zft,bin-zft-spl,bin-zft-local | Layout1 | 保存成功   |
+#      | sxjautotest | autotest | AutoTestTmp | default_Report | PDF        | 15194315230@163.com | hello sxj | 11   | 30     | bin-zft,bin-zft-spl,bin-zft-local | Layout1 | 保存成功   |
+#      | 自动化测试       |          | AutoTestTmp | default_Report | PDF        |                     | 我是自动化用例   | 11   | 30     | bin-zft,bin-zft-spl,bin-zft-local | Layout1 | 保存成功   |
 
+  @all
     Examples: 保存失败
-      | name  | describe | runningUser | reportGroup    | reportType | email | subject | hour | minute | chartLists | layout  | result              |
-      | 自动化测试 |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     |            | Layout1 | 报表内容 不能为空           |
-      | 自动化测试 |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     | bin-zft    | Layout1 | 报表名称已存在 错误码: FE_580 |
+      | name    | describe | runningUser | reportGroup    | reportType | email | subject | hour | minute | chartLists | layout  | result              |
+#      | 自动化测试   |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     |            | Layout1 | 报表内容 不能为空           |
+      | 自动化测试用例 |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     | bin-zft    | Layout1 | 报表名称已存在 错误码: FE_580 |
 
   @report
   Scenario Outline:

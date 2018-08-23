@@ -54,4 +54,11 @@ public class ListPage extends PageTemplate {
     public WebElement getSuccessMessage() {
         return successMessage;
     }
+
+    @FindBy(className = "el-button--primary")
+    private List<WebElement> deleteEnsure;
+
+    public WebElement getDeleteEnsure() {
+        return deleteEnsure.get(deleteEnsure.size() - 1);
+    }
 }

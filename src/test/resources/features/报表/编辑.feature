@@ -1,4 +1,4 @@
-Feature: 新建报表
+Feature: 编辑报表
 
   Background:
     Given open the "report.ListPage" page for uri "/reports/"
