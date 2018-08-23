@@ -27,7 +27,7 @@ Feature: 创建一个用户
   Examples: 成功添加一个用户
     |NeedRun|UserName|FullName        |Email                |Telephone  |Password  |UserGroups    |Result|
     |N      |AutoTest|autoTestFullName|autoTest@yottabyte.cn|           |qqqqq11111|AutoTest      |success message "创建成功"|
-    |N      |AutoTest|                |autoTest@yottabyte.cn|13111111111|qqqqq11111|admin,AutoTest|success message "创建成功"|
+    |N      |AutoTest|                |autoTest1@yottabyte.cn|13111111111|qqqqq11111|admin,AutoTest|success message "创建成功"|
 
   @all
   Examples: 添加用户失败

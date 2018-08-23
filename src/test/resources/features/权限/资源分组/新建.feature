@@ -22,7 +22,7 @@ Feature: 创建一个资源分组
     |NeedRun|Name|Type|Des|Owner|Result|
     |N|AutoTest|仪表盘|Des1|admin,hunter_roles_iis|success message "创建成功"|
     |N|AutoTest|日志来源|   |admin|success message "创建成功"|
-    |N|AutoTest|日志来源|   |zhaixiaoyuRole|success message "创建成功"|
+    |N|AutoTest|日志来源|   |B系统_普通|success message "创建成功"|
     |N|><script>alert(1)</script>|日志来源|   |admin|success message "创建成功"|
 
     @all @resourceGroups

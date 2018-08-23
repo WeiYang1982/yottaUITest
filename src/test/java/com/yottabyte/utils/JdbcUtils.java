@@ -15,11 +15,11 @@ public class JdbcUtils {
      */
     public static Connection getConnection() {
         ConfigManager config = new ConfigManager();
-        String url = config.get("dbUrl");
+        String url = "jdbc:mysql://" + config.get("rizhiyi_server_host") + ":3306/" + config.get("dbName") + "?useUnicode=true&characterEncoding=UTF8";
         String user = config.get("dbUser");
         String pass = config.get("dbPassword");
         String driver = config.get("dbDriver");
-
+        System.out.println(url);
         Connection conn = null;
         try {
             Class.forName(driver);
@@ -133,7 +133,7 @@ public class JdbcUtils {
     }
 
     public static void main(String[] args) {
-        String sql = "select * from SavedSchedule";
+        String sql = "select * from SavedSchedule;";
         JdbcUtils.query(sql);
     }
 }

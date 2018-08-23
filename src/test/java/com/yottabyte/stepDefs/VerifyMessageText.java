@@ -1,7 +1,6 @@
 package com.yottabyte.stepDefs;
 
 import com.yottabyte.utils.GetElementFromPage;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.WebElement;
 

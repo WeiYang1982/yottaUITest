@@ -24,7 +24,7 @@ public class LoginBeforeAllTests {
     public LoginBeforeAllTests(SharedDriver driver, ConfigManager manager) {
         webDriver = driver;
         config = manager;
-        baseURL = manager.get("yottaweb");
+        baseURL = "http://" + manager.get("rizhiyi_server_host");
     }
 
     @Before
