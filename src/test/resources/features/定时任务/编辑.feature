@@ -4,8 +4,9 @@ Feature: 编辑定时任务
     Given I click the "TimedTaskPage" button
     Then I will see the "timedTask.ListPage" page
 
+  @timedTask
   Scenario Outline: 编辑定时任务
-    Given I click the "Edit" button
+    When the data name is "<dataName>" then i click the "编辑" button
     Then I will see the "timedTask.EditPage" page
     Then I set the parameter "Name" with value "<name>"
     Then I set the parameter "Describe" with value "<describe>"
@@ -20,14 +21,15 @@ Feature: 编辑定时任务
 
   @all @smoke
     Examples:
-      | name        | describe | user  | resource | taskGroup | period | startTime | result |
-      | sxjautotest |          | sunxc | all_     | sxj       | 10     | 16:37:55  | 保存成功   |
+      | dataName    | name        | describe | user  | resource | taskGroup | period | startTime | result |
+      | sxjautotest | sxjautotest |          | sunxc | all_     | sxj       | 10     | 16:37:55  | 保存成功   |
 
   @all
     Examples:
       | name | describe | user | resource | taskGroup | period | startTime | result  |
       |      |          |      |          |           |        |           | 名称 不能为空 |
 
+  @timedTask
   Scenario Outline: 成功编辑定时任务的结果处理方式
     Given I click the "Edit" button
     Then I will see the "timedTask.EditPage" page
@@ -54,6 +56,7 @@ Feature: 编辑定时任务
       | connectName | userName | password     | host          | port | dbType | dbName         | tableName | firstDataMapping | secondDataMapping |
       | sxjtest     | root     | rizhiyi&2014 | 192.168.1.140 | 3306 | mysql  | rizhiyi_system | tyf       | count            | percent           |
 
+  @timedTask
   Scenario Outline: 未成功编辑定时任务的结果处理方式
     Given I click the "Edit" button
     Then I will see the "timedTask.EditPage" page

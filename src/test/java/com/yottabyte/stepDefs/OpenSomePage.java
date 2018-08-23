@@ -4,20 +4,15 @@ import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.timedTask.DetailPage;
 import com.yottabyte.utils.*;
 import com.yottabyte.webDriver.SharedDriver;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-
-import static com.yottabyte.utils.JdbcUtils.query;
 
 public class OpenSomePage {
     private WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
@@ -53,6 +48,11 @@ public class OpenSomePage {
     }
 
 
+    /**
+     * 根据名称查找id并跳转
+     *
+     * @param name
+     */
     @Given("^I open the page contains \"([^\"]*)\"$")
     public void openPage(String name) {
         String sql = "select id from SavedSchedule where name like '%" + name + "' and last_run_timestamp !=0";
@@ -66,14 +66,13 @@ public class OpenSomePage {
 
                 WebElement webElement = GetElementFromPage.getWebElementWithName("Show");
                 webElement.click();
-                if (ElementExist.isElementExist(webDriver, By.className("settings"))){
+                if (ElementExist.isElementExist(webDriver, By.className("settings"))) {
+                    // 等待图表画完
                     Thread.sleep(5000);
                     shot.screenShot();
                 }
             }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         }
     }

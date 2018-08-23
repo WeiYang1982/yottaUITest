@@ -4,7 +4,13 @@ Feature:删除定时任务
     Given I click the "TimedTaskPage" button
     Then I will see the "timedTask.ListPage" page
 
-  Scenario:
-    Given I click the "Delete" button
+  @timedTask
+  Scenario Outline:
+    When the data name is "<name>" then i click the "删除" button
     Then I click the "EnsureDelete" button
     Then I will see the success message "删除成功"
+
+    @all @smoke
+    Examples:
+      | name        |
+      | sxjautotest |
