@@ -13,7 +13,7 @@ Feature: 上传告警插件
     And I click the "MessageOKButton" button
     Then I will see the success message "上传成功"
 
-  @all
+  @all @alertPlugins
   Scenario Outline: 上传告警插件失败
     Given I click the "UploadButton" button
     When I upload a file with name "<InputFileName>"
