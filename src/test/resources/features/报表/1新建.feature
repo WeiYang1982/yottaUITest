@@ -6,7 +6,7 @@ Feature: 新建报表
     And open the "report.ListPage" page for uri "/reports/"
 
   @report
-  Scenario Outline:
+  Scenario Outline: 执行计划为定时
     Given I click the "CreateButton" button
     Then I will see the "report.CreatePage" page
     And I set the parameter "Name" with value "<name>"
@@ -27,14 +27,38 @@ Feature: 新建报表
   @all @smoke
     Examples: 保存成功
       | name        | describe | runningUser | reportGroup    | reportType | email               | subject   | hour | minute | chartLists                        | layout  | result |
-#      | sxjautotest | autotest | AutoTestTmp | default_Report | PDF        | 15194315230@163.com | hello sxj | 11   | 30     | bin-zft,bin-zft-spl,bin-zft-local | Layout1 | 保存成功   |
-#      | 自动化测试       |          | AutoTestTmp | default_Report | PDF        |                     | 我是自动化用例   | 11   | 30     | bin-zft,bin-zft-spl,bin-zft-local | Layout1 | 保存成功   |
+      | sxjautotest | autotest | AutoTestTmp | default_Report | PDF        | 15194315230@163.com | hello sxj | 11   | 30     | bin-zft,bin-zft-spl,bin-zft-local | Layout1 | 保存成功   |
+      | 自动化测试       |          | AutoTestTmp | default_Report | PDF        |                     | 我是自动化用例   | 11   | 30     | bin-zft,bin-zft-spl,bin-zft-local | Layout1 | 保存成功   |
 
   @all
     Examples: 保存失败
       | name    | describe | runningUser | reportGroup    | reportType | email | subject | hour | minute | chartLists | layout  | result              |
-#      | 自动化测试   |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     |            | Layout1 | 报表内容 不能为空           |
+      | 自动化测试   |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     |            | Layout1 | 报表内容 不能为空           |
       | 自动化测试用例 |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     | bin-zft    | Layout1 | 报表名称已存在 错误码: FE_580 |
+
+  @report
+  Scenario Outline: 执行计划为crontab
+    Given I click the "CreateButton" button
+    Then I will see the "report.CreatePage" page
+    And I set the parameter "Name" with value "<name>"
+    And I set the parameter "Describe" with value "<describe>"
+    And I choose the "<runningUser>" from the "RunningUser"
+    And I choose the "<reportGroup>" from the "ReportGroup"
+    And I choose the "<reportType>" from the "ReportType"
+    And I choose the "<email>" from the "Email"
+    And I set the parameter "Subject" with value "<subject>"
+    Then I set the parameter "Crontab" with value "<crontab>"
+    Then I click the "NextButton" button
+    Then I choose the "<chartLists>" from the "ChartList"
+    Then I click the "<layout>" button
+    Then I click the "Save" button
+    Then I will see the success message "<result>"
+
+    Examples: 保存成功
+      | name          | describe | runningUser | reportGroup    | reportType | email | subject | crontab     | chartLists | layout  | result                        |
+      | sunxjautotest |          | owner       | default_Report | PDF        |       | test    | 0 * * * * ? | bin-zft    | Layout1 | 保存成功                          |
+      | sunxjautotest |          | owner       | default_Report | PDF        |       | test    | 0 ? * * * ? | bin-zft    | Layout1 | 无效参数, 参数：[crontab][]错误码: FE_7 |
+
 
   @report
   Scenario Outline:

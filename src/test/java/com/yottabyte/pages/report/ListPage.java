@@ -1,9 +1,12 @@
 package com.yottabyte.pages.report;
 
 import com.yottabyte.pages.PageTemplate;
+import com.yottabyte.utils.WaitForElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -61,4 +64,32 @@ public class ListPage extends PageTemplate {
     public WebElement getDeleteEnsure() {
         return deleteEnsure.get(deleteEnsure.size() - 1);
     }
+
+    @FindBy(xpath = "//span[text()='已生成报表']")
+    private WebElement report;
+
+    public WebElement getReport() {
+        return report;
+    }
+
+    @FindBy(className = "el-icon-arrow-down")
+    private WebElement groupList;
+
+    @FindBy(className = "el-dropdown-menu")
+    private WebElement dropdownMenu;
+
+    public WebElement getGroupList() {
+        groupList.click();
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(dropdownMenu));
+        return dropdownMenu;
+    }
+
+    @FindBy(className = "switch-margin")
+    private List<WebElement> searchList;
+
+    public List<WebElement> getSearchList() {
+        return searchList;
+    }
+
+
 }

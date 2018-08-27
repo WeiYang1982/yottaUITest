@@ -136,4 +136,14 @@ public class CreatePage extends PageTemplate {
         return save;
     }
 
+    @FindBy(xpath = "//span[text()='crontab']")
+    private WebElement crontabButton;
+
+    @FindBy(xpath = "//div[@class='crontab']//input")
+    private WebElement crontab;
+
+    public WebElement getCrontab() {
+        crontabButton.click();
+        return crontab;
+    }
 }

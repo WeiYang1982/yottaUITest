@@ -61,6 +61,7 @@ public class BeforeRunning {
                     insertSql.append("'" + fieldList.get(i) + "')");
                 }
             }
+            System.out.println(insertSql.toString());
             JdbcUtils.insert(insertSql.toString());
         }
     }

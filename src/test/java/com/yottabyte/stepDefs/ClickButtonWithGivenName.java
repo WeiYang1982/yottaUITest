@@ -1,6 +1,9 @@
 package com.yottabyte.stepDefs;
 
 import com.yottabyte.hooks.LoginBeforeAllTests;
+import cucumber.api.PendingException;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -17,13 +20,45 @@ public class ClickButtonWithGivenName {
     private WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
 
     /**
-     * 寻找对应按钮并点击
+     * 寻找对应的操作按钮并点击
      *
      * @param dataName   第一列所要匹配的名称
      * @param buttonName 按钮名称
      */
     @When("^the data name is \"([^\"]*)\" then i click the \"([^\"]*)\" button$")
     public void clickButtonWithGivenName(String dataName, String buttonName) {
+        WebElement tr = this.findName(dataName);
+        String xpath = ".//span[contains(text(),'" + buttonName + "')]";
+        List<WebElement> button = tr.findElements(By.xpath(xpath));
+        // 包含删除的按钮会有两个，因此需通过class属性去判断
+        if (button.get(0).getAttribute("class").equals("")) {
+            button.get(0).click();
+        } else {
+            button.get(1).click();
+        }
+    }
+
+    /**
+     * 禁用
+     *
+     * @param dataName
+     */
+    @Then("^I disabled the data \"([^\"]*)\"$")
+    public void diableData(String dataName) {
+        String xpath = "//span[contains(text(),'" + dataName + "')]/preceding-sibling::label";
+        WebElement tr = this.findName(dataName);
+        // 找到禁用按钮并点击
+        tr.findElement(By.xpath(xpath)).click();
+    }
+
+
+    /**
+     * 寻找name所在行
+     *
+     * @param name
+     * @return 行元素
+     */
+    private WebElement findName(String name) {
         // 表体
         WebElement table = webDriver.findElement(By.className("el-table__body"));
         // 分页标签
@@ -33,28 +68,30 @@ public class ClickButtonWithGivenName {
         // 下一页按钮
         WebElement nextPage = webDriver.findElement(By.className("btn-next"));
         int i = 0;
-        boolean flag = false;
         while (i < totalPage) {
             // 找到一行元素
             List<WebElement> trList = table.findElements(By.tagName("tr"));
             if (i != 0 && i != totalPage - 1)
                 nextPage.click();
             for (WebElement tr : trList) {
-                if (tr.findElement(By.tagName("td")).getText().equals(dataName)) {
-                    String xpath = ".//span[contains(text(),'" + buttonName + "')]";
-                    List<WebElement> button = tr.findElements(By.xpath(xpath));
-                    // 包含删除的按钮会有两个，因此需通过class属性去判断
-                    if (button.get(0).getAttribute("class").equals("")) {
-                        button.get(0).click();
-                    } else {
-                        button.get(1).click();
-                    }
-                    flag = true;
-                    break;
+                if (tr.findElement(By.tagName("td")).getText().equals(name)) {
+                    return tr;
                 }
             }
-            if (flag) break;
             i++;
         }
+        return null;
+    }
+
+    /**
+     * 点击详情页
+     *
+     * @param name
+     */
+    @Given("^I click the detail which name is \"([^\"]*)\"$")
+    public void clickName(String name) {
+        String xpath = "//span[contains(text(),'" + name + "')]";
+        WebElement tr = this.findName(name);
+        tr.findElement(By.xpath(xpath)).click();
     }
 }
