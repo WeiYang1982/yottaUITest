@@ -13,6 +13,10 @@ import java.util.List;
 
 public class EmbeddingFile {
 
+    /**
+     * 将指定的文件注入到测试报告中 根据浏览器是否打开在远程区分文件的存放路径
+     * @param fileName  需要注入的文件名称
+     */
     public void embeddingPdfToscenario(String fileName) {
         String flag = SharedDriver.WebDriverType;
         String sp = File.separator;

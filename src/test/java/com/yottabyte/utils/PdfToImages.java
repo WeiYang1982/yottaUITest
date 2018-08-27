@@ -11,6 +11,11 @@ import java.util.List;
 
 public class PdfToImages {
 
+    /**
+     * 将pdf文件输入流转换为图片格式的列表 pdf可能有多页，每一页是一个byte数组存放在list中
+     * @param fileInputStream pdf文件的输入流
+     * @return 图片格式的byte数组列表
+     */
     public static List<byte[]> pdftoimages(InputStream fileInputStream) {
         List<byte[]> list = new ArrayList<>();
         byte[] bytes;
