@@ -1,7 +1,8 @@
-Feature: 新建报表
+Feature: 编辑报表
 
   Background:
-    Given open the "report.ListPage" page for uri "/reports/"
+    Given I insert into table "Report" which columnName in "name,owner,domain,frequency,lastupdate,triggertime,count,email,subject,domain_id,crontab,enabled,report_type,layout" and values in "sxjautotest,1|owner|86bb700c6f5e48b094bbc73dd8f46a6a,ops,day,2018-08-24 17:05:11,001130,0,2570410836@qq.com,报表名称：<%report_name%>，发送时间：<%report_time%>,1,0,1,pdf,[]"
+    Then open the "report.ListPage" page for uri "/reports/"
 
   @report
   Scenario Outline:
