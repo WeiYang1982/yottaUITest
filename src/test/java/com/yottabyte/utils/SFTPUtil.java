@@ -171,6 +171,25 @@ public class SFTPUtil {
         return fileData;
     }
 
+    /**
+     *  读取文件
+     *
+     * @param directory 文件路径
+     * @param readFile 文件名
+     * @return 输入流
+     */
+    public InputStream readFile(String directory, String readFile) {
+        InputStream is = null;
+        try {
+            if (directory != null && !"".equals(directory)) {
+                sftp.cd(directory);
+            }
+             is = sftp.get(readFile);
+        } catch (SftpException e) {
+            e.printStackTrace();
+        }
+        return is;
+    }
 
     /**
      * 删除文件
@@ -237,7 +256,10 @@ public class SFTPUtil {
         File file = new File(fileName);
         InputStream is = new FileInputStream(file);
         String s = File.separator;
-        sftp.upload("/", "alertPlugins/a", "hengshuiyinhang_socket.py", is);
+        PdfToImages c = new PdfToImages();
+        is = sftp.readFile("./", "1122.pdf");
+
+//        sftp.upload("/", "alertPlugins/a", "hengshuiyinhang_socket.py", is);
 //        String result = sftp.execCommand("/usr/bin/python /home/sendlog/200/log_gen.py -d192.168.1.200 -p5140 -l/home/sendlog/all_format_log/baimi -c/home/sendlog/200/200.conf -r2");
 //        System.out.println(result);
         sftp.logout();

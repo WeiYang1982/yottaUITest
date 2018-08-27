@@ -1,8 +1,7 @@
 package com.yottabyte.stepDefs;
 
 import com.yottabyte.hooks.LoginBeforeAllTests;
-import com.yottabyte.utils.GetElementFromPage;
-import com.yottabyte.utils.WaitForElement;
+import com.yottabyte.utils.*;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.JavascriptExecutor;
