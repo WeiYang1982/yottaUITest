@@ -27,7 +27,7 @@ Feature: 编辑报表
     Examples: 保存成功
       | dataName    | name        | describe | runningUser | reportGroup    | reportType | email               | subject   | hour | minute | chartLists                        | layout  | result |
       | sxjautotest | sxjautotest | autotest | AutoTestTmp | default_Report | PDF        | 15194315230@163.com | hello sxj | 11   | 30     | bin-zft,bin-zft-spl,bin-zft-local | Layout1 | 保存成功   |
-
+@all
     Examples: 保存失败
       | dataName    | name  | describe | runningUser | reportGroup    | reportType | email | subject | hour | minute | chartLists | layout  | result              |
       | sxjautotest | 自动化测试 |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     | bin-zft    | Layout1 | 报表名称已存在 错误码: FE_580 |

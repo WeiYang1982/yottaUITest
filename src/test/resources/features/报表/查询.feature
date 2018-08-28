@@ -17,6 +17,7 @@ Feature: 查询报表
     Given I set the parameter "SearchIput" with value "<searchInput>"
     Then I will see the list of "" contains "" or I see the "SearchList" contains "<name>"
 
+  @all
     Examples:
       | searchInput | name  |
       | 自动化         | 自动化测试 |
