@@ -44,7 +44,7 @@ public class BeforeRunning {
 
         // 若不存在该条数据则添加
         if (resultList.size() == 0) {
-            StringBuffer insertSql = new StringBuffer("insert into Report (");
+            StringBuffer insertSql = new StringBuffer("insert into " + tableName + " (");
             // 遍历列名
             for (int i = 0; i < columnList.size(); i++) {
                 if (i != columnList.size() - 1) {
