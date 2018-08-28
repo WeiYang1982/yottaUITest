@@ -3,7 +3,7 @@ Feature: 创建一个关联搜索
     Given I click the "CustomApplicationPage" button
     And I will see the "customApplication.ListPage" page
 
-  @all @smoke @application
+  @smoke @application
   Scenario:
     Given I click the "CreateButton" button
     And I will see the "customApplication.CreatePage" page
