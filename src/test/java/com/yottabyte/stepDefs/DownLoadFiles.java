@@ -1,6 +1,7 @@
 package com.yottabyte.stepDefs;
 
 import com.yottabyte.hooks.LoginBeforeAllTests;
+import com.yottabyte.utils.EmbeddingFile;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -22,6 +23,7 @@ public class DownLoadFiles {
         WebElement table = webDriver.findElement(By.className("el-table__body"));
         try {
             table.findElement(By.tagName("td")).click();
+            EmbeddingFile.embeddingPdfToscenario(table.findElement(By.tagName("td")).getText());
         } catch (NoSuchElementException e) {
             return;
         }

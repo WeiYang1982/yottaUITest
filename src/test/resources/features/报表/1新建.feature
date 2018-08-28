@@ -32,9 +32,9 @@ Feature: 新建报表
 
   @all
     Examples: 保存失败
-      | name    | describe | runningUser | reportGroup    | reportType | email | subject | hour | minute | chartLists | layout  | result              |
-      | 自动化测试   |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     |            | Layout1 | 报表内容 不能为空           |
-      | 自动化测试用例 |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     | bin-zft    | Layout1 | 报表名称已存在 错误码: FE_580 |
+      | name    | describe | runningUser | reportGroup    | reportType | email | subject | hour | minute | chartLists | layout  | result               |
+      | 自动化测试   |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     |            | Layout1 | 报表内容 不能为空            |
+      | 自动化测试用例 |          | AutoTestTmp | default_Report | PDF        |       | 我是自动化用例 | 11   | 30     | bin-zft    | Layout1 | 报表名称已存在\n错误码: FE_580 |
 
   @report
   Scenario Outline: 执行计划为crontab

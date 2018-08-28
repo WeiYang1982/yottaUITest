@@ -131,10 +131,5 @@ public class JdbcUtils {
         }
         return resultList;
     }
-
-    public static void main(String[] args) {
-        String sql = "select * from SavedSchedule;";
-        JdbcUtils.query(sql);
-    }
 }
 
