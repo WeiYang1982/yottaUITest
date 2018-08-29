@@ -4,7 +4,7 @@ Feature: 上传告警插件
     Given I click the "AlertPluginsPage" button
     And I will see the "alertPlugins.ListPage" page
 
-  @smoke @alertPlugins
+  @smoke @alertPlugins @all
   Scenario: 上传同名告警插件成功
     Given I click the "UploadButton" button
     When I upload a file with name "/src/test/resources/testdata/alertPlugins/hengshuiyinhang_socket.py"

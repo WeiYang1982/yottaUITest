@@ -17,7 +17,7 @@ Feature: 修改一个已经存在的用户分组
     And I click the "BasicSaveButton" button
     Then I will see the <Result>
 
-  @smoke
+  @smoke @all
   Examples:
     |UserGroupName|NewUserGroupName|NewUserGroupDes|Result|
     |AutoTest     |NewAutoTest     |NewDes         |success message "更新成功"|

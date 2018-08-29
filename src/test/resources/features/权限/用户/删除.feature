@@ -1,8 +1,7 @@
 Feature: 删除用户
   Background:
-    Given I click the "UsersPage" button
-    And I will see the "users.ListPage" page
-    And There is a "thereIsAUser" with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given Create a "user" with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    And open the "users.ListPage" page for uri "/account/users/"
 
   @all @smoke @users
   Scenario: 删除用户成功

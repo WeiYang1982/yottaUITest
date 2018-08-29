@@ -1,10 +1,9 @@
 Feature: 禁用一个用户
 
   Background:
-    Given I click the "UsersPage" button
-    And I will see the "users.ListPage" page
-    And There is a "thereIsNoUser" with "{'name':'AutoTest'}"
-    And There is a "thereIsAUser" with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given Delete a "user" with "{'name':['AutoTest']}"
+    And Create a "user" with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    And open the "users.ListPage" page for uri "/account/users/"
 
   @all @smoke @users
   Scenario: 禁用一个用户成功
