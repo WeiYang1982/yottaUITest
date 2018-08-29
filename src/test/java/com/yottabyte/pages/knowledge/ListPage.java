@@ -33,10 +33,7 @@ public class ListPage extends PageTemplate {
     @FindBy(xpath = "//input[@placeholder='默认与事件代码相同']")
     private WebElement knowledgeName;
 
-    @FindBy(className = "el-select")
-    private List<WebElement> comboBoxs;
-
-    @FindBy(className = "el-scrollbar")
+    @FindBy(className = "el-select-dropdown")
     private List<WebElement> selectors;
 
     @FindBy(xpath = "//label[@class='el-form-item__label'][contains(text(),'描述')]/following-sibling::div//textarea")
@@ -99,6 +96,16 @@ public class ListPage extends PageTemplate {
     @FindBy(className = "el-message__group")
     private WebElement deleteMsg;
 
+    @FindBy(xpath = "//label[contains(text(),'分组')]/following-sibling::div//input[@class='el-input__inner']")
+    private WebElement groupInput;
+
+    @FindBy(xpath = "//label[contains(text(),'标签')]/following-sibling::div//input[@class='el-input__inner']")
+    private WebElement tagInput;
+
+    public WebElement getTagInput() {
+        return tagInput;
+    }
+
     public WebElement getSuccessMessage() {
         return deleteMsg;
     }
@@ -160,14 +167,14 @@ public class ListPage extends PageTemplate {
 
     // 获取分组下拉菜单
     public WebElement getGroupComboBox() {
-        comboBoxs.get(comboBoxs.size() - 1).click();
+        groupInput.click();
         WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(selectors.get(selectors.size() - 1)));
         return selectors.get(selectors.size() - 1);
     }
 
     // 获取标签下拉菜单
     public List<WebElement> getTagComboBox() {
-        comboBoxs.get(2).click();
+//        tagInput.click();
         WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(selectors.get(selectors.size() - 1)));
         return selectors.get(selectors.size() - 1).findElements(By.tagName("li"));
     }

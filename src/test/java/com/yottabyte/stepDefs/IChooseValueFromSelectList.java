@@ -19,12 +19,14 @@ public class IChooseValueFromSelectList {
     @And("^I choose the \"([^\"]*)\" from the \"([^\"]*)\"$")
     public void iChooseTheFromThe(List<String> values, String selectListName) {
         Object o = GetElementFromPage.getWebElementWithName(selectListName);
-        if (GetElementFromPage.type.getTypeName().contains("List")) {
-            List fatherSelectList = (List) o;
-            iChooseTheFromThe(values, fatherSelectList);
-        } else {
-            WebElement element = (WebElement) o;
-            iChooseTheFromThe(values, element);
+        if (o != null) {
+            if (GetElementFromPage.type.getTypeName().contains("List")) {
+                List fatherSelectList = (List) o;
+                iChooseTheFromThe(values, fatherSelectList);
+            } else {
+                WebElement element = (WebElement) o;
+                iChooseTheFromThe(values, element);
+            }
         }
     }
 

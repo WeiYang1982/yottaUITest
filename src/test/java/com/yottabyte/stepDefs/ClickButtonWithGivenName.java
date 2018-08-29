@@ -44,7 +44,7 @@ public class ClickButtonWithGivenName {
      * @param dataName
      */
     @Then("^I disabled the data \"([^\"]*)\"$")
-    public void diableData(String dataName) {
+    public void disableData(String dataName) {
         String xpath = "//span[contains(text(),'" + dataName + "')]/preceding-sibling::label";
         WebElement tr = this.findName(dataName);
         // 找到禁用按钮并点击

@@ -35,8 +35,8 @@ Feature:spl搜索新增定时任务
       | index=schedule schedule_name:bar_resp_len \| bucket timestamp span=1h as ts \| stats max(max_resp_len) as max_resp_len_hour by ts | sxjtest | autotest |       |        |        |           | 请选择分组                |
       | index=schedule schedule_name:bar_resp_len \| bucket timestamp span=1h as ts \| stats max(max_resp_len) as max_resp_len_hour by ts | sxjtest | autotest | owner | sunxc2 |        |           | 定时模式下, 时间间隔不能为零或空    |
       | index=schedule schedule_name:bar_resp_len \| bucket timestamp span=1h as ts \| stats max(max_resp_len) as max_resp_len_hour by ts | sxjtest | autotest | owner | sunxc2 | 1.5    |           | 定时模式下, 时间间隔应该为正整数    |
-      | index=schedule schedule_name:bar_resp_len \| bucket timestamp span=1h as ts \| stats max(max_resp_len) as max_resp_len_hour by ts | sxjtest | autotest | owner | sunxc2 | 1      |           | 请输入开始时间              |
-      | index=schedule schedule_name:bar_resp_len \| bucket timestamp span=1h as ts \| stats max(max_resp_len) as max_resp_len_hour by ts | sxjtest | autotest | owner | sunxc2 | 1      | 15:36:55  | 定时任务已存在[错误码: FE_537] |
+      | index=schedule schedule_name:bar_resp_len \| bucket timestamp span=1h as ts \| stats max(max_resp_len) as max_resp_len_hour by ts | suntest | autotest | owner | sunxc2 | 1      |           | 请输入开始时间              |
+      | index=schedule schedule_name:bar_resp_len \| bucket timestamp span=1h as ts \| stats max(max_resp_len) as max_resp_len_hour by ts | sxjtest | autotest | owner | sunxc2 | 1      | 15:36:55  | 定时任务已存在\n[错误码: FE_537] |
 
   @smoke @spl
   Scenario Outline: 生成图表类型的定时任务
