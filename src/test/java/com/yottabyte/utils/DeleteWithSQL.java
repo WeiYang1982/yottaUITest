@@ -9,7 +9,7 @@ public class DeleteWithSQL {
      * 删除用户以及对应分组信息
      * @param userNames 用户名
      */
-    public static void deleteAUser(List<String> userNames) {
+    public static void user(List<String> userNames) {
         BeforeRunning run = new BeforeRunning();
         StringBuffer insertSql = new StringBuffer("SELECT id FROM Account WHERE name in (");
         for (String s:userNames) {

@@ -1,5 +1,6 @@
 package com.yottabyte.stepDefs;
 
+import com.yottabyte.utils.GetLogger;
 import com.yottabyte.utils.JdbcUtils;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -20,13 +21,16 @@ public class BeforeRunning {
      */
     @And("^I delete from \"([^\"]*)\" where \"([^\"]*)\" in \"([^\"]*)\"$")
     public void delete(String tableName, String columnName, List<String> fieldList) {
-        StringBuffer deleteSql = new StringBuffer("delete from " + tableName + " where " + columnName + " in (");
-        for (String field : fieldList) {
-            deleteSql.append("'" + field + "',");
+        if (fieldList.size() > 0) {
+            StringBuffer deleteSql = new StringBuffer("delete from " + tableName + " where " + columnName + " in (");
+            for (String field : fieldList) {
+                deleteSql.append("'" + field + "',");
+            }
+            String sql = deleteSql.toString().substring(0, deleteSql.length() - 1) + ")";
+            JdbcUtils.delete(sql);
+        }else {
+            GetLogger.getLogger().info("filedList为空，不需要删除.");
         }
-        String sql = deleteSql.toString().substring(0, deleteSql.length() - 1) + ")";
-
-        JdbcUtils.delete(sql);
     }
 
     /**

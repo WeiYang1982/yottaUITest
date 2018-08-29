@@ -35,21 +35,29 @@ public class ThereIsCondition {
         needRunConditionThereIsAWith("Y",methodName,arg);
     }
 
-    @Given("^Delete a user with \"([^\"]*)\"$")
-    public void deleteAUserWith(String parameters) {
+    @Given("^Delete a \"([^\"]*)\" with \"([^\"]*)\"$")
+    public void deleteAUserWith(String methmodName, String parameters) {
         Object pars[] = paser.jsonParser(parameters);
-        GetElementFromPage.getMethod("com.yottabyte.utils.DeleteWithSQL", "deleteAUser", pars);
+        GetElementFromPage.getMethod("com.yottabyte.utils.DeleteWithSQL", methmodName, pars);
     }
 
-    @And("^Create a user with \"([^\"]*)\"$")
-    public void createAUserWith(String parameters) {
-        Object pars[] = paser.jsonParser(parameters);
-        GetElementFromPage.getMethod("com.yottabyte.utils.CreateWithSQL", "creatAUserWithSql", pars);
+    @And("^Create a \"([^\"]*)\" with \"([^\"]*)\"$")
+    public void createAUserWith(String methmodName, String parameters) {
+        needCreateAUserWith("Y", methmodName, parameters);
+    }
+
+    @And("^I need \"([^\"]*)\" create a \"([^\"]*)\" with \"([^\"]*)\"$")
+    public void needCreateAUserWith(String needRun, String methmodName, String parameters) {
+        if("N".equals(needRun)){
+            System.out.println("skip this steps");
+        }else if ("Y".equals(needRun)) {
+            Object pars[] = paser.jsonParser(parameters);
+            GetElementFromPage.getMethod("com.yottabyte.utils.CreateWithSQL", methmodName, pars);
+        }
     }
 
     public static void main(String args[]) {
-//        new ThereIsCondition().createAUserWith("{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}");
-        new ThereIsCondition().deleteAUserWith("{'name':['AutoTestNew','AutoTest','AutoTestTmp']}");
-
+        new ThereIsCondition().deleteAUserWith("user", "{'name':['AutoTestNew','AutoTest','AutoTestTmp']}");
+//        new ThereIsCondition().createAUserWith("creatUser", "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}");
     }
 }

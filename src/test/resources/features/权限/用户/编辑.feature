@@ -1,13 +1,13 @@
 Feature: 编辑指定用户
 
   Background:
-    Given Delete a user with "{'name':['AutoTestNew','AutoTest','AutoTestTmp']}"
-    And Create a user with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given Delete a "user" with "{'name':['AutoTestNew','AutoTest','AutoTestTmp']}"
+    And Create a "user" with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And open the "users.ListPage" page for uri "/account/users/"
 
   @users
   Scenario Outline:
-    Given need run condition "<NeedRun>" There is a "thereIsAUser" with "{'name':'AutoTestNew','fullname':'','email':'AutoTestNew@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given I need "<NeedRun>" create a "creatUser" with "{'name':'AutoTestNew','fullname':'','email':'AutoTestNew@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And I set the parameter "SearchInput" with value "<UserName>"
     And I wait table element "SearchResultTable-1.2" change text to "<UserName>"
     And I click the table "TableSeeDetailButton-1" button

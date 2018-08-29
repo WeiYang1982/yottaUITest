@@ -12,7 +12,7 @@ public class CreateWithSQL {
      * @param password 密码（自动按照md5加密）
      * @param userGroup 用户分组 可能会多个
      */
-    public static void creatAUserWithSql(String userName, String fullName, String email, String telephone, String password, List<String> userGroup) {
+    public static void user(String userName, String fullName, String email, String telephone, String password, List<String> userGroup) {
         String selectSql = "SELECT id FROM Account WHERE name = '" + userName + "';";
         List list = JdbcUtils.query(selectSql);
         if (list.size() == 0) {
