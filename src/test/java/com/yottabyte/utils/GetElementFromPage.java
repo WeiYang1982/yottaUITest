@@ -56,14 +56,7 @@ public class GetElementFromPage {
     public static <T>T getWebElementWithoutGet(String name, Object... paras) {
         Class c[] = null;
         Object object = null;
-        if (paras != null) {
-            int len = paras.length;
-            c = new Class[len];
-            for (int i = 0; i < len; ++i) {
-                c[i] = paras[i].getClass();
-                c[i] = typeParse(c[i].getName());
-            }
-        }
+        c = getClasses(c, paras);
         Object page = LoginBeforeAllTests.getPageFactory();
         try {
             object = page.getClass().getDeclaredMethod(name, c).invoke(page, paras);
@@ -85,16 +78,29 @@ public class GetElementFromPage {
 //        return (T) object;
 //    }
 
-//    public static <T>T getWebElementWithoutGet(String name) {
-//        Object object = null;
-//        Object page = LoginBeforeAllTests.getPageFactory();
-//        try {
-//            object = page.getClass().getDeclaredMethod(name).invoke(page);
-//        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-//            e.printStackTrace();
-//        }
-//        return (T) object;
-//    }
+    public static void getMethod(String className, String methodName, Object... paras) {
+        Class c[] = null;
+        c = getClasses(c, paras);
+        Object page = className;
+        try {
+            Class<?> cla = Class.forName(className);
+            cla.getDeclaredMethod(methodName, c).invoke(page, paras);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Class[] getClasses(Class[] c, Object[] paras) {
+        if (paras != null) {
+            int len = paras.length;
+            c = new Class[len];
+            for (int i = 0; i < len; ++i) {
+                c[i] = paras[i].getClass();
+                c[i] = typeParse(c[i].getName());
+            }
+        }
+        return c;
+    }
 
     public static String getCurrentPageTitle() {
         return LoginBeforeAllTests.getWebDriver().getTitle();

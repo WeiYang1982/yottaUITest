@@ -96,7 +96,7 @@ public class CreatePage extends PageTemplate{
         return message;
     }
 
-    public void createAUser(String userName, String fullName, String email, String telephone, String password, List<String> userGroup){
+    public void createAUser(String userName, String fullName, String email, String telephone, String password, List<String> userGroup) {
         SetKeyWithValue setKey = new SetKeyWithValue();
         ClickSomeButton click = new ClickSomeButton();
         IChooseValueFromSelectList choose = new IChooseValueFromSelectList();

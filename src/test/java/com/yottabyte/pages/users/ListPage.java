@@ -1,12 +1,6 @@
 package com.yottabyte.pages.users;
 
-import com.yottabyte.constants.WebDriverConst;
-import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.PageTemplate;
-import com.yottabyte.stepDefs.ClickSomeButton;
-import com.yottabyte.stepDefs.IChooseValueFromSelectList;
-import com.yottabyte.stepDefs.IWillSeeNewPage;
-import com.yottabyte.stepDefs.SetKeyWithValue;
 import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -15,7 +9,6 @@ import org.openqa.selenium.support.ui.*;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class ListPage extends PageTemplate{
 
@@ -151,29 +144,31 @@ public class ListPage extends PageTemplate{
     }
 
     public void thereIsAUser(String userName, String fullName, String email, String telephone, String password, List<String> userGroup){
-        ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        getSearchInput().sendKeys(Keys.END);
-        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
-        getSearchInput().sendKeys(Keys.BACK_SPACE);
-        getSearchInput().sendKeys(userName);
-        String text = getSearchResult().getText();
-        if ("暂无数据".equals(text)){
-            getCreateUser().click();
-            IWillSeeNewPage page = new IWillSeeNewPage();
-            page.iWillSeeNewPage("users.CreatePage");
-            CreatePage createPage = new CreatePage(webDriver);
-            createPage.createAUser(userName,fullName,email,telephone,password,userGroup);
-            page.iWillSeeNewPage("users.ListPage");
-        }else if (text.equals(userName)){
-            System.out.println("There is a user");
-            getSearchInput().sendKeys(Keys.END);
-            getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
-            getSearchInput().sendKeys(Keys.BACK_SPACE);
-        }
+//        ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
+//        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
+//        getSearchInput().sendKeys(Keys.END);
+//        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
+//        getSearchInput().sendKeys(Keys.BACK_SPACE);
+//        getSearchInput().sendKeys(userName);
+//        String text = getSearchResult().getText();
+//        if ("暂无数据".equals(text)){
+//            getCreateUser().click();
+//            IWillSeeNewPage page = new IWillSeeNewPage();
+//            page.iWillSeeNewPage("users.CreatePage");
+//            CreatePage createPage = new CreatePage(webDriver);
+//            createPage.createAUser(userName,fullName,email,telephone,password,userGroup);
+//            page.iWillSeeNewPage("users.ListPage");
+//        }else if (text.equals(userName)){
+//            System.out.println("There is a user");
+//            getSearchInput().sendKeys(Keys.END);
+//            getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
+//            getSearchInput().sendKeys(Keys.BACK_SPACE);
+//        }
+//        CreatePage createPage = new CreatePage(webDriver);
+//        createPage.creatAUserWithSql(userName, fullName, email, telephone, password, userGroup);
     }
 
-    public void thereIsNoUser(String userName){
+    public void thereIsNoUser(String userName) {
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         getSearchInput().sendKeys(Keys.END);
@@ -190,6 +185,7 @@ public class ListPage extends PageTemplate{
             webDriver.navigate().refresh();
         }
     }
+
 
     private WebElement getTableRowButtons(int row){
         WebElement table = getSearchResultTable();

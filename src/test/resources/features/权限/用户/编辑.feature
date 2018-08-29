@@ -1,11 +1,9 @@
 Feature: 编辑指定用户
 
   Background:
-    Given I click the "UsersPage" button
-    And I will see the "users.ListPage" page
-    And There is a "thereIsNoUser" with "{'name':'AutoTestNew'}"
-    And There is a "thereIsNoUser" with "{'name':'AutoTest'}"
-    And There is a "thereIsAUser" with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given Delete a user with "{'name':['AutoTestNew','AutoTest','AutoTestTmp']}"
+    And Create a user with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    And open the "users.ListPage" page for uri "/account/users/"
 
   @users
   Scenario Outline:

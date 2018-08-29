@@ -9,7 +9,7 @@ public class runAFunction {
     public void iAddAWithParamter(String functionName, String parameters){
         JsonStringPaser paser = new JsonStringPaser();
         Object pars[] = paser.jsonParser(parameters);
-         GetElementFromPage.getWebElementWithoutGet(functionName,pars);
+        GetElementFromPage.getWebElementWithoutGet(functionName,pars);
     }
 
     public static void main(String args[]){

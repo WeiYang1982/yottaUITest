@@ -1,10 +1,18 @@
 package com.yottabyte.stepDefs;
 
+import com.yottabyte.utils.CreateWithSQL;
+import com.yottabyte.utils.DeleteWithSQL;
 import com.yottabyte.utils.GetElementFromPage;
 import com.yottabyte.utils.JsonStringPaser;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 
+import java.util.List;
+
 public class ThereIsCondition {
+
+    JsonStringPaser paser = new JsonStringPaser();
+
     /**
      *
      * @param needRun 是否需要运行
@@ -25,5 +33,23 @@ public class ThereIsCondition {
     @Given("^There is a \"([^\"]*)\" with \"([^\"]*)\"$")
     public void ThereIsSomeCondition(String methodName, String arg){
         needRunConditionThereIsAWith("Y",methodName,arg);
+    }
+
+    @Given("^Delete a user with \"([^\"]*)\"$")
+    public void deleteAUserWith(String parameters) {
+        Object pars[] = paser.jsonParser(parameters);
+        GetElementFromPage.getMethod("com.yottabyte.utils.DeleteWithSQL", "deleteAUser", pars);
+    }
+
+    @And("^Create a user with \"([^\"]*)\"$")
+    public void createAUserWith(String parameters) {
+        Object pars[] = paser.jsonParser(parameters);
+        GetElementFromPage.getMethod("com.yottabyte.utils.CreateWithSQL", "creatAUserWithSql", pars);
+    }
+
+    public static void main(String args[]) {
+//        new ThereIsCondition().createAUserWith("{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}");
+        new ThereIsCondition().deleteAUserWith("{'name':['AutoTestNew','AutoTest','AutoTestTmp']}");
+
     }
 }
