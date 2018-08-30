@@ -1,6 +1,7 @@
 Feature: 切换资源分组
 
   Background:
+    Given I insert into table "Knowledge" with "{'name':'sunxj1','code':'sunxj1','creator_id':'1','creator_name':'owner','description':'3','domain_id':'1','solution':'test','group':'default_Knowledge'}"
     Given I click the "KnowledgePage" button
     And I will see the "knowledge.ListPage" page
 
@@ -12,8 +13,7 @@ Feature: 切换资源分组
 
   @smoke @all
     Examples:
-      | GroupList | Search | TableHeader |
-      | sxj       |        | 分组          |
-      | sunxc2    |        | 分组          |
-      |           | 2      |             |
+      | GroupList         | Search | TableHeader |
+      | default_Knowledge |        | 分组          |
+      |                   | sunxj1 |             |
 

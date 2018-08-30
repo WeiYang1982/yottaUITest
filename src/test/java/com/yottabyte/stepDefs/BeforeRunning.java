@@ -74,7 +74,7 @@ public class BeforeRunning {
     }
 
     /**
-     * 插入数据及分组信息
+     * 插入数据及分组信息（传入数据为json格式，并且需要传入分组名称）
      *
      * @param tableName
      * @param values
@@ -86,26 +86,41 @@ public class BeforeRunning {
         String groupName = map.get("group").toString();
         map.remove("group");
 
+        String querySql = "select id from " + tableName + " where ";
+
         StringBuffer insertSql = new StringBuffer("insert into " + tableName + " (");
         StringBuffer subInsertSql = new StringBuffer(" values (");
         int i = 0;
         for (String key : map.keySet()) {
             if (i == map.size() - 1) {
                 insertSql.append(key + ")");
-                subInsertSql.append("'" + map.get(key) + "'");
+                subInsertSql.append("'" + map.get(key) + "')");
             } else {
                 insertSql.append(key + ",");
                 subInsertSql.append("'" + map.get(key) + "',");
             }
+            if (i == 0) {
+                querySql += key + " = '" + map.get(key) + "'";
+            }
             i++;
         }
-        int id = JdbcUtils.insert(insertSql.toString() + subInsertSql.toString());
-        this.insertIntoGroup(groupName, id);
+        // 不存在该条数据时才添加
+        if (JdbcUtils.query(querySql).size() == 0) {
+            int id = JdbcUtils.insert(insertSql.toString() + subInsertSql.toString());
+            this.insertIntoGroup(groupName, id);
+        }
     }
 
-    private void insertIntoGroup(String groupName, int id) {
+    /**
+     * 插入分组信息
+     *
+     * @param groupName
+     * @param moduleId
+     */
+    private void insertIntoGroup(String groupName, int moduleId) {
         String querySql = "select id from ResourceGroup where domain_id=1 and name='" + groupName + "'";
-//        String JdbcUtils.query(querySql);
-
+        int groupId = Integer.parseInt(JdbcUtils.query(querySql).get(0));
+        String insertSql = "insert into ResourceGroup_Resource (resource_id,resource_group_id) values(" + moduleId + "," + groupId + ")";
+        JdbcUtils.insert(insertSql);
     }
 }
