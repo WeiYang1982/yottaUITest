@@ -208,10 +208,10 @@ public class SearchPage extends PageTemplate {
     private WebElement group;
 
     @FindBy(xpath = "//button[@class='el-time-panel__btn confirm']")
-    private WebElement ensureButton;
+    private List<WebElement> ensureButton;
 
     public WebElement getEnsureButton() {
-        return ensureButton;
+        return ensureButton.get(ensureButton.size() - 1);
     }
 
     public WebElement getYaxis() {

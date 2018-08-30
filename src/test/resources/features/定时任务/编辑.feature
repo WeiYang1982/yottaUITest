@@ -1,8 +1,9 @@
 Feature: 编辑定时任务
 
   Background:
-    Given I click the "TimedTaskPage" button
-    Then I will see the "timedTask.ListPage" page
+    Given I insert into table "SavedSchedule" with "{'name':'sxjAutoTest','domain_id':'1','owner_id':'1','request_method':'GET','vis_type':'STATS_NEW','chart_type':'table','last_run_timestamp':'0','start_trigger_time':'1535614615','check_interval':'1','request':'yField=&owner_name=owner&defaultColor=%2319B8FF&xAxisRotate=&byStacks=&toLongitudeField=&sid=&legendPosition=&fromLongitudeField=&toLatitudeField=&time_range=now/d%2Cnow&yCharts=&ySmooths=&cur_ByField=&outlierField=&query=tag%3A%22sample04061424%22%20%7C%20top%201%20apache.resp_len&filter_field=&fromField=&size=20000&category=events&yFields=&colorValues=&cur_ByFields=&source_group=all&lowerField=&upperField=&legendEllipsis=&page=0&field=&token=1f0d166ab3e82d812fa2ed26aebdb0ac&yRanges=&mapType=&toField=&act=search&weightField=&labelField=&xField=&usetable=true&fromLatitudeField=&order=desc&xAxisSort=&owner_id=1','category':'1','crontab':'0','enabled':'1','group':'default_SavedSchedule'}"
+    Then I click the "TimedTaskPage" button
+    And I will see the "timedTask.ListPage" page
 
   @timedTask
   Scenario Outline: 编辑定时任务
@@ -21,15 +22,15 @@ Feature: 编辑定时任务
 
   @all @smoke
     Examples:
-      | dataName      | name          | describe | user  | resource | taskGroup | period | startTime | result |
-      | sxjautotest   | sxjautotest   | first    | sunxc | all_     | sxj       | 10     | 16:37:55  | 保存成功   |
-      | forceAutoTest | forceAutoTest |          | sunxc | all_     | sxj       | 10     | 16:37:55  | 保存成功   |
+      | dataName    | name        | describe | user  | resource | taskGroup             | period | startTime | result |
+      | sxjAutoTest | sxjAutoTest | first    | owner | all_     | default_SavedSchedule | 10     | 16:37:55  | 保存成功   |
+      | sxjAutoTest | sxjAutoTest |          | owner | all_     | default_SavedSchedule | 10     | 16:37:55  | 保存成功   |
 
   @all
     Examples:
-      | dataName    | name          | describe | user  | resource | taskGroup | period | startTime | result               |
-      | sxjautotest |               |          |       |          |           |        |           | 名称 不能为空              |
-      | sxjautotest | forceAutoTest |          | sunxc | all_     | sxj       | 10     | 16:37:55  | 定时任务已存在[错误码: FE_537] |
+      | dataName    | name        | describe | user  | resource | taskGroup             | period | startTime | result                 |
+      | sxjAutoTest |             |          |       |          |                       |        |           | 名称 不能为空                |
+      | sxjAutoTest | sxjAutoTest |          | sunxc | all_     | default_SavedSchedule | 10     | 16:37:55  | 定时任务已存在\n[错误码: FE_537] |
 
 
   @timedTask
@@ -57,7 +58,7 @@ Feature: 编辑定时任务
   @all @smoke
     Examples:
       | dataName    | connectName | userName | password     | host          | port | dbType | dbName         | tableName | firstDataMapping | secondDataMapping |
-      | sxjautotest | sxjtest     | root     | rizhiyi&2014 | 192.168.1.140 | 3306 | mysql  | rizhiyi_system | tyf       | count            | percent           |
+      | sxjAutoTest | sxjtest     | root     | rizhiyi&2014 | 192.168.1.140 | 3306 | mysql  | rizhiyi_system | tyf       | count            | percent           |
 
   @timedTask
   Scenario Outline: 未成功编辑定时任务的结果处理方式
