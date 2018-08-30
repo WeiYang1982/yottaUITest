@@ -1,7 +1,10 @@
 Feature: 编辑知识
 
   Background:
-    Given I click the "KnowledgePage" button
+#    Given I insert into table "Knowledge" which columnName in "name,code,creator_id,creator_name,description,create_timestamp,domain_id,solution" and values in "sunxj1,sunxj1,1,owner,3,2018-08-29 15:20:53,1,test"
+    Given I insert into table "Knowledge" with "{'name':'sunxj1','code':'sunxj1','creator_id':'1','creator_name':'owner','description':'3','domain_id':'1','solution':'test','group':'default_Knowledge'}"
+
+    Then I click the "KnowledgePage" button
     And I will see the "knowledge.ListPage" page
 
   @knowledge

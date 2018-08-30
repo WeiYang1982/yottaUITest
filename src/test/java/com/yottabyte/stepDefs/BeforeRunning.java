@@ -2,10 +2,13 @@ package com.yottabyte.stepDefs;
 
 import com.yottabyte.utils.GetLogger;
 import com.yottabyte.utils.JdbcUtils;
+import com.yottabyte.utils.JsonStringPaser;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author sunxj
@@ -28,7 +31,7 @@ public class BeforeRunning {
             }
             String sql = deleteSql.toString().substring(0, deleteSql.length() - 1) + ")";
             JdbcUtils.delete(sql);
-        }else {
+        } else {
             GetLogger.getLogger().info("filedList为空，不需要删除.");
         }
     }
@@ -68,5 +71,41 @@ public class BeforeRunning {
             System.out.println(insertSql.toString());
             JdbcUtils.insert(insertSql.toString());
         }
+    }
+
+    /**
+     * 插入数据及分组信息
+     *
+     * @param tableName
+     * @param values
+     */
+    @Given("^I insert into table \"([^\"]*)\" with \"([^\"]*)\"$")
+    public void insertWithGroup(String tableName, String values) {
+        Map<String, Object> map = JsonStringPaser.json2Stirng(values);
+        // 获取分组名称
+        String groupName = map.get("group").toString();
+        map.remove("group");
+
+        StringBuffer insertSql = new StringBuffer("insert into " + tableName + " (");
+        StringBuffer subInsertSql = new StringBuffer(" values (");
+        int i = 0;
+        for (String key : map.keySet()) {
+            if (i == map.size() - 1) {
+                insertSql.append(key + ")");
+                subInsertSql.append("'" + map.get(key) + "'");
+            } else {
+                insertSql.append(key + ",");
+                subInsertSql.append("'" + map.get(key) + "',");
+            }
+            i++;
+        }
+        int id = JdbcUtils.insert(insertSql.toString() + subInsertSql.toString());
+        this.insertIntoGroup(groupName, id);
+    }
+
+    private void insertIntoGroup(String groupName, int id) {
+        String querySql = "select id from ResourceGroup where domain_id=1 and name='" + groupName + "'";
+//        String JdbcUtils.query(querySql);
+
     }
 }

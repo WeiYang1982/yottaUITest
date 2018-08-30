@@ -8,11 +8,6 @@ import java.util.List;
 
 public class JdbcUtils {
 
-    /**
-     * 获取数据库连接
-     *
-     * @return
-     */
     public static Connection getConnection() {
         ConfigManager config = new ConfigManager();
         String url = "jdbc:mysql://" + config.get("rizhiyi_server_host") + ":3306/" + config.get("dbName") + "?useUnicode=true&characterEncoding=UTF8";
@@ -30,12 +25,6 @@ public class JdbcUtils {
         return conn;
     }
 
-    /**
-     * 释放数据库连接
-     *
-     * @param conn
-     * @param st
-     */
     public static void releaseConnection(Connection conn, Statement st) {
         try {
             if (conn != null)
@@ -47,13 +36,6 @@ public class JdbcUtils {
         }
     }
 
-    /**
-     * 释放数据库连接（包含结果集的处理）
-     *
-     * @param conn
-     * @param rs
-     * @param st
-     */
     public static void releaseConnection(Connection conn, ResultSet rs, Statement st) {
         try {
             if (conn != null)
@@ -67,39 +49,32 @@ public class JdbcUtils {
         }
     }
 
-    /**
-     * 增加
-     *
-     * @param sql
-     */
-    public static void insert(String sql) {
+    public static int insert(String sql) {
+        int id = -1;
         try {
             Connection conn = getConnection();
-            Statement stmt1 = conn.createStatement();
-            int count = stmt1.executeUpdate(sql);
-            System.out.println("增加了 " + count + " 条数据");
-            releaseConnection(conn, stmt1);
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            releaseConnection(conn, stmt);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return id;
     }
 
-    /**
-     * 删除
-     *
-     * @param sql
-     */
     public static void delete(String sql) {
         try {
             Connection conn = getConnection();
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
             releaseConnection(conn, stmt);
         } catch (SQLException e) {
@@ -107,11 +82,6 @@ public class JdbcUtils {
         }
     }
 
-    /**
-     * 查询
-     *
-     * @param sql
-     */
     public static List<String> query(String sql) {
         Connection conn = getConnection();
         Statement stmt;
@@ -130,6 +100,11 @@ public class JdbcUtils {
             e.printStackTrace();
         }
         return resultList;
+    }
+
+    public static void main(String[] args) {
+        String sql = "insert into Knowledge (name,code,creator_id,creator_name,description,domain_id,solution) values ('sunxj1','sunxj1','1','owner','3','1','test')";
+        System.out.println(JdbcUtils.insert(sql));
     }
 }
 

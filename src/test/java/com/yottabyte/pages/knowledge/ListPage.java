@@ -99,7 +99,7 @@ public class ListPage extends PageTemplate {
     @FindBy(xpath = "//label[contains(text(),'分组')]/following-sibling::div//input[@class='el-input__inner']")
     private WebElement groupInput;
 
-    @FindBy(xpath = "//label[contains(text(),'标签')]/following-sibling::div//input[@class='el-input__inner']")
+    @FindBy(xpath = "//label[contains(text(),'标签')]/following-sibling::div//input")
     private WebElement tagInput;
 
     public WebElement getTagInput() {
@@ -173,10 +173,11 @@ public class ListPage extends PageTemplate {
     }
 
     // 获取标签下拉菜单
-    public List<WebElement> getTagComboBox() {
+    public WebElement getTagComboBox() {
 //        tagInput.click();
-        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(selectors.get(selectors.size() - 1)));
-        return selectors.get(selectors.size() - 1).findElements(By.tagName("li"));
+//        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(selectors.get(selectors.size() - 1)));
+//        return selectors.get(selectors.size() - 1).findElements(By.tagName("li"));
+        return selectors.get(selectors.size() - 1);
     }
 
     // 获取资源分组下拉菜单
