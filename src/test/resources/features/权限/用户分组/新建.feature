@@ -1,14 +1,12 @@
 Feature: 创建一个用户分组
 
   Background:
-    Given I click the "UserGroupsPage" button
-    Then I will see the "userGroups.ListPage" page
-    And There is a "thereIsNoUserGroup" with "{'name':'AutoTest'}"
-    And There is a "thereIsNoUserGroup" with "{'name':'><script>alert(1)</script>'}"
+    Given Delete a "userGroup" with "{'name':['AutoTest','><script>alert(1)</script>']}"
+    And open the "userGroups.ListPage" page for uri "/account/usergroups/"
 
   @smoke @userGroups
   Scenario Outline:
-    Given need run condition "<NeedRun>" There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
+    Given I need "<NeedRun>" create a "userGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
     And I click the "CreateUserGroup" button
     Then I will see the "userGroups.CreatePage" page
     When I set the parameter "UserGroupName" with value "<UserGroupName>"
@@ -19,7 +17,7 @@ Feature: 创建一个用户分组
     Then I will see the <Result>
 
   @all
-  Examples:
+  Examples: 创建成功
     |NeedRun|UserGroupName|UserGroupDes|Owner         |Role          |Result|
     |N      |AutoTest     |des1        |admin         |autotest      |success message "创建成功"|
     |N      |AutoTest     |            |admin,autotest|autotest      |success message "创建成功"|
@@ -27,7 +25,7 @@ Feature: 创建一个用户分组
     |N      |><script>alert(1)</script>|des1|admin|admin|success message "创建成功"|
 
   @all
-  Examples:
+  Examples: 创建失败及为空校验
     |NeedRun|UserGroupName|UserGroupDes|Owner   |Role    |Result|
     |N      |             |des         |admin   |autotest|error message "分组名 不能为空"|
     |N      |AutoTest     |des         |        |autotest|error message "拥有者 不能为空"|

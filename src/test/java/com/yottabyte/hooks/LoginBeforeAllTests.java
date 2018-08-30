@@ -32,7 +32,6 @@ public class LoginBeforeAllTests {
         System.out.println("Login Before Test!");
         webDriver.manage().deleteAllCookies();
         webDriver.get(baseURL + "/auth/login/");
-        System.out.println(webDriver + "login driver");
         if (cookie == null) {
             login();
         }else {
@@ -64,11 +63,11 @@ public class LoginBeforeAllTests {
             @Override
             public Boolean apply(WebDriver driver) {
                 while (driver.manage().getCookieNamed("sessionid") == null) {
-                    cookie = driver.manage().getCookieNamed("sessionid");
                 }
                 return true;
             }
         });
+        cookie = webDriver.manage().getCookieNamed("sessionid");
     }
 
     public static WebDriver getWebDriver() {

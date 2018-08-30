@@ -7,7 +7,7 @@ Feature: 编辑指定用户
 
   @users
   Scenario Outline:
-    Given I need "<NeedRun>" create a "creatUser" with "{'name':'AutoTestNew','fullname':'','email':'AutoTestNew@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given I need "<NeedRun>" create a "user" with "{'name':'AutoTestNew','fullname':'','email':'AutoTestNew@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And I set the parameter "SearchInput" with value "<UserName>"
     And I wait table element "SearchResultTable-1.2" change text to "<UserName>"
     And I click the table "TableSeeDetailButton-1" button

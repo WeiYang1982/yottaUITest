@@ -1,17 +1,13 @@
 Feature: 创建一个用户
 
   Background:
-    Given I click the "UserGroupsPage" button
-    And I will see the "userGroups.ListPage" page
-    And There is a "thereIsAUserGroup" with "{'name':'AutoTest ','owner':['admin'],'role':['admin']}"
-    And I will see the "PublicNavBarPage" page
-    And I click the "UsersPage" button
-    And I will see the "users.ListPage" page
-    And There is a "thereIsNoUser" with "{'name':'AutoTest'}"
+    And Create a "userGroup" with "{'name':'AutoTest ','owner':['admin'],'role':['admin']}"
+    And Delete a "user" with "{'name':['AutoTest','AutoTestNew','AutoTestTmp']}"
+    And open the "users.ListPage" page for uri "/account/users/"
 
   @users
   Scenario Outline:
-    Given need run condition "<NeedRun>" There is a "thereIsAUser" with "{'name':'AutoTest','fullname':'','email':'autoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given I need "<NeedRun>" create a "user" with "{'name':'AutoTest','fullname':'','email':'AutoTestNew@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And I click the "CreateUser" button
     And I will see the "users.CreatePage" page
     When I set the parameter "UserName" with value "<UserName>"
@@ -27,7 +23,7 @@ Feature: 创建一个用户
   Examples: 成功添加一个用户
     |NeedRun|UserName|FullName        |Email                |Telephone  |Password  |UserGroups    |Result|
     |N      |AutoTest|autoTestFullName|autoTest@yottabyte.cn|           |qqqqq11111|AutoTest      |success message "创建成功"|
-    |N      |AutoTest|                |autoTest1@yottabyte.cn|13111111111|qqqqq11111|admin,AutoTest|success message "创建成功"|
+    |N      |AutoTest|                |autoTest@yottabyte.cn|13111111111|qqqqq11111|admin,AutoTest|success message "创建成功"|
 
   @all
   Examples: 添加用户失败

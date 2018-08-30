@@ -43,12 +43,33 @@ public class CreateWithSQL {
         if (list.size()==0) {
             String insertUserGroup = "INSERT INTO `rizhiyi_system`.`AccountGroup` (`domain_id` , `name` , `memo`) VALUES (1, '" + userGroupName + "' , '');";
             JdbcUtils.insert(insertUserGroup);
+            for (String s : roles) {
+                String insertUserGroupRoleSql = "INSERT INTO `rizhiyi_system`.`AccountGroup_Role` (`account_group_id`, `role_id`) " +
+                        "VALUES ( (SELECT id FROM `rizhiyi_system`.`AccountGroup` WHERE name in ('" + userGroupName + "')) , " +
+                        "(SELECT id FROM `rizhiyi_system`.`Role` WHERE name in ('" + s + "') AND domain_id = 1) );";
+                JdbcUtils.insert(insertUserGroupRoleSql);
+            }
+        }else {
+            GetLogger.getLogger().info("已经存在指定用户分组");
         }
-        for (String s : roles) {
-            String insertUserGroupRoleSql = "INSERT INTO `rizhiyi_system`.`AccountGroup_Role` (`account_group_id`, `role_id`) " +
-                    "VALUES ( (SELECT id FROM `rizhiyi_system`.`AccountGroup` WHERE name in ('" + userGroupName + "')) , " +
-                    "(SELECT id FROM `rizhiyi_system`.`Role` WHERE name in ('" + s + "') AND domain_id = 1) );";
-            JdbcUtils.insert(insertUserGroupRoleSql);
+
+    }
+
+    /**
+     * 创建一个角色
+     * @param roleName 角色名称
+     * @param roleDes 角色描述
+     * @param roleGroups 同时创建的资源分组  涉及到的表太多，暂时不使用
+     */
+    public static void role(String roleName, String roleDes, List<String> roleGroups) {
+        String selectSql = "SELECT id FROM Role WHERE name = '" + roleGroups + "';";
+        List list = JdbcUtils.query(selectSql);
+        if (list.size() == 0) {
+            String insertRole = "INSERT INTO `rizhiyi_system`.`Role` (`name`, `memo`, `domain_id`) " +
+                    "VALUES ('" + roleName + "', '" + roleDes + "', 1);";
+            JdbcUtils.insert(insertRole);
+        }else {
+            GetLogger.getLogger().info("已经存在指定角色");
         }
     }
 
@@ -58,6 +79,6 @@ public class CreateWithSQL {
         List<String> list1 = new ArrayList<>();
         list.add("admin");
         list1.add("admin");
-        userGroup("dsa", list, list1);
+        role("dsa", "", list1);
     }
 }

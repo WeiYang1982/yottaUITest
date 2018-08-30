@@ -1,14 +1,13 @@
 Feature: 修改一个已经存在的用户分组
 
   Background:
-    Given I click the "UserGroupsPage" button
-    Then I will see the "userGroups.ListPage" page
-    And There is a "thereIsNoUserGroup" with "{'name':'NewAutoTest'}"
+    Given Delete a "userGroup" with "{'name':['NewAutoTest','AutoTest']}"
+    And Create a "userGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
+    And open the "userGroups.ListPage" page for uri "/account/usergroups/"
 
   @userGroups
   Scenario Outline:
-    Given There is a "thereIsAUserGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
-    And I set the parameter "SearchInput" with value "<UserGroupName>"
+    Given I set the parameter "SearchInput" with value "<UserGroupName>"
     And I wait table element "SearchResultTable-1.2" change text to "<UserGroupName>"
     And I click the table "TableEditButton-1" button
     And I will see the "userGroups.EditPage" page

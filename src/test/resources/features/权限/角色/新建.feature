@@ -1,13 +1,12 @@
 Feature: 新建一个角色
 
   Background:
-    Given I click the "RolesPage" button
-    And I will see the "roles.ListPage" page
-    And There is a "thereIsNoRole" with "{'name':'AutoTest'}"
+    Given Delete a "role" with "{'name':['AutoTest']}"
+    And open the "roles.ListPage" page for uri "/account/roles/"
 
   @role
   Scenario Outline: 创建角色同时不创建资源分组
-    Given need run condition "<NeedRun>" There is a "thereIsARole" with "{'name':'AutoTest','RoleDes':'','ResourceGroups':['日志来源']}"
+    Given I need "<NeedRun>" create a "role" with "{'name':'AutoTest','RoleDes':'','ResourceGroups':['日志来源']}"
     And I click the "CreateRoleButton" button
     And I will see the "roles.CreatePage" page
     And I set the parameter "RoleName" with value "<RoleName>"
@@ -47,6 +46,6 @@ Feature: 新建一个角色
   @all
   Examples:
     |RoleName |RoleDes|ResourceGroups |Result|
-    |AutoTest |Des    |all            |success message "创建成功。自动创建资源分组个数：13 ，请进入资源分组查看"|
-    |AutoTest |Des    |仪表盘,日志来源  |success message "创建成功。自动创建资源分组个数：2 ，请进入资源分组查看"|
-    |AutoTest |Des    |仪表盘          |success message "创建成功。自动创建资源分组个数：1 ，请进入资源分组查看"|
+#    |AutoTest |Des    |all            |success message "创建成功。自动创建资源分组个数：13 ，请进入资源分组查看"|
+#    |AutoTest |Des    |仪表盘,日志来源  |success message "创建成功。自动创建资源分组个数：2 ，请进入资源分组查看"|
+#    |AutoTest |Des    |仪表盘          |success message "创建成功。自动创建资源分组个数：1 ，请进入资源分组查看"|
