@@ -1,8 +1,7 @@
 Feature:spl搜索新增定时任务
 
   Background:
-    Given I click the "LocateSearchPage" button
-    And I will see the "splSearch.SearchPage" page
+    Given open the "splSearch.SearchPage" page for uri "/search/"
 
   @smoke @spl @all
   Scenario Outline: 生成表格类型的定时任务

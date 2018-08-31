@@ -1,8 +1,7 @@
 Feature: 新建知识
 
   Background:
-    Given I click the "KnowledgePage" button
-    And I will see the "knowledge.ListPage" page
+    Given open the "knowledge.ListPage" page for uri "/knowledge/"
 
   @knowledge
   Scenario Outline: 新建知识

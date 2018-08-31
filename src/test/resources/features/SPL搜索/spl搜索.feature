@@ -1,8 +1,7 @@
 Feature: 输入SPL语句，检查搜索完成后的事件数
 
   Background:
-    Given I click the "LocateSearchPage" button
-    And I will see the "splSearch.SearchPage" page
+    Given open the "splSearch.SearchPage" page for uri "/search/"
 
   @smoke @spl @all
   Scenario Outline: 根据生成的事件个数进行判断
