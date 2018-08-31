@@ -1,9 +1,8 @@
 Feature: 新建事件数监控并填写发送条件
 
   Background:
-    Given I click the "AlertsListPage" button
-    Then I will see the "alert.ListPage" page
-    And There is a "thereIsNoAlert" with "{'name':'AutoTest'}"
+    Given Delete a "alert" with "{'name':['AutoTest']}"
+    And open the "alert.ListPage" page for uri "/alerts/"
 
   @alert @all @smoke
   Scenario Outline: 创建一个发送条件的监控

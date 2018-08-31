@@ -1,9 +1,8 @@
 Feature: 新建事件数监控并填写高级设置
 
   Background:
-    Given I click the "AlertsListPage" button
-    Then I will see the "alert.ListPage" page
-    And There is a "thereIsNoAlert" with "{'name':'AutoTest'}"
+    Given Delete a "alert" with "{'name':['AutoTest']}"
+    And open the "alert.ListPage" page for uri "/alerts/"
 
   @alert
   Scenario Outline: 创建一个事件数监控-高级配置-扩展搜索

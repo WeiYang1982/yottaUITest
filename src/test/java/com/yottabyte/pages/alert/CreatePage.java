@@ -133,6 +133,7 @@ public class CreatePage extends PageTemplate {
     }
 
     public WebElement getAlertName() {
+        GetLogger.getLogger().info("alertName: " + alertName);
         return alertName;
     }
 
@@ -587,7 +588,7 @@ public class CreatePage extends PageTemplate {
         return webDriver.findElement(By.className("add-config-dropdown-menu"));
     }
 
-    public void createAlert(String alertName, List<String> alertGroup, List<String> alertSource, List<String> alertLevel ) {
+    public void createAlert(String alertName, List<String> alertGroup, List<String> alertSource, List<String> alertLevel) {
         SetKeyWithValue setKey = new SetKeyWithValue();
         IChooseValueFromSelectList choose = new IChooseValueFromSelectList();
         setKey.iSetTheParameterWithValue(getAlertName(), alertName);
@@ -615,11 +616,12 @@ public class CreatePage extends PageTemplate {
     }
 
     public static void main(String args[]) throws InterruptedException {
+
+        SharedDriver driver = new SharedDriver();
+        ConfigManager c = new ConfigManager();
         GetLogger.getLogger().debug("test");
         GetLogger.getLogger().info("test");
         GetLogger.getLogger().warn("test");
-        SharedDriver driver = new SharedDriver();
-        ConfigManager c = new ConfigManager();
         LoginBeforeAllTests login = new LoginBeforeAllTests(driver,c);
         login.beforeScenario();
         Thread.sleep(10000);

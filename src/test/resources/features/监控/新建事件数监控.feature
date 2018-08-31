@@ -1,9 +1,8 @@
 Feature: 新建事件数监控及页面的各个检查项
 
   Background:
-    Given I click the "AlertsListPage" button
-    Then I will see the "alert.ListPage" page
-    And There is a "thereIsNoAlert" with "{'name':'AutoTest'}"
+    Given Delete a "alert" with "{'name':['AutoTest']}"
+    And open the "alert.ListPage" page for uri "/alerts/"
 
   @alert
   Scenario Outline: 创建一个新的告警-事件数监控-定时执行
@@ -39,15 +38,15 @@ Feature: 新建事件数监控及页面的各个检查项
   @all
   Examples: 创建事件数监控失败
     | AlertName | AlertDes | AlertGroup    | AlertUser | AlertSource | SearchContent | AlertPlanTime | TimeUnits | AlertTrigger | AlertTriggerTimeUnits | AlertLevelInput | AlertLevel | Result |
-    |           | alertDes | default_Alert | owner     | 所有日志     | *             | 10            | 分钟      | 10           | 分钟内                 | 100             | 低          | error message "请填写监控名称"                                |
-    | AutoTest  | alertDes |               | owner     | 所有日志     | *             | 10            | 分钟      | 10           | 分钟内                 | 100             | 低          | error message "请选择监控分组"                                |
-    | AutoTest  | alertDes | default_Alert | owner     |             | *             | 10            | 分钟      | 10           | 分钟内                 | 100             | 低          | error message "请填写日志来源"                                |
-    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     |               | 10            | 分钟      | 10           | 分钟内                 | 100             | 低          | error message "请填写搜索内容"                                |
-    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | *             |               | 分钟      | 10           | 分钟内                 | 100             | 低          | error message "请填写执行计划"                                |
-    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | *             | 10            | 分钟      |              | 分钟内                 | 100             | 低          | error message "请正确填写触发条件"                              |
-    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | *             | 10            | 分钟      | a            | 分钟内                 | 100             | 低          | error message "请正确填写数字型触发条件"                              |
-    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | *             | 10            | 分钟      | 10           | 分钟内                 |                 | 低          | error message "请检查并填写数字类型阈值！低、中、高全部填写，或任填其一；阈值等级不可重复。" |
-    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | *             | 10            | 分钟      | 10           | 分钟内                 | a               | 低          | error message "请正确填写数字型阈值" |
+#    |           | alertDes | default_Alert | owner     | 所有日志     | *             | 10            | 分钟      | 10           | 分钟内                 | 100             | 低          | error message "请填写监控名称"                                |
+#    | AutoTest  | alertDes |               | owner     | 所有日志     | *             | 10            | 分钟      | 10           | 分钟内                 | 100             | 低          | error message "请选择监控分组"                                |
+#    | AutoTest  | alertDes | default_Alert | owner     |             | *             | 10            | 分钟      | 10           | 分钟内                 | 100             | 低          | error message "请填写日志来源"                                |
+#    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     |               | 10            | 分钟      | 10           | 分钟内                 | 100             | 低          | error message "请填写搜索内容"                                |
+#    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | *             |               | 分钟      | 10           | 分钟内                 | 100             | 低          | error message "请填写执行计划"                                |
+#    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | *             | 10            | 分钟      |              | 分钟内                 | 100             | 低          | error message "请正确填写触发条件"                              |
+#    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | *             | 10            | 分钟      | a            | 分钟内                 | 100             | 低          | error message "请正确填写数字型触发条件"                              |
+#    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | *             | 10            | 分钟      | 10           | 分钟内                 |                 | 低          | error message "请检查并填写数字类型阈值！低、中、高全部填写，或任填其一；阈值等级不可重复。" |
+#    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | *             | 10            | 分钟      | 10           | 分钟内                 | a               | 低          | error message "请正确填写数字型阈值" |
 
   @alert
   Scenario Outline: 创建一个新的告警-事件数监控-crontab
@@ -58,7 +57,7 @@ Feature: 新建事件数监控及页面的各个检查项
     And I choose the "<AlertGroup>" from the "AlertGroups"
     And I choose the "<AlertUser>" from the "AlertUsers"
     And I choose the "<AlertSource>" from the "AlertSources"
-    And I choose the "<SearchContent>" from the "SavedSearch"
+    And I set the parameter "SearchContent" with value "<SearchContent>"
     And I switch the "AlertEnable" button to "disable"
     And I choose the "事件数监控" from the "AlertTypes"
     And I click the "AlertPlanCrontabButton" button
@@ -75,7 +74,7 @@ Feature: 新建事件数监控及页面的各个检查项
   @all @smoke
   Examples: 创建成功
     | AlertName | AlertDes | AlertGroup | AlertUser | AlertSource | SearchContent | AlertPlanCrontab | AlertTrigger | AlertTriggerTimeUnits | AlertLevelInput | Result |
-    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | where_es      | 0 0-5 9 * *      | 10           | 分钟内                 | 100             | success message "保存成功" |
+#    | AutoTest  | alertDes | default_Alert | owner     | 所有日志     | where_es      | 0 0-5 9 * *      | 10           | 分钟内                 | 100             | success message "保存成功" |
 
 
   @alert @smoke @all

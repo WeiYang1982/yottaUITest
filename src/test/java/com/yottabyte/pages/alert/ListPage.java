@@ -3,6 +3,7 @@ package com.yottabyte.pages.alert;
 import com.yottabyte.config.ConfigManager;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.PageTemplate;
+import com.yottabyte.stepDefs.SetKeyWithValue;
 import com.yottabyte.utils.ElementExist;
 import com.yottabyte.utils.GetLogger;
 import com.yottabyte.utils.WaitForElement;
@@ -11,6 +12,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListPage extends PageTemplate {
@@ -69,7 +71,7 @@ public class ListPage extends PageTemplate {
         deleteAlert(alertName);
     }
 
-    private WebElement getSearchResult() {
+    public WebElement getSearchResult() {
         if (ElementExist.isElementExist(webDriver,searchResult)) {
             return searchResult;
         }else if (ElementExist.isElementExist(webDriver,noSearchResultMessage)){
@@ -112,18 +114,57 @@ public class ListPage extends PageTemplate {
             getSearchInput().sendKeys(Keys.BACK_SPACE);
             getSearchInput().sendKeys(alertName);
         }
+    }
 
+    void thereIsAnAlert(String alertName, List<String> alertGroup, List<String> alertSource, List<String> alertLevel) {
+        new SetKeyWithValue().clearElementValue(getSearchInput());
+        getSearchInput().sendKeys(alertName);
+        if (ElementExist.isElementExist(webDriver,noSearchResultMessage)) {
+            getCreateAlert().click();
+            new CreatePage(webDriver).createAlert(alertName, alertGroup, alertSource, alertLevel);
+        }else {
+            System.out.println("do not need create");
+        }
+    }
+
+    @Override
+    protected void load() {
+        if (LoginBeforeAllTests.getCookie() != null) {
+            webDriver.get("http://alltest.rizhiyi.com/dashboard/");
+            webDriver.manage().addCookie(LoginBeforeAllTests.getCookie());
+        }else {
+            LoginBeforeAllTests.login();
+        }
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+        super.isLoaded();
+        try {
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(getMessage()));
+        }catch (Exception e){
+            GetLogger.getLogger().error("can not load % with error %", this.getClass().getSimpleName(), e);
+        }
     }
 
     public static void main(String args[]) throws InterruptedException {
         SharedDriver driver = new SharedDriver();
         ConfigManager c = new ConfigManager();
+        List list = new ArrayList<>();
+        List list1 = new ArrayList<>();
+        List list2 = new ArrayList<>();
+        list.add("default_Alert");
+        list1.add("所有日志");
+        list2.add("1");
+        list2.add("3");
+        list2.add("10");
         LoginBeforeAllTests login = new LoginBeforeAllTests(driver,c);
         login.beforeScenario();
         Thread.sleep(2000);
         driver.get("http://alltest.rizhiyi.com/alerts");
         ListPage p = new ListPage(driver);
-        p.deleteAlert("AutoTest");
+//        p.deleteAlert("AutoTest");
+        p.thereIsAnAlert("AutoTest", list, list1, list2);
     }
 
 }

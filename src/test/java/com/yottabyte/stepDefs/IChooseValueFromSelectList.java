@@ -57,7 +57,7 @@ public class IChooseValueFromSelectList {
                         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
                     }
                 } catch (StaleElementReferenceException e) {
-                    throw e;
+                    System.out.println(e.getMessage());
                 }
             }
         } else {

@@ -35,21 +35,38 @@ public class DeleteWithSQL {
     }
 
 
-    public static void role(List<String> roleName) {
+    public static void role(List<String> roleNames) {
         StringBuffer searchSql = new StringBuffer("SELECT id FROM Role WHERE name in (");
-        for (String s:roleName) {
+        for (String s:roleNames) {
             searchSql.append("'" + s + "',");
         }
         String selectSql = searchSql.toString().substring(0, searchSql.length() - 1) + ")";
         System.out.println(selectSql);
         List list = JdbcUtils.query(selectSql);
         run.delete("Role_Permission", "role_id", list );
-        run.delete("Role", "name", roleName );
+        run.delete("Role", "name", roleNames );
     }
+
+    public static void alert(List<String> alertNames) {
+        StringBuffer searchSql = new StringBuffer("SELECT id FROM Alert WHERE name in (");
+        for (String s:alertNames) {
+            searchSql.append("'" + s + "',");
+        }
+        String selectSql = searchSql.toString().substring(0, searchSql.length() - 1) + ")";
+        System.out.println(selectSql);
+        List list = JdbcUtils.query(selectSql);
+        run.delete("ResourceGroup_Resource", "resource_id", list );
+        run.delete("Alert", "name", alertNames );
+    }
+
+
+
+
+
 
     public static void main(String args[]) {
         List<String> list = new ArrayList<>();
-        list.add("123");
-        role(list);
+        list.add("212");
+        alert(list);
     }
 }

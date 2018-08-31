@@ -1,8 +1,7 @@
 Feature: 导入一个资源包
 
   Background:
-    Given I click the "ResourceGroupsPage" button
-    Then I will see the "resourceGroups.ListPage" page
+    Given open the "resourceGroups.ListPage" page for uri "/account/resourcegroups/"
 
   @somke @all @resourceGroups
   Scenario Outline: 导入资源包的正常流程测试

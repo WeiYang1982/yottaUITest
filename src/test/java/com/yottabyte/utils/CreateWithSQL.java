@@ -62,7 +62,7 @@ public class CreateWithSQL {
      * @param roleGroups 同时创建的资源分组  涉及到的表太多，暂时不使用
      */
     public static void role(String roleName, String roleDes, List<String> roleGroups) {
-        String selectSql = "SELECT id FROM Role WHERE name = '" + roleGroups + "';";
+        String selectSql = "SELECT id FROM Role WHERE name = '" + roleName + "';";
         List list = JdbcUtils.query(selectSql);
         if (list.size() == 0) {
             String insertRole = "INSERT INTO `rizhiyi_system`.`Role` (`name`, `memo`, `domain_id`) " +
@@ -70,6 +70,30 @@ public class CreateWithSQL {
             JdbcUtils.insert(insertRole);
         }else {
             GetLogger.getLogger().info("已经存在指定角色");
+        }
+    }
+
+    /**
+     * 创建一个监控 默认使用事件数 低级告警级别 运行用户为admin 日志来源为所有日志
+     * @param alertName 监控名称
+     * @param alertGroups 监控分组名称
+     */
+    public static void alert(String alertName, List<String> alertGroups) {
+        String selectSql = "SELECT id FROM Role WHERE name = '" + alertName + "';";
+        List list = JdbcUtils.query(selectSql);
+        if (list.size() == 0) {
+            String insertAlert = "INSERT INTO `rizhiyi_system`.`Alert` " +
+                    "(`name`, `domain_id`, `owner_id`, `check_interval`, `interval_unit`, `check_condition`, `enabled`, `alert_meta`, `level`, `source_groups`, `query`)" +
+                    " VALUES ('" + alertName + "', 1, 1, 300, 1, '1|min|count|>|low:1', 1, '\"[]\"', -1, 'all', '*');";
+            JdbcUtils.insert(insertAlert);
+            for (String s : alertGroups) {
+                String insertSql = "INSERT INTO `rizhiyi_system`.`ResourceGroup_Resource` (`resource_group_id`, `resource_id`) " +
+                        " VALUES ((SELECT id FROM ResourceGroup WHERE name in ('" + s + "') and domain_id = 1) , " +
+                        " (SELECT id FROM Alert WHERE name in ('" + alertName + "') and domain_id = 1));";
+                JdbcUtils.insert(insertSql);
+            }
+        }else {
+            GetLogger.getLogger().info("已经存在指定监控");
         }
     }
 

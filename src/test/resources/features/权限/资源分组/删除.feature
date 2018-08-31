@@ -1,8 +1,7 @@
 Feature: 删除指定的资源分组
 
   Background:
-    Given I click the "ResourceGroupsPage" button
-    Then I will see the "resourceGroups.ListPage" page
+    Given open the "resourceGroups.ListPage" page for uri "/account/resourcegroups/"
 
   @smoke @all @resourceGroups
   Scenario:
