@@ -1,8 +1,7 @@
 Feature: 删除角色
   Background:
-    Given I click the "RolesPage" button
-    And I will see the "roles.ListPage" page
-    And There is a "thereIsARole" with "{'name':'AutoTest','RoleDes':'','ResourceGroups':['日志来源']}"
+    Given Create a "role" with "{'name':'AutoTest','RoleDes':'','ResourceGroups':['日志来源']}"
+    And open the "roles.ListPage" page for uri "/account/roles/"
 
   @all @smoke @role
   Scenario: 删除角色成功
