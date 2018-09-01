@@ -7,6 +7,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -82,37 +83,27 @@ public class BeforeRunning {
     @Given("^I insert into table \"([^\"]*)\" with \"([^\"]*)\"$")
     public void insertWithGroup(String tableName, String values) {
         Map<String, Object> map = JsonStringPaser.json2Stirng(values);
-        // 获取分组名称
-        String groupName = map.get("group").toString();
-        map.remove("group");
 
+        // 查询是否存在该条数据
         String querySql = "select id from " + tableName + " where ";
-
-        StringBuffer insertSql = new StringBuffer("insert into " + tableName + " (");
-        StringBuffer subInsertSql = new StringBuffer(" values (");
-        int i = 0;
-        for (String key : map.keySet()) {
-            if (i == map.size() - 1) {
-                insertSql.append(key + ")");
-                subInsertSql.append("'" + map.get(key) + "')");
-            } else {
-                insertSql.append(key + ",");
-                subInsertSql.append("'" + map.get(key) + "',");
-            }
-            if (i == 0) {
-                querySql += key + " = '" + map.get(key) + "'";
-            }
-            i++;
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            querySql += entry.getKey() + " = '" + entry.getValue() + "'";
+            break;
         }
+
         // 不存在该条数据时才添加
         if (JdbcUtils.query(querySql).size() == 0) {
-            int id = JdbcUtils.insert(insertSql.toString() + subInsertSql.toString());
+            // 获取分组名称
+            String groupName = map.get("group").toString();
+            map.remove("group");
+            StringBuffer insertSql = new StringBuffer("insert into " + tableName + " (");
+            int id = JdbcUtils.insert(this.assembleSql(map, insertSql));
             this.insertIntoGroup(groupName, id);
         }
     }
 
     /**
-     * 插入分组信息
+     * 插入数据以及分组信息
      *
      * @param groupName
      * @param moduleId
@@ -123,4 +114,92 @@ public class BeforeRunning {
         String insertSql = "insert into ResourceGroup_Resource (resource_id,resource_group_id) values(" + moduleId + "," + groupId + ")";
         JdbcUtils.insert(insertSql);
     }
+
+    /**
+     * 删除数据以及分组信息
+     *
+     * @param tableName
+     * @param values
+     */
+    @Given("^I delete from \"([^\"]*)\" where \"([^\"]*)\"$")
+    public void deleteWithGroup(String tableName, String values) {
+        Map<String, Object> map = JsonStringPaser.json2Stirng(values);
+
+        // 分组信息
+        List<String> groupList = this.mapValue2List(map, "group");
+        String queryGroupIdSql = "select id from ResourceGroup where domain_id=1 and name in(";
+        List<String> groupIdList = JdbcUtils.query(this.assembleSql(groupList, queryGroupIdSql));
+
+        // 资源信息
+        List<String> valueList = this.mapValue2List(map, "name");
+        StringBuffer queryResourceIdList = new StringBuffer("select id from " + tableName + " where name in (");
+        List<String> idList = JdbcUtils.query(this.assembleSql(valueList, queryResourceIdList.toString()));
+
+        // 不存在该资源则返回
+        if (idList.size() == 0)
+            return;
+
+        String deleteResourceSql = "delete from " + tableName + " where id in (";
+        String deleteGroupSql = "delete from ResourceGroup_Resource where resource_id in(";
+        String assembleSql = this.assembleSql(idList, deleteGroupSql);
+        deleteGroupSql = assembleSql + " and resource_group_id in(";
+
+        // 删除分组
+        JdbcUtils.delete(assembleSql(groupIdList, deleteGroupSql));
+        // 删除资源
+        JdbcUtils.delete(assembleSql(idList, deleteResourceSql));
+    }
+
+    /**
+     * 组装sql
+     *
+     * @param map
+     * @param sql
+     * @return
+     */
+    private String assembleSql(Map<String, Object> map, StringBuffer sql) {
+        StringBuffer subSql = new StringBuffer(" values (");
+        int i = 0;
+        for (String key : map.keySet()) {
+            if (i == map.size() - 1) {
+                sql.append(key + ")");
+                subSql.append("'" + map.get(key) + "')");
+            } else {
+                sql.append(key + ",");
+                subSql.append("'" + map.get(key) + "',");
+            }
+            i++;
+        }
+        return sql.toString() + subSql.toString();
+    }
+
+    private String assembleSql(List list, String sql) {
+        for (int i = 0; i < list.size(); i++) {
+            if (i != list.size() - 1) {
+                sql += "'" + list.get(i) + "',";
+            } else {
+                sql += "'" + list.get(i) + "')";
+            }
+        }
+        return sql;
+    }
+
+    /**
+     * map的值转化为list
+     *
+     * @param map
+     * @param key
+     * @return
+     */
+    private List<String> mapValue2List(Map map, String key) {
+        List<String> list = new ArrayList<>();
+        if (map.get(key).toString().contains(",")) {
+            list = (List<String>) map.get(key);
+        } else {
+            list.add(map.get(key).toString());
+        }
+        return list;
+    }
+
+
 }
