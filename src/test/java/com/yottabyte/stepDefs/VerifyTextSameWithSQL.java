@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 public class VerifyTextSameWithSQL {
 
-    @Then("^I will see the \"([^\"]*)\" text will be same with the Sql \"([^\"]*)\"$")
+    @Then("^I will see the \"([^\"]*)\" text will be same as the Sql \"([^\"]*)\"$")
     public void iWillSeeTheTextWillBeSameWithTheSql(String elementName, String searchSql) {
         WebElement element = GetElementFromPage.getWebElementWithName(elementName);
         String expText = element.getText();

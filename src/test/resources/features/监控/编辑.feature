@@ -1,5 +1,5 @@
 @all
-Feature: 新建事件数监控并填写告警方式
+Feature: 编辑一个告警
 
   Background:
     Given I click the "AlertsListPage" button

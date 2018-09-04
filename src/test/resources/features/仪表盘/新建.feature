@@ -3,6 +3,7 @@ Feature: 新建仪表盘
   Background:
     Given I will see the "dashboard.ListPage" page
 
+  @dashboard
   Scenario Outline:
     Given I click the "CreateButton" button
     Then I set the parameter "DashBoardName" with value "<name>"
