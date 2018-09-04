@@ -75,7 +75,7 @@ public class BeforeRunning {
     }
 
     /**
-     * 插入数据及分组信息（传入数据为json格式，并且需要传入分组名称）
+     * 插入数据（若传入json中包含group，则添加分组信息）
      *
      * @param tableName
      * @param values
@@ -93,12 +93,18 @@ public class BeforeRunning {
 
         // 不存在该条数据时才添加
         if (JdbcUtils.query(querySql).size() == 0) {
-            // 获取分组名称
-            String groupName = map.get("group").toString();
-            map.remove("group");
             StringBuffer insertSql = new StringBuffer("insert into " + tableName + " (");
-            int id = JdbcUtils.insert(this.assembleSql(map, insertSql));
-            this.insertIntoGroup(groupName, id);
+            if (map.containsKey("group")) {
+                // 获取分组名称
+                String groupName = map.get("group").toString();
+                map.remove("group");
+                String finalSql = this.assembleSql(map, insertSql);
+                int id = JdbcUtils.insert(finalSql);
+                this.insertIntoGroup(groupName, id);
+            } else {
+                String finalSql = this.assembleSql(map, insertSql);
+                JdbcUtils.insert(finalSql);
+            }
         }
     }
 
@@ -144,10 +150,10 @@ public class BeforeRunning {
         String assembleSql = this.assembleSql(idList, deleteGroupSql);
         deleteGroupSql = assembleSql + " and resource_group_id in(";
 
-        // 删除分组
-        JdbcUtils.delete(assembleSql(groupIdList, deleteGroupSql));
         // 删除资源
         JdbcUtils.delete(assembleSql(idList, deleteResourceSql));
+        // 删除分组
+//        JdbcUtils.delete(assembleSql(groupIdList, deleteGroupSql));
     }
 
     /**

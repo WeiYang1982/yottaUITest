@@ -1,3 +1,4 @@
+@topology
 Feature: 删除拓扑图
 
   Background:
@@ -9,6 +10,7 @@ Feature: 删除拓扑图
     Then I click the "EnsureDelete" button
     Then I will see the success message "删除成功"
 
+  @all @smoke
     Examples:
       | name        |
       | sxjautotest |

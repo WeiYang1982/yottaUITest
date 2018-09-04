@@ -1,9 +1,11 @@
 package com.yottabyte.pages.topology;
 
 import com.yottabyte.pages.PageTemplate;
+import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -72,4 +74,17 @@ public class ListPage extends PageTemplate {
     public WebElement getEnsureDelete() {
         return ensureDelete;
     }
+
+    @FindBy(className = "yw-table-group__group-menu")
+    private WebElement groupDropdownList;
+
+    @FindBy(className = "el-icon-arrow-down")
+    private WebElement searchGroupButton;
+
+    public WebElement getGroupDropdownList() {
+        searchGroupButton.click();
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(groupDropdownList));
+        return groupDropdownList;
+    }
+
 }

@@ -18,8 +18,7 @@ public class DateEditorPage extends PageTemplate {
         super(driver);
     }
 
-
-    @FindBy(xpath = "//input[@placeholder='请选择快捷时间或时间范围']")
+    @FindBy(xpath = "//i[@class='el-input__icon el-icon-time']/following-sibling::input")
     private WebElement publicDateEditor;
 
     @FindBy(xpath = "//*[text()='实时/最近']")   // "//div[contains(text(),'最近') and contains(text(),'/')] "
@@ -27,7 +26,6 @@ public class DateEditorPage extends PageTemplate {
 
     @FindBy(xpath = "//*[text()='快捷选项']")
     private WebElement dateMenuFastChoose;
-
 
     @FindBy(xpath = "//button[text()='最近7天']")
 
@@ -38,6 +36,34 @@ public class DateEditorPage extends PageTemplate {
 
     @FindBy(xpath = "//button[text()='昨天']")
     private WebElement yesterday;
+
+    @FindBy(xpath = "//button[text()='本周']")
+    private WebElement thisWeek;
+
+    @FindBy(xpath = "//button[text()='上周']")
+    private WebElement lastWeek;
+
+    @FindBy(xpath = "//button[text()='本月']")
+    private WebElement thisMonth;
+
+    @FindBy(xpath = "//button[text()='上周']")
+    private WebElement lastMonth;
+
+    public WebElement getThisWeek() {
+        return thisWeek;
+    }
+
+    public WebElement getLastWeek() {
+        return lastWeek;
+    }
+
+    public WebElement getThisMonth() {
+        return thisMonth;
+    }
+
+    public WebElement getLastMonth() {
+        return lastMonth;
+    }
 
     public WebElement getYesterday() {
         return this.getDateButton(yesterday);

@@ -3,6 +3,7 @@ package com.yottabyte.stepDefs;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.utils.GetElementFromPage;
 import com.yottabyte.utils.WaitForElement;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,6 +16,8 @@ import static junit.framework.TestCase.assertTrue;
 
 public class Search {
 
+    private WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
+
     /**
      * 查找搜索内容是否正确
      *
@@ -25,14 +28,13 @@ public class Search {
      */
     @Then("I will see the list of \"([^\"]*)\" contains \"([^\"]*)\" or I see the \"([^\"]*)\" contains \"([^\"]*)\"")
     public void search(String columnName, String keyword, String searchList, String searchName) throws Exception {
-        WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
         // 选择下拉菜单时
         if ("".equals(searchName) && !"".equals(keyword)) {
             if ("".equals(columnName)) {
                 throw new Exception("缺少第一个参数！");
             }
             // 获取表体
-            WebElement tableBody = GetElementFromPage.getWebElementWithName("getTableBody");
+            WebElement tableBody = webDriver.findElement(By.className("el-table__body"));
             // 获取分页
             List<WebElement> paging = webDriver.findElements(By.className("number"));
             // 获取表头
@@ -68,5 +70,22 @@ public class Search {
                 assertTrue(listElement.getText().contains(searchName));
             }
         }
+    }
+
+    @Then("^I will see the column number \"([^\"]*)\" contains \"([^\"]*)\"$")
+    public void search(String columnNumber, String name) {
+        WebElement tableBody = webDriver.findElement(By.className("el-table__body"));
+        List<WebElement> tr = tableBody.findElements(By.tagName("tr"));
+        int index = Integer.parseInt(columnNumber);
+        for (WebElement element : tr) {
+            WebElement td = element.findElements(By.tagName("td")).get(index - 1);
+            assertTrue(td.getText().contains(name));
+        }
+    }
+
+    @Then("^I set the search input with \"([^\"]*)\"$")
+    public void setSearchInput(String name) {
+        WebElement searchInput = webDriver.findElement(By.xpath("//div[@class='yw-table-group__basic el-input']/input"));
+        searchInput.sendKeys(name);
     }
 }

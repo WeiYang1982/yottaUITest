@@ -1,3 +1,4 @@
+@topology
 Feature: 新建拓扑图
 
   Background:

@@ -1,3 +1,4 @@
+@topology
 Feature: 重命名拓扑图
 
   Background:
