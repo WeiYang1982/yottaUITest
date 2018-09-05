@@ -1,5 +1,6 @@
 package com.yottabyte.pages;
 
+import com.yottabyte.stepDefs.IChooseValueFromSelectList;
 import com.yottabyte.utils.ConstructPageFactoryWithName;
 import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.WebDriver;
@@ -7,6 +8,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 时间控件页面元素
@@ -46,8 +50,111 @@ public class DateEditorPage extends PageTemplate {
     @FindBy(xpath = "//button[text()='本月']")
     private WebElement thisMonth;
 
-    @FindBy(xpath = "//button[text()='上周']")
+    @FindBy(xpath = "//button[text()='上月']")
     private WebElement lastMonth;
+
+    @FindBy(xpath = "//button[text()='10分钟']")
+    private WebElement tenMinutes;
+
+    @FindBy(xpath = "//button[text()='30分钟']")
+    private WebElement halfHour;
+
+    @FindBy(xpath = "//button[text()='1小时']")
+    private WebElement oneHour;
+
+    @FindBy(xpath = "//button[text()='1天']")
+    private WebElement oneDay;
+
+    @FindBy(xpath = "//button[text()='2天']")
+    private WebElement twoDays;
+
+    @FindBy(xpath = "//button[text()='7天']")
+    private WebElement sevenDays;
+
+    @FindBy(xpath = "//button[text()='全部时间']")
+    private WebElement wholeTime;
+
+    @FindBy(xpath = "//div[@class='el-tabs__item'][text()='最近']")
+    private WebElement recently;
+
+    @FindBy(xpath = "//div[@class='el-tabs__item'][text()='自定义时间范围']")
+    private WebElement customTime;
+
+    @FindBy(xpath = "//div[@class='el-input el-input-group el-input-group--append']/input")
+    private WebElement timeInput;
+
+    @FindBy(xpath = "//div[@class='custom-col-block']/button/span")
+    private WebElement applyButton;
+
+    @FindBy(className = "el-input-group__append")
+    private WebElement groupAppend;
+
+    @FindBy(className = "el-select-dropdown__list")
+    private List<WebElement> dropdownList;
+
+    @FindBy(xpath = "//input[@placeholder='开始时间']")
+    private WebElement startTimeInput;
+
+    @FindBy(xpath = "//input[@placeholder='结束时间']")
+    private WebElement endTimeInput;
+
+    @FindBy(xpath = "//input[@placeholder='开始日期']")
+    private WebElement startDateInput;
+
+    @FindBy(xpath = "//input[@placeholder='结束日期']")
+    private WebElement endDateInput;
+
+    @FindBy(xpath = "//div[@class='title-btn']//span[text()='应用']")
+    private WebElement applyCustomTime;
+
+    public void getCustomTime(String startTime, String endTime, String startDate, String endDate) {
+        customTime.click();
+        startTimeInput.sendKeys(startTime);
+        endTimeInput.sendKeys(endTime);
+        startDateInput.sendKeys(startDate);
+        endDateInput.sendKeys(endDate);
+        applyCustomTime.click();
+    }
+
+    public void getRecently(String time, String timeUnit) {
+        recently.click();
+        timeInput.sendKeys(time);
+        if (!"".equals(timeUnit)) {
+            groupAppend.click();
+            List<String> list = new ArrayList<>();
+            list.add(timeUnit);
+            new IChooseValueFromSelectList().iChooseTheFromThe(list, dropdownList.get(dropdownList.size() - 1));
+        }
+        applyButton.click();
+    }
+
+    public WebElement getWholeTime() {
+        return wholeTime;
+    }
+
+    public WebElement getTenMinutes() {
+        return tenMinutes;
+    }
+
+    public WebElement getHalfHour() {
+        return halfHour;
+    }
+
+    public WebElement getOneHour() {
+        return oneHour;
+    }
+
+    public WebElement getOneDay() {
+        return oneDay;
+    }
+
+    public WebElement getTwoDays() {
+        return twoDays;
+    }
+
+    public WebElement getSevenDays() {
+        return sevenDays;
+    }
 
     public WebElement getThisWeek() {
         return thisWeek;

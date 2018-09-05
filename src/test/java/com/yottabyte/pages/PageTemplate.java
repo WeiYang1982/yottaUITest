@@ -26,6 +26,9 @@ public class PageTemplate extends LoadableComponent<PageTemplate> {
         parentPageName = LoginBeforeAllTests.getPageFactory()==null?"":LoginBeforeAllTests.getPageFactory().getClass().getSimpleName();
     }
 
+    public PageTemplate() {
+    }
+
 
     @Override
     protected void load() {
