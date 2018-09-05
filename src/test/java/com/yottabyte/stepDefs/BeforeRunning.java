@@ -131,10 +131,10 @@ public class BeforeRunning {
     public void deleteWithGroup(String tableName, String values) {
         Map<String, Object> map = JsonStringPaser.json2Stirng(values);
 
-        // 分组信息
-        List<String> groupList = this.mapValue2List(map, "group");
-        String queryGroupIdSql = "select id from ResourceGroup where domain_id=1 and name in(";
-        List<String> groupIdList = JdbcUtils.query(this.assembleSql(groupList, queryGroupIdSql));
+//        // 分组信息
+//        List<String> groupList = this.mapValue2List(map, "group");
+//        String queryGroupIdSql = "select id from ResourceGroup where domain_id=1 and name in(";
+//        List<String> groupIdList = JdbcUtils.query(this.assembleSql(groupList, queryGroupIdSql));
 
         // 资源信息
         List<String> valueList = this.mapValue2List(map, "name");
@@ -146,9 +146,9 @@ public class BeforeRunning {
             return;
 
         String deleteResourceSql = "delete from " + tableName + " where id in (";
-        String deleteGroupSql = "delete from ResourceGroup_Resource where resource_id in(";
-        String assembleSql = this.assembleSql(idList, deleteGroupSql);
-        deleteGroupSql = assembleSql + " and resource_group_id in(";
+//        String deleteGroupSql = "delete from ResourceGroup_Resource where resource_id in(";
+//        String assembleSql = this.assembleSql(idList, deleteGroupSql);
+//        deleteGroupSql = assembleSql + " and resource_group_id in(";
 
         // 删除资源
         JdbcUtils.delete(assembleSql(idList, deleteResourceSql));

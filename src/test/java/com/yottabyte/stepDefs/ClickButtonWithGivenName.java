@@ -19,6 +19,13 @@ public class ClickButtonWithGivenName {
 
     private WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
 
+    // 分页标签
+    private List<WebElement> paging = webDriver.findElements(By.className("number"));
+    // 总页数
+    private int totalPage = Integer.parseInt(paging.get(paging.size() - 1).getText());
+    // 下一页按钮
+    private WebElement nextPage = webDriver.findElement(By.className("btn-next"));
+
     /**
      * 寻找对应的操作按钮并点击
      *
@@ -59,23 +66,53 @@ public class ClickButtonWithGivenName {
      * @return 行元素
      */
     private WebElement findName(String name) {
-        // 表体
-        WebElement table = webDriver.findElement(By.className("el-table__body"));
-        // 分页标签
-        List<WebElement> paging = webDriver.findElements(By.className("number"));
-        // 总页数
-        int totalPage = Integer.parseInt(paging.get(paging.size() - 1).getText());
-        // 下一页按钮
-        WebElement nextPage = webDriver.findElement(By.className("btn-next"));
+        List<WebElement> tableList = webDriver.findElements(By.className("el-table__body"));
+        if (tableList.size() == 1) {
+            // 表体
+            WebElement table = tableList.get(0);
+            int i = 0;
+            while (i < totalPage) {
+                // 找到一行元素
+                List<WebElement> trList = table.findElements(By.tagName("tr"));
+                if (i != 0 && i <= totalPage - 1)
+                    nextPage.click();
+
+                for (WebElement tr : trList) {
+                    if (tr.findElement(By.tagName("td")).getText().equals(name)) {
+                        return tr;
+                    }
+                }
+                i++;
+            }
+        } else {
+            return this.getSourcesGroupName(tableList, name);
+        }
+        return null;
+    }
+
+    /**
+     * 以下情况仅针对日志来源表格进行特殊处理
+     *
+     * @param tableList
+     * @param name
+     * @return
+     */
+    private WebElement getSourcesGroupName(List<WebElement> tableList, String name) {
+        WebElement nameTable = tableList.get(1);
+        WebElement operatorTable = tableList.get(2);
+
+        List<WebElement> nameList = nameTable.findElements(By.tagName("tr"));
+
         int i = 0;
         while (i < totalPage) {
             // 找到一行元素
-            List<WebElement> trList = table.findElements(By.tagName("tr"));
-            if (i != 0 && i != totalPage - 1)
+            if (i != 0 && i <= totalPage - 1)
                 nextPage.click();
-            for (WebElement tr : trList) {
-                if (tr.findElement(By.tagName("td")).getText().equals(name)) {
-                    return tr;
+
+            for (int index = 0; index < nameList.size(); index++) {
+                String sourceName = nameList.get(index).findElement(By.tagName("td")).getText();
+                if (sourceName.equals(name)) {
+                    return operatorTable.findElements(By.tagName("tr")).get(index);
                 }
             }
             i++;

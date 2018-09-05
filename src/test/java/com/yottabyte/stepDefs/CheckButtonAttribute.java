@@ -32,10 +32,24 @@ public class CheckButtonAttribute {
 
 
     @And("^I will see the \"([^\"]*)\" is clickable$")
-    public void iWillSeeTheIsClickable(List<String> buttonNameList) {
+    public void checkIsClickable(List<String> buttonNameList) {
         for (String buttonName : buttonNameList) {
             WebElement element = GetElementFromPage.getWebElementWithName(buttonName);
             Assert.assertFalse(element.getAttribute("class").contains("disabled"));
+        }
+    }
+
+    @Then("^I will see the \"([^\"]*)\" node is \"([^\"]*)\"$")
+    public void checkNodeIsDisabled(String nodeName, String attribute) {
+        List<WebElement> nodeList = GetElementFromPage.getWebElementWithName("NodeList");
+        for (WebElement webElement : nodeList) {
+            if (webElement.getText().equals(nodeName) && !"".equals(attribute)) {
+                boolean disabledFlag = webElement.getAttribute("class").contains("node-disabled");
+                if (!"".equals(attribute))
+                    Assert.assertTrue(disabledFlag);
+                else
+                    Assert.assertFalse(disabledFlag);
+            }
         }
     }
 }

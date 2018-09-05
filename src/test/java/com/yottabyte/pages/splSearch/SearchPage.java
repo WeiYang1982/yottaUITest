@@ -210,6 +210,21 @@ public class SearchPage extends PageTemplate {
     @FindBy(xpath = "//button[@class='el-time-panel__btn confirm']")
     private List<WebElement> ensureButton;
 
+    @FindBy(className = "el-icon--right")
+    private WebElement arrowDown;
+
+    @FindBy(className = "el-tree-node__content")
+    private List<WebElement> nodeList;
+
+    public List<WebElement> getNodeList() {
+        return nodeList;
+    }
+
+    // 日志来源下拉菜单
+    public WebElement getArrowDown() {
+        return arrowDown;
+    }
+
     public WebElement getEnsureButton() {
         return ensureButton.get(ensureButton.size() - 1);
     }
