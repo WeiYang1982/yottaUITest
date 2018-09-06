@@ -36,6 +36,17 @@ public class ListPage extends PageTemplate {
     @FindBy(xpath = "//button[@class='el-button el-button--default el-button--primary ']/span[contains(text(),'确定')]")
     private WebElement ensure;
 
+    @FindBy(className = "yw-table-group__group-menu")
+    private WebElement GroupDropdownList;
+
+    @FindBy(className = "el-icon-arrow-down")
+    private WebElement arrowDown;
+
+    public WebElement getGroupDropdownList() {
+        arrowDown.click();
+        return GroupDropdownList;
+    }
+
     public WebElement getEnsure() {
         return ensure;
     }

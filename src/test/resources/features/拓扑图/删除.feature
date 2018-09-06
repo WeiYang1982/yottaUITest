@@ -7,7 +7,7 @@ Feature: 删除拓扑图
 
   Scenario Outline:
     Given the data name is "<name>" then i click the "删除" button
-    Then I click the "EnsureDelete" button
+    Then I click the "Ensure" button
     Then I will see the success message "删除成功"
 
   @all @smoke

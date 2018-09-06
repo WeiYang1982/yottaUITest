@@ -11,7 +11,7 @@ Feature: 拓扑图分组
     Then I cancel selection "<group>" from the "GroupInput"
     And I click the "EnsureButton" button
     Then I will see the error message "请选择拓扑图分组"
-    Then I click the "EnsureDelete" button
+    Then I click the "Ensure" button
     And I choose the "<group>" from the "GroupInput"
     Then I click the "EnsureButton" button
     Then I will see the success message "保存成功"

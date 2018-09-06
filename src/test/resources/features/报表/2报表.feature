@@ -8,7 +8,7 @@ Feature: 已生成报表
     Given I click the detail which name is "<name>"
     Then I download the file
 
-  @all @smoke @tmp
+  @all @smoke
     Examples:
       | name          |
       | sunxjautotest |

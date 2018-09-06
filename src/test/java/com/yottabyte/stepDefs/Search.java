@@ -74,13 +74,21 @@ public class Search {
 
     @Then("^I will see the column number \"([^\"]*)\" contains \"([^\"]*)\"$")
     public void search(String columnNumber, String name) {
-        WebElement tableBody = webDriver.findElement(By.className("el-table__body"));
+        List<WebElement> tableBodyList = webDriver.findElements(By.className("el-table__body"));
+        WebElement tableBody;
+        if (tableBodyList.size() == 1) {
+            tableBody = tableBodyList.get(0);
+        } else {
+            tableBody = tableBodyList.get(1);
+        }
         List<WebElement> tr = tableBody.findElements(By.tagName("tr"));
         int index = Integer.parseInt(columnNumber);
+        boolean flag = false;
         for (WebElement element : tr) {
             WebElement td = element.findElements(By.tagName("td")).get(index - 1);
-            assertTrue(td.getText().contains(name));
+            flag = td.getText().contains(name);
         }
+        assertTrue(flag);
     }
 
     @Then("^I set the search input with \"([^\"]*)\"$")

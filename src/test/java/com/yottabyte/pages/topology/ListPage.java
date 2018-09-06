@@ -69,10 +69,10 @@ public class ListPage extends PageTemplate {
     }
 
     @FindBy(xpath = "//button[@class='el-button el-button--default el-button--primary ']")
-    private WebElement ensureDelete;
+    private WebElement ensure;
 
-    public WebElement getEnsureDelete() {
-        return ensureDelete;
+    public WebElement getEnsure() {
+        return ensure;
     }
 
     @FindBy(className = "yw-table-group__group-menu")
