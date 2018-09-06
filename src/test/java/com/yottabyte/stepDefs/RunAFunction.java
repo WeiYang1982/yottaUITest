@@ -2,9 +2,11 @@ package com.yottabyte.stepDefs;
 
 import com.yottabyte.utils.GetElementFromPage;
 import com.yottabyte.utils.JsonStringPaser;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 
-public class runAFunction {
+public class RunAFunction {
     @And("^I add a \"([^\"]*)\" with parameter \"([^\"]*)\"$")
     public void iAddAWithParamter(String functionName, String parameters){
         JsonStringPaser paser = new JsonStringPaser();
@@ -19,6 +21,15 @@ public class runAFunction {
         Object pars[] = paser.jsonParser(parameters);
         for (Object o:pars){
             System.out.println(o.toString());
+        }
+    }
+
+    @Given("^I run a method \"([^\"]*)\" for \"([^\"]*)\" times with parameters \"([^\"]*)\"$")
+    public void iRunAMethodForTimes(String methodName, int numbers, String parameters) {
+        JsonStringPaser paser = new JsonStringPaser();
+        Object pars[] = paser.jsonParser(parameters);
+        for (int i=0;i<numbers;i++) {
+            GetElementFromPage.getWebElementWithName(methodName, pars);
         }
     }
 }

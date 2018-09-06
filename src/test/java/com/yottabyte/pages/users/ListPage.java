@@ -46,6 +46,17 @@ public class ListPage extends PageTemplate{
     @FindBy (className = "el-message__group")
     private WebElement suspensionMessage;
 
+    @FindBy (className = "el-dialog")
+    private WebElement dialog;
+
+    @FindBy (className = "group-modal-select")
+    private WebElement changeGroupButton;
+
+    @FindBy (className = "el-select-dropdown")
+    private List<WebElement> dropdownLists;
+
+    @FindBy(className = "el-message-box__message")
+    private WebElement message;
 
     public WebElement getSearchInput() {
         ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
@@ -121,6 +132,17 @@ public class ListPage extends PageTemplate{
         return e.findElement(By.xpath("//button/span[contains(text(),'启用')]"));
     }
 
+    public WebElement getUserGroups() {
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(dialog));
+        changeGroupButton.click();
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(dropdownLists.get(dropdownLists.size()-1)));
+        return dropdownLists.get(dropdownLists.size()-1);
+    }
+
+    public WebElement getConfirmButton() {
+        return dialog.findElement(By.xpath("//button//span[contains(text(),'确定')]"));
+    }
+
     public WebElement getMessageBoxButtons() {
         return messageBoxButtons;
     }
@@ -141,6 +163,10 @@ public class ListPage extends PageTemplate{
         ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(suspensionMessage);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         return suspensionMessage;
+    }
+
+    public WebElement getErrorMessage(){
+        return message;
     }
 
     public void thereIsAUser(String userName, String fullName, String email, String telephone, String password, List<String> userGroup){

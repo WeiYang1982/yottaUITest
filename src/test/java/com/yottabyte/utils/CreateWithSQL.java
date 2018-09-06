@@ -18,7 +18,7 @@ public class CreateWithSQL {
         List list = JdbcUtils.query(selectSql);
         if (list.size() == 0) {
             String insertUserSql = "INSERT INTO `rizhiyi_system`.`Account` (`name`,`full_name`,`passwd`, `domain_id`,`phone`,`email` , `access_type` ) " +
-                    "VALUES ('" + userName + "' , '" + fullName + "' , '" + getMD5.getMD5(password) + "' , 1 , '" + telephone + "', '" + email + "' , 'user');";
+                    "VALUES ('" + userName + "' , '" + fullName + "' , '" + GetMD5.getMD5(password) + "' , 1 , '" + telephone + "', '" + email + "' , 'user');";
             JdbcUtils.insert(insertUserSql);
             for (String s:userGroup) {
                 String insertUserGroupSql = "INSERT INTO `rizhiyi_system`.`AccountGroup_Account` (`account_group_id`, `account_id`) VALUES " +

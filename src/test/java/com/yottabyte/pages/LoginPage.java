@@ -1,5 +1,7 @@
 package com.yottabyte.pages;
 
+import com.yottabyte.stepDefs.ClickSomeButton;
+import com.yottabyte.stepDefs.SetKeyWithValue;
 import com.yottabyte.utils.ElementExist;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -60,6 +62,15 @@ public class LoginPage extends PageTemplate {
         }
 
         return message;
+    }
+
+    public void getLogin(String userName, String password) {
+        SetKeyWithValue setKey = new SetKeyWithValue();
+        ClickSomeButton click = new ClickSomeButton();
+        setKey.iSetTheParameterWithValue(getUsername(), userName);
+        setKey.iSetTheParameterWithValue(getPassword(), password);
+        click.iClickTheButton(getLoginButton());
+        webDriver.navigate().refresh();
     }
 
 }

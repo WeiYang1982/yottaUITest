@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class getMD5 {
+public class GetMD5 {
 
     public static String getMD5(String str) {
         MessageDigest md = null;

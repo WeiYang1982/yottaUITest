@@ -34,6 +34,15 @@ public class EditPage extends PageTemplate {
     @FindBy (className = "el-select-dropdown")
     private WebElement selectors;
 
+    @FindBy (className = "el-checkbox__inner")
+    private WebElement modifyPassword;
+
+    @FindBy (xpath = "//label[text()='新密码']//following-sibling::div//input[@type='password']")
+    private WebElement newPassword;
+
+    @FindBy (xpath = "//label[text()='重复密码']//following-sibling::div//input[@type='password']")
+    private WebElement repeatPassword;
+
     @FindBy (className = "btn-submit")
     private WebElement saveButton;
 
@@ -61,6 +70,18 @@ public class EditPage extends PageTemplate {
         ExpectedCondition expectedCondition = ExpectedConditions.visibilityOf(selectors);
         WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
         return selectors.findElements(By.tagName("li"));
+    }
+
+    public WebElement getModifyPassword() {
+        return modifyPassword;
+    }
+
+    public WebElement getNewPassword() {
+        return newPassword;
+    }
+
+    public WebElement getRepeatPassword() {
+        return repeatPassword;
     }
 
     public WebElement getSaveButton() {
