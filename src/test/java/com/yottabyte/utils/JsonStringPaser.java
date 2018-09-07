@@ -2,6 +2,7 @@ package com.yottabyte.utils;
 
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 
@@ -40,6 +41,19 @@ public class JsonStringPaser {
         LinkedHashMap<String, Object> map = JSONObject.parseObject(json, new TypeReference<LinkedHashMap<String, Object>>() {
         });
         return map;
+    }
+
+    public static boolean isJson(String content) {
+        try {
+            JSONObject.parseObject(content);
+        } catch (JSONException ex) {
+            try {
+                JSONObject.parseArray(content);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

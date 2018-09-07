@@ -10,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.Map;
+
 /**
  * Created by A on 2017/4/7.
  */
@@ -19,7 +21,18 @@ public class ClickSomeButton {
     @When("^I click the \"([^\"]*)\" button$")
     public void iClickTheButton(String buttonName) {
         if (buttonName != null && buttonName.trim().length() != 0) {
-            WebElement button = GetElementFromPage.getWebElementWithName(buttonName);
+            String parameters = "";
+            WebElement button = null;
+            if (JsonStringPaser.isJson(buttonName)) {
+                Map<String, Object> map = JsonStringPaser.json2Stirng(buttonName);
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    buttonName = entry.getKey();
+                    parameters = (String) entry.getValue();
+                }
+                button = GetElementFromPage.getWebElementWithName(buttonName, parameters);
+            }else {
+                button = GetElementFromPage.getWebElementWithName(buttonName);
+            }
             ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", button);
             iClickTheButton(button);
         } else {
