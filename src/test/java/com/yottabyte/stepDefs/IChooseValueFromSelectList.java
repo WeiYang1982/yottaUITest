@@ -96,7 +96,8 @@ public class IChooseValueFromSelectList {
                 for (WebElement e : elements) {
                     if (value.equals(e.getText())) {
                         e.click();
-//                        break;
+                        if (values.size() == 1)
+                            break;
                     }
                 }
 

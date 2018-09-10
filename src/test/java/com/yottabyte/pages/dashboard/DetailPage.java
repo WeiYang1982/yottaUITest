@@ -1,5 +1,7 @@
 package com.yottabyte.pages.dashboard;
 
+import com.yottabyte.hooks.LoginBeforeAllTests;
+import com.yottabyte.pages.DateEditorPage;
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.WebDriver;
@@ -7,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -79,6 +83,111 @@ public class DetailPage extends PageTemplate {
 
     @FindBy(className = "el-message__group")
     private List<WebElement> successMessage;
+
+    @FindBy(className = "icon-tianjiatubiaoxuanting_icon")
+    private WebElement addEventButton;
+
+    @FindBy(className = "yw-dropdown-menu")
+    private List<WebElement> eventList;
+
+    @FindBy(xpath = "//label[contains(text(),'输入类型')]/following-sibling::div//button")
+    private WebElement inputType;
+
+    @FindBy(xpath = "//span[text()='添加']")
+    private WebElement addChoiceValueButton;
+
+    @FindBy(xpath = "//div[@class='el-form-item dynamic-search-btn']//span")
+    private WebElement searchInputButton;
+
+    @FindBy(xpath = "//label[contains(text(),'搜索内容')]/following-sibling::div//textarea")
+    private WebElement searchInput;
+
+    @FindBy(xpath = "//label[contains(text(),'标题')]/following-sibling::div//input[@class='el-input__inner']")
+    private List<WebElement> titleList;
+
+    public WebElement getInputTitle() {
+        return titleList.get(titleList.size() - 1);
+    }
+
+    public WebElement getSearchInputButton() {
+        return searchInputButton;
+    }
+
+    // 获取本月按钮
+    public WebElement getThisMonth() {
+        return this.getTime("ThisMonth");
+    }
+
+    // 获取对应的时间按钮
+    public WebElement getTime(String time) {
+        WebElement webElement = null;
+        try {
+            DateEditorPage dateEditorPage = new DateEditorPage(webDriver);
+            LoginBeforeAllTests.setPageFactory(dateEditorPage);
+            Class<DateEditorPage> dateEditorPageClass = DateEditorPage.class;
+            String methodName = "get" + time;
+            Method method = dateEditorPageClass.getDeclaredMethod(methodName);
+            webElement = (WebElement) method.invoke(dateEditorPageClass.getDeclaredConstructor(WebDriver.class).newInstance(webDriver));
+            LoginBeforeAllTests.setPageFactory(this);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return webElement;
+    }
+
+    public WebElement getTimeRange() {
+        return super.getInputElement("搜索时间");
+    }
+
+    public WebElement getDefaultDropdownList() {
+        return super.getDropdownList("默认值");
+    }
+
+    public WebElement getDynamicField() {
+        return super.getInputElement("动态字段");
+    }
+
+    public WebElement getSearchInput() {
+        return searchInput;
+    }
+
+    public WebElement getAddChoiceValueButton() {
+        return addChoiceValueButton;
+    }
+
+    public WebElement getInputType() {
+        inputType.click();
+        return eventList.get(eventList.size() - 1);
+    }
+
+    public WebElement getFilterTitle() {
+        return super.getInputElement("标题");
+    }
+
+    public WebElement getChoiceValue() {
+        return super.getInputElement("可选值");
+    }
+
+    public WebElement getFilterToken() {
+        return super.getInputElement("标识");
+    }
+
+    public WebElement getFilterField() {
+        return super.getInputElement("过滤字段");
+    }
+
+    public WebElement getFilterDefaultValue() {
+        return super.getInputElement("默认值");
+    }
+
+
+    public WebElement getEventList() {
+        return eventList.get(eventList.size() - 1);
+    }
+
+    public WebElement getAddEventButton() {
+        return addEventButton;
+    }
 
     public WebElement getSuccessMessage() {
         return successMessage.get(successMessage.size() - 1);
@@ -169,6 +278,14 @@ public class DetailPage extends PageTemplate {
 
     public WebElement getEnsureDeleteTagButton() {
         return ensureList.get(6);
+    }
+
+    public WebElement getEnsureCreateFilter() {
+        return ensureList.get(8);
+    }
+
+    public WebElement getEnsureCreateInput() {
+        return ensureList.get(9);
     }
 
     @Override
