@@ -116,7 +116,7 @@ public class IChooseValueFromSelectList {
     }
 
     public void iCancelSelectionFromThe(List<String> values, WebElement parentElement) {
-        if (parentElement.getTagName() != "ul") {
+        if (!parentElement.getTagName().equals("ul")) {
             parentElement = parentElement.findElement(By.tagName("ul"));
         }
         List<WebElement> selectLists = parentElement.findElements(By.xpath("./li[contains(@class,'selected')]"));

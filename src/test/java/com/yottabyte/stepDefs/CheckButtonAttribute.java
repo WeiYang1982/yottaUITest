@@ -39,6 +39,14 @@ public class CheckButtonAttribute {
         }
     }
 
+    @And("^I will see the \"([^\"]*)\" is display$")
+    public void checkIsDisplay(List<String> buttonNameList) {
+        for (String buttonName : buttonNameList) {
+            WebElement element = GetElementFromPage.getWebElementWithName(buttonName);
+            Assert.assertFalse(element.getAttribute("style").contains("display: none;"));
+        }
+    }
+
     @Then("^I will see the \"([^\"]*)\" node is \"([^\"]*)\"$")
     public void checkNodeIsDisabled(String nodeName, String attribute) {
         List<WebElement> nodeList = GetElementFromPage.getWebElementWithName("NodeList");
@@ -51,5 +59,11 @@ public class CheckButtonAttribute {
                     Assert.assertFalse(disabledFlag);
             }
         }
+    }
+
+    @Then("^I will see the button \"([^\"]*)\" name is \"([^\"]*)\"$")
+    public void checkButtonName(String buttonName, String expectButtonName) {
+        WebElement element = GetElementFromPage.getWebElementWithName(buttonName);
+        Assert.assertTrue(element.getText().equals(expectButtonName));
     }
 }

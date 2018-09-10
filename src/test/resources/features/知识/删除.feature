@@ -6,11 +6,11 @@ Feature: 删除知识
 
   @knowledge
   Scenario Outline:删除知识
-    Given I delete the data in "TableBody" which "<TableHeader>" is "<Name>"
+    Given the data name is "<Name>" then i click the "删除" button
+    Then I click the "EnsureDeleteButton" button
     Then I will see the success message "<SuccessMsg>"
 
   @smoke @all
     Examples:
-      | TableHeader | Name              | SuccessMsg |
-      | 名称          | sunxj1            | 删除成功       |
-      | 分组          | default_Knowledge | 删除成功       |
+      | Name   | SuccessMsg |
+      | sunxj1 | 删除成功       |

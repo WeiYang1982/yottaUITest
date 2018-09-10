@@ -13,5 +13,5 @@ Feature:定时任务分组
 
   @all @smoke
     Examples:
-      | name        | group           |
-      | sxjAutoTest | hunter_role_iis |
+      | name        | group          |
+      | sxjAutoTest | hunter_roles_m |

@@ -3,7 +3,6 @@ package com.yottabyte.pages.timedTask;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.utils.WaitForElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -104,9 +103,9 @@ public class ListPage extends PageTemplate {
         return ensureButton.get(1);
     }
 
-    public List<WebElement> getGroup() {
+    public WebElement getGroup() {
         groups.get(groups.size() - 1).click();
-        return dropdownLists.get(dropdownLists.size() - 1).findElements(By.tagName("li"));
+        return dropdownLists.get(dropdownLists.size() - 1);
     }
 
     public WebElement getSuccessMessage() {
