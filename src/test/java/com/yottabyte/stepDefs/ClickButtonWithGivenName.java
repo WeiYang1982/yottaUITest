@@ -67,6 +67,7 @@ public class ClickButtonWithGivenName {
      */
     private WebElement findName(String name) {
         List<WebElement> tableList = webDriver.findElements(By.className("el-table__body"));
+        nextPage = webDriver.findElement(By.className("btn-next"));
         if (tableList.size() == 1) {
             // 表体
             WebElement table = tableList.get(0);

@@ -1,4 +1,5 @@
-Feature:
+@payments @all
+Feature: 编辑受益人
 
   Background:
     Given I insert into table "Beneficiary" with "{'name':'autotest','domain_id':'1'}"
@@ -15,8 +16,8 @@ Feature:
 
   @smoke
     Examples: 保存成功
-      | name        | describe | appName | message |
-      | sxjautotest | autotest | apache  | 保存成功    |
+      | name            | describe | appName | message                         |
+      | sxjautotest     | autotest | apache  | 保存成功                            |
       | 测试中文名           |          | json    | 保存成功                            |
       | 测试乱码&%¥*        |          |         | 受益人保存成功，但Appname分配失败\n错误码: FE_3 |
       | 测试超出长度的名称能否保存成功 |          | apache  | 保存成功                            |

@@ -2,9 +2,9 @@
 Feature: 新建仪表盘
 
   Background:
-    Given I insert into table "DashBoardGroup" with "{'name':'sxjautotest','domain_id':'1','creator_id':'1'}"
+    Given I insert into table "DashBoardGroup" with "{'name':'sxjautotest','domain_id':'1','creator_id':'1','group':'default_DashBoardGroup'}"
     Then I delete from "DashBoardGroup" where "{'name':'autotest'}"
-    Then I will see the "dashboard.ListPage" page
+    Then open the "dashboard.ListPage" page for uri "/dashboard/"
 
   Scenario Outline:
     Given I click the "CreateButton" button

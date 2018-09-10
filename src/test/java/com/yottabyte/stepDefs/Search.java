@@ -2,16 +2,21 @@ package com.yottabyte.stepDefs;
 
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.utils.GetElementFromPage;
+import com.yottabyte.utils.JsonStringPaser;
 import com.yottabyte.utils.WaitForElement;
 import cucumber.api.PendingException;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import static com.yottabyte.utils.JsonStringPaser.json2Stirng;
 import static junit.framework.TestCase.assertTrue;
 
 public class Search {
@@ -95,5 +100,24 @@ public class Search {
     public void setSearchInput(String name) {
         WebElement searchInput = webDriver.findElement(By.xpath("//div[@class='yw-table-group__basic el-input']/input"));
         searchInput.sendKeys(name);
+    }
+
+    @Given("^search \"([^\"]*)\" and I will see the column number \"([^\"]*)\" contains \"([^\"]*)\"$")
+    public void search(String typeName, String columnNumber, String keyword) {
+        Map<String, Object> map = JsonStringPaser.json2Stirng(typeName);
+        // 根据分组进行搜索
+        if (map.containsKey("group")) {
+            webDriver.findElement(By.className("el-icon-arrow-down")).click();
+            WebElement dropdownList = webDriver.findElement(By.className("yw-table-group__group-menu"));
+            WebElement loadingMask = webDriver.findElement(By.className("el-loading-mask"));
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.invisibilityOf(loadingMask));
+            List list = new ArrayList();
+            list.add(map.get("group").toString());
+            new IChooseValueFromSelectList().iChooseTheFromThe(list, dropdownList);
+        } else if (map.containsKey("input")) {
+            // 根据内容进行搜索
+            setSearchInput(keyword);
+        }
+        search(columnNumber, keyword);
     }
 }

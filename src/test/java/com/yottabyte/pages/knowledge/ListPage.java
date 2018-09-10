@@ -102,6 +102,13 @@ public class ListPage extends PageTemplate {
     @FindBy(xpath = "//label[contains(text(),'标签')]/following-sibling::div//input")
     private WebElement tagInput;
 
+    @FindBy(xpath = "//button[@class='el-button el-button--default el-button--primary ']")
+    private WebElement ensureDeleteButton;
+
+    public WebElement getEnsureDeleteButton() {
+        return ensureDeleteButton;
+    }
+
     public WebElement getTagInput() {
         return tagInput;
     }
