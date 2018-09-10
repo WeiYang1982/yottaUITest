@@ -1,7 +1,7 @@
 Feature: 新建字段统计监控
 
   Background:
-    Given Delete a "alert" with "{'name':['AutoTest']}"
+    Given Delete a "alert" with "{'name':['AutoTest','AutoTest_sum','AutoTest_avg','AutoTest_max','AutoTest_min']}"
     And open the "alert.ListPage" page for uri "/alerts/"
 
   @alert

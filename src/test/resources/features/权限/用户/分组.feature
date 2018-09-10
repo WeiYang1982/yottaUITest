@@ -3,8 +3,8 @@ Feature: 给指定用户分组
   Background:
     Given Delete a "user" with "{'name':['AutoTest']}"
     And Create a "user" with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
-    And Create a "userGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
-    And Create a "userGroup" with "{'name':'AutoTest1','owner':['admin'],'role':['admin']}"
+    And Create a "userGroup" with "{'name':'AutoTestForUser','owner':['admin'],'role':['admin']}"
+    And Create a "userGroup" with "{'name':'AutoTestForUser1','owner':['admin'],'role':['admin']}"
     And open the "users.ListPage" page for uri "/account/users/"
 
   @users
@@ -19,8 +19,8 @@ Feature: 给指定用户分组
   @all @smoke
   Examples:
     |UserGroups|
-    |AutoTest  |
-    |AutoTest,AutoTest1|
+    |AutoTestForUser  |
+    |AutoTestForUser,AutoTestForUser1|
 
 
   @users

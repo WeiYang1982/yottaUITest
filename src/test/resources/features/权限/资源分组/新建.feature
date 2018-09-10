@@ -1,7 +1,8 @@
 Feature: 创建一个资源分组
 
   Background:
-    Given I click the "ResourceGroupsPage" button
+    Given Create a "role" with "{'name':'AutoTestForResource','RoleDes':'','ResourceGroups':['日志来源']}"
+    And I click the "ResourceGroupsPage" button
     Then I will see the "resourceGroups.ListPage" page
     And There is a "thereIsNoResourceGroup" with "{'name':'AutoTest'}"
     And There is a "thereIsNoResourceGroup" with "{'name':'><script>alert(1)</script>'}"
@@ -22,7 +23,7 @@ Feature: 创建一个资源分组
     |NeedRun|Name|Type|Des|Owner|Result|
     |N|AutoTest|仪表盘|Des1|admin,hunter_roles_iis|success message "创建成功"|
     |N|AutoTest|日志来源|   |admin|success message "创建成功"|
-    |N|AutoTest|日志来源|   |B系统_普通|success message "创建成功"|
+    |N|AutoTest|日志来源|   |AutoTestForResource|success message "创建成功"|
     |N|><script>alert(1)</script>|日志来源|   |admin|success message "创建成功"|
 
     @all @resourceGroups

@@ -2,6 +2,7 @@ Feature: 创建一个用户分组
 
   Background:
     Given Delete a "userGroup" with "{'name':['AutoTest','><script>alert(1)</script>']}"
+    And Create a "role" with "{'name':'AutoTestForUserGroup','RoleDes':'','ResourceGroups':['日志来源']}"
     And open the "userGroups.ListPage" page for uri "/account/usergroups/"
 
   @smoke @userGroups
@@ -18,16 +19,16 @@ Feature: 创建一个用户分组
 
   @all
   Examples: 创建成功
-    |NeedRun|UserGroupName|UserGroupDes|Owner         |Role          |Result|
-    |N      |AutoTest     |des1        |admin         |autotest      |success message "创建成功"|
-    |N      |AutoTest     |            |admin,autotest|autotest      |success message "创建成功"|
-    |N      |AutoTest     |des1        |admin         |admin,autotest|success message "创建成功"|
+    |NeedRun|UserGroupName|UserGroupDes|Owner         |Role                      |Result|
+    |N      |AutoTest     |des1        |admin         |AutoTestForUserGroup      |success message "创建成功"|
+    |N      |AutoTest     |            |admin,autotest|AutoTestForUserGroup      |success message "创建成功"|
+    |N      |AutoTest     |des1        |admin         |admin,AutoTestForUserGroup|success message "创建成功"|
     |N      |><script>alert(1)</script>|des1|admin|admin|success message "创建成功"|
 
   @all
   Examples: 创建失败及为空校验
-    |NeedRun|UserGroupName|UserGroupDes|Owner   |Role    |Result|
-    |N      |             |des         |admin   |autotest|error message "分组名 不能为空"|
-    |N      |AutoTest     |des         |        |autotest|error message "拥有者 不能为空"|
+    |NeedRun|UserGroupName|UserGroupDes|Owner   |Role                 |Result|
+    |N      |             |des         |admin   |AutoTestForUserGroup |error message "分组名 不能为空"|
+    |N      |AutoTest     |des         |        |AutoTestForUserGroup |error message "拥有者 不能为空"|
     |N      |AutoTest     |            |admin   |        |error message "角色 不能为空"|
     |Y      |AutoTest     |des         |admin   |admin   |error message "用户组已存在\n错误码: FE_536"|

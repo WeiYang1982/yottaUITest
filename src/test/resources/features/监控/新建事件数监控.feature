@@ -1,7 +1,8 @@
 Feature: 新建事件数监控及页面的各个检查项
 
   Background:
-    Given Delete a "alert" with "{'name':['AutoTest']}"
+    Given Create a "user" with "{'name':'AutoTestForAlert','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    And Delete a "alert" with "{'name':['AutoTest']}"
     And open the "alert.ListPage" page for uri "/alerts/"
 
   @alert
@@ -30,10 +31,10 @@ Feature: 新建事件数监控及页面的各个检查项
 
   @smoke @all
   Examples: 创建事件数监控成功
-    | AlertName | AlertDes | AlertGroup       | AlertUser | AlertSource | SearchContent     | AlertPlanTime | TimeUnits | AlertTrigger | AlertTriggerTimeUnits | AlertLevelInput | AlertLevel | Result                 |
-    | AutoTest  | alertDes | default_Alert    | owner     | 所有日志     | *                 | 5             | 分钟       | 5           | 分钟内                 | 3               | 低          | success message "保存成功" |
-    | AutoTest  |          | default_Alert,11 | owner     | 所有日志     | *                 | 3             | 分钟       | 5           | 小时内                 | 3               | 中          | success message "保存成功" |
-    | AutoTest  |          | default_Alert    | test1     | 所有日志     | *                 | 3             | 分钟       | 5           | 分钟内                 | 3               | 高          | success message "保存成功" |
+    | AlertName | AlertDes | AlertGroup       | AlertUser            | AlertSource | SearchContent     | AlertPlanTime | TimeUnits | AlertTrigger | AlertTriggerTimeUnits | AlertLevelInput | AlertLevel | Result                 |
+    | AutoTest  | alertDes | default_Alert    | owner                | 所有日志     | *                 | 5             | 分钟       | 5           | 分钟内                 | 3               | 低          | success message "保存成功" |
+    | AutoTest  |          | default_Alert,11 | owner                | 所有日志     | *                 | 3             | 分钟       | 5           | 小时内                 | 3               | 中          | success message "保存成功" |
+    | AutoTest  |          | default_Alert    | AutoTestForAlert     | 所有日志     | *                 | 3             | 分钟       | 5           | 分钟内                 | 3               | 高          | success message "保存成功" |
 
   @all
   Examples: 创建事件数监控失败

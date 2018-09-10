@@ -1,16 +1,14 @@
 Feature: 新建相关授权
   
   Background: 
-    Given Delete a "userGroup" with "{'name':['AutoTest']}"
-    And Delete a "role" with "{'name':['AutoTest','AutoTestNew']}"
-    And Create a "userGroup" with "{'name':'AutoTest','owner':['admin'],'role':['admin']}"
-    And Create a "role" with "{'name':'AutoTest','RoleDes':'','ResourceGroups':['日志来源']}"
+    Given Delete a "role" with "{'name':['AutoTestForAuth','AutoTestNew']}"
+    And Create a "role" with "{'name':'AutoTestForAuth','RoleDes':'','ResourceGroups':['日志来源']}"
     And open the "roles.ListPage" page for uri "/account/roles/"
 
   @authorization
   Scenario Outline:
-    Given I set the parameter "SearchInput" with value "AutoTest"
-    And I wait table element "SearchResultTable-1.1" change text to "AutoTest"
+    Given I set the parameter "SearchInput" with value "AutoTestForAuth"
+    And I wait table element "SearchResultTable-1.1" change text to "AutoTestForAuth"
     And I click the table "TableAuthorizeButton-1" button
     And I will see the "roles.AuthorizationPage" page
     When I click the "{'TabButton':'<Tab>'}" button
