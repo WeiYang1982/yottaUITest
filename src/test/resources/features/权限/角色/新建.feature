@@ -46,4 +46,4 @@ Feature: 新建一个角色
     |RoleName |RoleDes|ResourceGroups |Result|
     |AutoTest |Des    |all            |success message "创建成功。自动创建资源分组个数：13 ，请进入资源分组查看"|
     |AutoTest |Des    |仪表盘,日志来源  |success message "创建成功。自动创建资源分组个数：2 ，请进入资源分组查看"|
-    |AutoTest |Des    |仪表盘          |success message "创建成功。自动创建资源分组个数：1 ，请进入资源分组查看"|
+    |AutoTest |Des    |搜索宏          |success message "创建成功。自动创建资源分组个数：1 ，请进入资源分组查看"|

@@ -31,6 +31,7 @@ public class ICheckValuesFromCheckBox {
                     if (value.equalsIgnoreCase(label.getText()) || value.equalsIgnoreCase("all")){
                         if (!attribute.contains("is-checked")){
                             checkbox.click();
+                            break;
                         }
                     }else {
                         if (attribute.contains("is-checked")){

@@ -550,13 +550,11 @@ public class CreatePage extends PageTemplate {
     }
 
     public WebElement getSuccessMessage() {
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(message));
-        return message;
+        return super.getSuccessMessage();
     }
 
     public WebElement getErrorMessage() {
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.visibilityOf(message));
-        return message;
+        return super.getErrorMessage();
     }
 
     private WebElement getSelectors(WebElement element) {

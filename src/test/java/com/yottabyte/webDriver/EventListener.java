@@ -139,7 +139,7 @@ public class EventListener extends AbstractWebDriverEventListener {
                 }
             }));
             wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(lastFindBy)
+                    ExpectedConditions.presenceOfAllElementsLocatedBy(lastFindBy)
             );
 //            selenium.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //reset implicitlyWait
         } catch (NoSuchElementException exception) {

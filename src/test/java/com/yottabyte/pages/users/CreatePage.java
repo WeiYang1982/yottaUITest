@@ -89,7 +89,7 @@ public class CreatePage extends PageTemplate{
     }
 
     public WebElement getSuccessMessage(){
-        return message;
+        return super.getSuccessMessage();
     }
 
     public WebElement getErrorMessage(){

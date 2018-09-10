@@ -2,9 +2,11 @@ package com.yottabyte.pages;
 
 import com.yottabyte.constants.WebDriverConst;
 import com.yottabyte.hooks.LoginBeforeAllTests;
+import com.yottabyte.utils.ElementExist;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -25,6 +27,20 @@ public class PageTemplate extends LoadableComponent<PageTemplate> {
         this.webDriver = driver;
         PageFactory.initElements(driver, this);
         parentPageName = LoginBeforeAllTests.getPageFactory() == null ? "" : LoginBeforeAllTests.getPageFactory().getClass().getSimpleName();
+    }
+    @FindBy(className = "el-message-box__message")
+    private WebElement message;
+
+    protected WebElement getErrorMessage() {
+        return message;
+    }
+
+    protected WebElement getSuccessMessage() {
+        if (ElementExist.isElementExist(webDriver,By.className("el-message__group"))) {
+            return webDriver.findElement(By.className("el-message__group"));
+        }else {
+            return message;
+        }
     }
 
     @Override
