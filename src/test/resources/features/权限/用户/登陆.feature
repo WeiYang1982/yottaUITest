@@ -26,4 +26,4 @@ Feature: 用户登陆
     |             | all123456   |请输入用户名|
     |owner        |             |请输入密码|
     |owner        |asd          |用户名或密码错误|
-    |qweax        |asd          |登陆名不存在\n错误码: FE_510|
+    |qweax        |asd          |登录名不存在|

@@ -1,7 +1,7 @@
 Feature: 新建事件数监控及页面的各个检查项
 
   Background:
-    Given Create a "user" with "{'name':'AutoTestForAlert','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given Create a "user" with "{'name':'AutoTestForAlert','fullname':'','email':'AutoTestForAlert@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And Delete a "alert" with "{'name':['AutoTest']}"
     And open the "alert.ListPage" page for uri "/alerts/"
 
