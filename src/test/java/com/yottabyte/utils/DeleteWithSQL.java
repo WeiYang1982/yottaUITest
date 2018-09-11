@@ -38,6 +38,11 @@ public class DeleteWithSQL {
         run.delete("Alert", "name", alertNames);
     }
 
+    public static void resourceGroup(List<String> resourceGroupName) {
+        run.delete("ResourceGroup", "name", resourceGroupName);
+    }
+
+
     private static List select(List<String> userNames, String tableName) {
         StringBuffer searchSql = new StringBuffer("SELECT id FROM " + tableName + " WHERE name in (");
         for (String s : userNames) {
@@ -51,7 +56,7 @@ public class DeleteWithSQL {
 
     public static void main(String args[]) {
         List<String> list = new ArrayList<>();
-        list.add("212");
-        alert(list);
+        list.add("test1122");
+        resourceGroup(list);
     }
 }

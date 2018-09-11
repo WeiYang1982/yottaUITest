@@ -1,9 +1,12 @@
 package com.yottabyte.utils;
 
+import com.yottabyte.config.ConfigManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CreateWithSQL {
+    static ConfigManager config = new ConfigManager();
     /**
      *  创建一个用户 并在分组表中增加相应信息
      * @param userName 用户名
@@ -97,12 +100,39 @@ public class CreateWithSQL {
         }
     }
 
+    /**
+     * 创建一个资源分组
+     * @param resourceGroupName 资源分组名称
+     * @param types 数据库中的类型名称 可参考下面的数组resourceGroups
+     * @param owners 角色名称 暂时没用到
+     */
+    public static void resourceGroup(String resourceGroupName, List<String> types, List<String> owners) {
+        String[] resourceGroups = {"Alert", "DashBoardGroup", "SavedSchedule",
+                "SavedSearch", "SourceGroup", "Trend", "Dictionary",
+                "ParserRule", "Report", "AgentStatus", "Knowledge", "Topology", "Macro"};
+        String selectSql = "SELECT id FROM ResourceGroup WHERE name = '" + resourceGroupName + "';";
+        List list = JdbcUtils.query(selectSql);
+        if (list.size() == 0) {
+            for (String owner : owners) {
+                for (String type : types) {
+                    String insertSql = "insert into ResourceGroup(domain_id, name, memo, creator_id, category) " +
+                            "select d.id, '" + resourceGroupName +
+                            "', 'Sql Create', a.id, '" + type + "' from Account a " +
+                            "left join Domain d on a.domain_id=d.id where d.name='ops' and a.name='" + config.get("username") + "';";
+                    JdbcUtils.insert(insertSql);
+                }
+            }
+        }else {
+            GetLogger.getLogger().info("已经存在指定资源分组");
+        }
+
+    }
 
     public static void main(String args[]) {
         List<String> list = new ArrayList<>();
         List<String> list1 = new ArrayList<>();
-        list.add("admin");
+        list.add("仪表盘");
         list1.add("admin");
-        role("dsa", "", list1);
+        resourceGroup("test1122", list, list1);
     }
 }

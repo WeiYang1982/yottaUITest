@@ -1,7 +1,7 @@
 Feature: 新建一个角色
 
   Background:
-    Given Delete a "role" with "{'name':['AutoTest']}"
+    Given Delete a "role" with "{'name':['AutoTest','AutoTestForRole']}"
     And open the "roles.ListPage" page for uri "/account/roles/"
 
   @role
@@ -28,11 +28,9 @@ Feature: 新建一个角色
 
   @role
   Scenario Outline: 创建角色同时创建资源分组
-    Given open the "resourceGroups.ListPage" page for uri "/account/resourcegroups/"
-    And There is a "thereIsNoResourceGroup" with "{'name':'AutoTest'}"
-    And I will see the "PublicNavBarPage" page
-    And I click the "RolesPage" button
-    And I will see the "roles.ListPage" page
+    Given
+    And Delete a "resourceGroup" with "{'name':['AutoTestForRole']}"
+    And open the "roles.ListPage" page for uri "/account/roles/"
     And I click the "CreateRoleButton" button
     And I will see the "roles.CreatePage" page
     And I set the parameter "RoleName" with value "<RoleName>"
@@ -43,7 +41,7 @@ Feature: 新建一个角色
 
   @all
   Examples:
-    |RoleName |RoleDes|ResourceGroups |Result|
-    |AutoTest |Des    |all            |success message "创建成功。自动创建资源分组个数：13 ，请进入资源分组查看"|
-    |AutoTest |Des    |仪表盘,日志来源  |success message "创建成功。自动创建资源分组个数：2 ，请进入资源分组查看"|
-    |AutoTest |Des    |搜索宏          |success message "创建成功。自动创建资源分组个数：1 ，请进入资源分组查看"|
+    |RoleName        |RoleDes|ResourceGroups |Result|
+    |AutoTestForRole |Des    |all            |success message "创建成功。自动创建资源分组个数：13 ，请进入资源分组查看"|
+    |AutoTestForRole |Des    |仪表盘,日志来源  |success message "创建成功。自动创建资源分组个数：2 ，请进入资源分组查看"|
+    |AutoTestForRole |Des    |搜索宏          |success message "创建成功。自动创建资源分组个数：1 ，请进入资源分组查看"|
