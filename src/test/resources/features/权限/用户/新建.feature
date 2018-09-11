@@ -41,5 +41,5 @@ Feature: 创建一个用户
     |N      |AutoTest|                |autoTest@yottabyte.cn|           |qqqqqqqq111111111|AutoTestForUser|error message "密码输入有误，请重新输入"|
     |N      |AutoTest|                |autoTest@yottabyte.cn|           |qqqqq11111|              |error message "用户分组 不能为空"|
     |Y      |AutoTest|                |autoTest@rizhiyi.com |           |qqqqq11111|AutoTestForUser      |error message "用户名已存在\n错误码: FE_532"|
-    |Y      |aaa     |                |autoTest@yottabyte.cn|           |qqqqq11111|AutoTestForUser      |error message "邮件名已存在\n错误码: FE_533"|
+    |Y      |aaa     |                |AutoTestNew@yottabyte.cn|        |qqqqq11111|AutoTestForUser      |error message "邮件名已存在\n错误码: FE_533"|
 

@@ -53,7 +53,7 @@ public class EventListener extends AbstractWebDriverEventListener {
             osf.flush();
             osf.close();
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
@@ -98,7 +98,7 @@ public class EventListener extends AbstractWebDriverEventListener {
         try {
             autoScreenShot(ex);
         }catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         if(ex.getClass().equals(NoSuchElementException.class)){
             System.out.println("\n" + "WebDriver error: Element not found: " + lastFindBy + "\n");
