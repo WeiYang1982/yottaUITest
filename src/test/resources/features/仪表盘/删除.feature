@@ -1,5 +1,5 @@
 @dashboard @all @smoke
-Feature:
+Feature: 仪表盘删除
 
   Background:
     Given I insert into table "DashBoardGroup" with "{'name':'sxjautotest','domain_id':'1','creator_id':'1','group':'default_DashBoardGroup'}"

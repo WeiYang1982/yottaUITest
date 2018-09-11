@@ -1,16 +1,13 @@
 package com.yottabyte.pages.dashboard;
 
-import com.yottabyte.hooks.LoginBeforeAllTests;
-import com.yottabyte.pages.DateEditorPage;
 import com.yottabyte.pages.PageTemplate;
+import com.yottabyte.utils.GetTime;
 import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -115,24 +112,7 @@ public class DetailPage extends PageTemplate {
 
     // 获取本月按钮
     public WebElement getThisMonth() {
-        return this.getTime("ThisMonth");
-    }
-
-    // 获取对应的时间按钮
-    public WebElement getTime(String time) {
-        WebElement webElement = null;
-        try {
-            DateEditorPage dateEditorPage = new DateEditorPage(webDriver);
-            LoginBeforeAllTests.setPageFactory(dateEditorPage);
-            Class<DateEditorPage> dateEditorPageClass = DateEditorPage.class;
-            String methodName = "get" + time;
-            Method method = dateEditorPageClass.getDeclaredMethod(methodName);
-            webElement = (WebElement) method.invoke(dateEditorPageClass.getDeclaredConstructor(WebDriver.class).newInstance(webDriver));
-            LoginBeforeAllTests.setPageFactory(this);
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return webElement;
+        return GetTime.getTime(webDriver, "ThisMonth");
     }
 
     public WebElement getTimeRange() {

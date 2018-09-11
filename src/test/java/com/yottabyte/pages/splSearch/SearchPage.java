@@ -4,6 +4,7 @@ import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.DateEditorPage;
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.utils.ElementExist;
+import com.yottabyte.utils.GetTime;
 import com.yottabyte.utils.TakeScreenShot;
 import com.yottabyte.utils.WaitForElement;
 import com.yottabyte.webDriver.SharedDriver;
@@ -215,6 +216,45 @@ public class SearchPage extends PageTemplate {
 
     @FindBy(className = "el-tree-node__content")
     private List<WebElement> nodeList;
+
+    @FindBy(xpath = "//i[@class='yw-search-control-icon iconfont icon-cunweibaobiao_icon']")
+    private WebElement saveAsReport;
+
+    @FindBy(className = "el-dropdown-menu")
+    private List<WebElement> dropDownMenu;
+
+    @FindBy(xpath = "//li[text()='离线任务']")
+    private WebElement offlineTask;
+
+    @FindBy(xpath = "//button[@class='el-button el-button--primary']/span[text()='确定']")
+    private List<WebElement> ensureList;
+
+    public WebElement getWholeTime() {
+        return GetTime.getTime(webDriver, "WholeTime");
+    }
+
+    public WebElement getEnsureCreateOfflineTask() {
+        return ensureList.get(4);
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'名称')]/following-sibling::input")
+    private WebElement offlineTaskName;
+
+    public WebElement getOfflineTaskName() {
+        return offlineTaskName;
+    }
+
+    public WebElement getOfflineTask() {
+        return offlineTask;
+    }
+
+    public WebElement getSaveAsReport() {
+        return saveAsReport;
+    }
+
+    public WebElement getThirtySeconds() {
+        return GetTime.getTime(webDriver, "ThirtySeconds");
+    }
 
     public List<WebElement> getNodeList() {
         return nodeList;
@@ -456,10 +496,7 @@ public class SearchPage extends PageTemplate {
 
     // 获取最近7天按钮
     public WebElement getRecentSevenDay() {
-        DateEditorPage dateEditorPage = new DateEditorPage(webDriver);
-        LoginBeforeAllTests.setPageFactory(dateEditorPage);
-        WebElement webElement = dateEditorPage.getRecentSevenDay();
-        return webElement;
+        return GetTime.getTime(webDriver, "RecentSevenDay");
     }
 
     /**
@@ -500,10 +537,11 @@ public class SearchPage extends PageTemplate {
 
     // 获取今天按钮
     public WebElement getToday() {
-        DateEditorPage dateEditorPage = new DateEditorPage(webDriver);
-        LoginBeforeAllTests.setPageFactory(dateEditorPage);
-        WebElement webElement = dateEditorPage.getToday();
-        return webElement;
+        return GetTime.getTime(webDriver, "Today");
+//        DateEditorPage dateEditorPage = new DateEditorPage(webDriver);
+//        LoginBeforeAllTests.setPageFactory(dateEditorPage);
+//        WebElement webElement = dateEditorPage.getToday();
+//        return webElement;
     }
 
     // 获取昨天按钮

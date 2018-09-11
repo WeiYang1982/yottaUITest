@@ -3,6 +3,7 @@ package com.yottabyte.pages.topology;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.DateEditorPage;
 import com.yottabyte.pages.PageTemplate;
+import com.yottabyte.utils.GetTime;
 import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -165,67 +166,67 @@ public class DetailPage extends PageTemplate {
 
     // 获取今天按钮
     public WebElement getToday() {
-        return this.getTime("Today");
+        return GetTime.getTime(webDriver, "Today");
     }
 
     // 获取昨天按钮
     public WebElement getYesterday() {
-        return this.getTime("Yesterday");
+        return GetTime.getTime(webDriver, "Yesterday");
     }
 
     // 获取本周按钮
     public WebElement getThisWeek() {
-        return this.getTime("ThisWeek");
+        return GetTime.getTime(webDriver, "ThisWeek");
     }
 
     // 获取上周按钮
     public WebElement getLastWeek() {
-        return this.getTime("LastWeek");
+        return GetTime.getTime(webDriver, "LastWeek");
     }
 
     // 获取本月按钮
     public WebElement getThisMonth() {
-        return this.getTime("ThisMonth");
+        return GetTime.getTime(webDriver, "ThisMonth");
     }
 
     // 获取上月按钮
     public WebElement getLastMonth() {
-        return this.getTime("LastMonth");
+        return GetTime.getTime(webDriver, "LastMonth");
     }
 
     // 获取十分钟按钮
     public WebElement getTenMinutes() {
-        return this.getTime("TenMinutes");
+        return GetTime.getTime(webDriver, "TenMinutes");
     }
 
     // 获取30分钟按钮
     public WebElement getHalfHour() {
-        return this.getTime("HalfHour");
+        return GetTime.getTime(webDriver, "HalfHour");
     }
 
     // 获取1小时按钮
     public WebElement getOneHour() {
-        return this.getTime("OneHour");
+        return GetTime.getTime(webDriver, "OneHour");
     }
 
     // 获取1天按钮
     public WebElement getOneDay() {
-        return this.getTime("OneDay");
+        return GetTime.getTime(webDriver, "OneDay");
     }
 
     // 获取2天按钮
     public WebElement getTwoDays() {
-        return this.getTime("TwoDays");
+        return GetTime.getTime(webDriver, "TwoDays");
     }
 
     // 获取7天按钮
     public WebElement getSevenDays() {
-        return this.getTime("SevenDays");
+        return GetTime.getTime(webDriver, "SevenDays");
     }
 
     // 获取全部时间
     public WebElement getWholeTime() {
-        return this.getTime("WholeTime");
+        return GetTime.getTime(webDriver, "WholeTime");
     }
 
     public void getSecondAgo() {
@@ -261,23 +262,6 @@ public class DetailPage extends PageTemplate {
         LoginBeforeAllTests.setPageFactory(dateEditorPage);
         dateEditorPage.getCustomTime("00:00:00", "00:00:00", "2018-08-01", "2018-08-03");
         LoginBeforeAllTests.setPageFactory(this);
-    }
-
-    // 获取对应的时间按钮
-    public WebElement getTime(String time) {
-        WebElement webElement = null;
-        try {
-            DateEditorPage dateEditorPage = new DateEditorPage(webDriver);
-            LoginBeforeAllTests.setPageFactory(dateEditorPage);
-            Class<DateEditorPage> dateEditorPageClass = DateEditorPage.class;
-            String methodName = "get" + time;
-            Method method = dateEditorPageClass.getDeclaredMethod(methodName);
-            webElement = (WebElement) method.invoke(dateEditorPageClass.getDeclaredConstructor(WebDriver.class).newInstance(webDriver));
-            LoginBeforeAllTests.setPageFactory(this);
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return webElement;
     }
 
     @FindBy(xpath = "//span[text()='搜索']")

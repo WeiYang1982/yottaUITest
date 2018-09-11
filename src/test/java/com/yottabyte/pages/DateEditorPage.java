@@ -71,8 +71,11 @@ public class DateEditorPage extends PageTemplate {
     @FindBy(xpath = "//button[text()='7天']")
     private WebElement sevenDays;
 
-    @FindBy(xpath = "//button[text()='全部时间']")
+    @FindBy(xpath = "//button[text()='所有时间']")
     private WebElement wholeTime;
+
+    @FindBy(xpath = "//button[text()='30秒窗口']")
+    private WebElement thirtySeconds;
 
     @FindBy(xpath = "//div[@class='el-tabs__item'][text()='最近']")
     private WebElement recently;
@@ -128,8 +131,12 @@ public class DateEditorPage extends PageTemplate {
         applyButton.click();
     }
 
+    public WebElement getThirtySeconds() {
+        return this.getDateButton(thirtySeconds);
+    }
+
     public WebElement getWholeTime() {
-        return wholeTime;
+        return this.getDateButton(wholeTime);
     }
 
     public WebElement getTenMinutes() {

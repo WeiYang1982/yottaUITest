@@ -115,7 +115,7 @@ Feature: 仪表盘详情页
       | first   | 添加过滤项     | FilterTitle | test  | EnsureCreateFilter | 请输入过滤项标识    |
       | first   | 添加输入项     | InputTitle  | test  | EnsureCreateInput  | 请输入输入项token |
 
-  @all
+  @smoke
   Scenario Outline: 添加下拉菜单类型的过滤项
     Then I set the parameter "TagName" with value "<tagName>"
     Then I click the "EnsureCreateTagButton" button
@@ -135,7 +135,7 @@ Feature: 仪表盘详情页
       | tagName | eventList | title | token | field | inputType | choiceValue |
       | first   | 添加过滤项     | test  | token |       | 下拉菜单      | default_value |
 
-  @all
+  @smoke
   Scenario Outline: 添加动态菜单类型的过滤项
     Then I set the parameter "TagName" with value "<tagName>"
     Then I click the "EnsureCreateTagButton" button
