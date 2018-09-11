@@ -115,11 +115,22 @@ public class CreateWithSQL {
         if (list.size() == 0) {
             for (String owner : owners) {
                 for (String type : types) {
-                    String insertSql = "insert into ResourceGroup(domain_id, name, memo, creator_id, category) " +
-                            "select d.id, '" + resourceGroupName +
-                            "', 'Sql Create', a.id, '" + type + "' from Account a " +
-                            "left join Domain d on a.domain_id=d.id where d.name='ops' and a.name='" + config.get("username") + "';";
-                    JdbcUtils.insert(insertSql);
+                    String insertSql = "";
+                    if ("all".equalsIgnoreCase(type)) {
+                        for (String t:resourceGroups) {
+                            insertSql = "insert into ResourceGroup(domain_id, name, memo, creator_id, category) " +
+                                    "select d.id, '" + resourceGroupName +
+                                    "', 'Sql Create', a.id, '" + t + "' from Account a " +
+                                    "left join Domain d on a.domain_id=d.id where d.name='ops' and a.name='" + config.get("username") + "';";
+                            JdbcUtils.insert(insertSql);
+                        }
+                    }else {
+                        insertSql = "insert into ResourceGroup(domain_id, name, memo, creator_id, category) " +
+                                "select d.id, '" + resourceGroupName +
+                                "', 'Sql Create', a.id, '" + type + "' from Account a " +
+                                "left join Domain d on a.domain_id=d.id where d.name='ops' and a.name='" + config.get("username") + "';";
+                        JdbcUtils.insert(insertSql);
+                    }
                 }
             }
         }else {
@@ -131,7 +142,7 @@ public class CreateWithSQL {
     public static void main(String args[]) {
         List<String> list = new ArrayList<>();
         List<String> list1 = new ArrayList<>();
-        list.add("仪表盘");
+        list.add("SavedSchedule");
         list1.add("admin");
         resourceGroup("test1122", list, list1);
     }
