@@ -28,7 +28,7 @@ public class ICheckValuesFromCheckBox {
                     WebElement checkbox = e.findElement(By.className("el-checkbox__input"));
                     WebElement label = e.findElement(By.className("el-checkbox__label"));
                     String attribute = checkbox.getAttribute("class");
-                    if (value.equalsIgnoreCase(label.getText()) || value.equalsIgnoreCase("all")){
+                    if (value.equalsIgnoreCase(label.getText().trim()) || value.equalsIgnoreCase("all")){
                         if (!attribute.contains("is-checked")){
                             checkbox.click();
                             break;

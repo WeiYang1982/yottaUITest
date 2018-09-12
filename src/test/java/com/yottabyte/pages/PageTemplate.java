@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 public class PageTemplate extends LoadableComponent<PageTemplate> {
 
     public WebDriver webDriver;
-    public ConfigManager config = new ConfigManager();
+    public static ConfigManager config = new ConfigManager();
     String parentPageName;
 
     public PageTemplate(WebDriver driver) {

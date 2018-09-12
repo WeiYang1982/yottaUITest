@@ -130,7 +130,7 @@ public class ListPage extends PageTemplate {
     @Override
     protected void load() {
         if (LoginBeforeAllTests.getCookie() != null) {
-            webDriver.get("http://alltest.rizhiyi.com/dashboard/");
+            webDriver.get("http://" + config.get("rizhiyi_server_host") + "/alerts");
             webDriver.manage().addCookie(LoginBeforeAllTests.getCookie());
         }else {
             LoginBeforeAllTests.login();
@@ -141,7 +141,7 @@ public class ListPage extends PageTemplate {
     protected void isLoaded() throws Error {
         super.isLoaded();
         try {
-            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.visibilityOf(getMessage()));
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.invisibilityOf(loadingElement));
         }catch (Exception e){
             GetLogger.getLogger().error("can not load % with error %", this.getClass().getSimpleName(), e);
         }
@@ -160,11 +160,11 @@ public class ListPage extends PageTemplate {
         list2.add("10");
         LoginBeforeAllTests login = new LoginBeforeAllTests(driver,c);
         login.beforeScenario();
-        Thread.sleep(2000);
-        driver.get("http://alltest.rizhiyi.com/alerts");
-        ListPage p = new ListPage(driver);
+        Thread.sleep(5000);
+        driver.get("http://" + config.get("rizhiyi_server_host") + "/alerts");
+//        ListPage p = new ListPage(driver);
 //        p.deleteAlert("AutoTest");
-        p.thereIsAnAlert("AutoTest", list, list1, list2);
+//        p.thereIsAnAlert("AutoTest", list, list1, list2);
     }
 
 }
