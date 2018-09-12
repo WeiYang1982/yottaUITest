@@ -12,7 +12,6 @@ public class AuthorizationPage extends PageTemplate {
 
     public AuthorizationPage(WebDriver driver) {
         super(driver);
-        isLoaded();
     }
 
     @FindBy(className = "el-loading-mask")

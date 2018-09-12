@@ -13,7 +13,10 @@ public class ConstructPageFactoryWithName {
         try {
             c = Class.forName("com.yottabyte.pages." + pageName).getDeclaredConstructor(WebDriver.class);
             c.setAccessible(true);
-            LoginBeforeAllTests.setPageFactory(c.newInstance(webDriver));
+            Object page = c.newInstance(webDriver);
+            LoginBeforeAllTests.setPageFactory(page);
+            Class<?> clazz = page.getClass();
+            clazz.getSuperclass().getSuperclass().getDeclaredMethod("get").invoke(page);
         } catch (NoSuchMethodException | ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
