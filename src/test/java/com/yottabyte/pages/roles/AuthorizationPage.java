@@ -1,5 +1,6 @@
 package com.yottabyte.pages.roles;
 
+import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.*;
@@ -7,6 +8,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 public class AuthorizationPage extends PageTemplate {
 
@@ -89,8 +92,19 @@ public class AuthorizationPage extends PageTemplate {
 
 
     @Override
+    protected void load() {
+        webDriver.get("http://" + config.get("rizhiyi_server_host") + "/account/roles/");
+        LoginBeforeAllTests.login();
+        webDriver.get("http://" + config.get("rizhiyi_server_host") + "/account/roles/");
+    }
+    @Override
     protected void isLoaded() throws Error {
-        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.invisibilityOf(loading));
+        try {
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.invisibilityOf(loading));
+            assertTrue(webDriver.getCurrentUrl().contains("/account/roles/"));
+        } catch (Exception e) {
+            throw new Error("Cannot locate account roles page");
+        }
     }
 
 }

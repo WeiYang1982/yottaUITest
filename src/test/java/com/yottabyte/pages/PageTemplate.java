@@ -1,5 +1,6 @@
 package com.yottabyte.pages;
 
+import com.yottabyte.config.ConfigManager;
 import com.yottabyte.constants.WebDriverConst;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.utils.ElementExist;
@@ -15,12 +16,15 @@ import org.openqa.selenium.support.ui.LoadableComponent;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * 页面元素模板，每一个页面都需要继承该模板
  */
 public class PageTemplate extends LoadableComponent<PageTemplate> {
 
     public WebDriver webDriver;
+    public ConfigManager config = new ConfigManager();
     String parentPageName;
 
     public PageTemplate(WebDriver driver) {
@@ -45,6 +49,8 @@ public class PageTemplate extends LoadableComponent<PageTemplate> {
 
     @Override
     protected void load() {
+        webDriver.get("http://" + config.get("rizhiyi_server_host") + "/auth/login/");
+        LoginBeforeAllTests.login();
     }
 
     @Override
@@ -53,14 +59,16 @@ public class PageTemplate extends LoadableComponent<PageTemplate> {
                 .withTimeout(WebDriverConst.WAIT_FOR_ELEMENT_TIMEOUT_WHEN_PAGE_LOADING, TimeUnit.MILLISECONDS)
                 .pollingEvery(WebDriverConst.WAIT_FOR_ELEMENT_POLLING_DURING, TimeUnit.MILLISECONDS)
                 .ignoring(NoSuchElementException.class);
-        wait.until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver driver) {
-                System.out.println("Waiting " + this.getClass().getName() + " Dom loading complete");
-                return ((JavascriptExecutor) driver).executeScript(
-                        "return document.readyState"
-                ).equals("complete");
-            }
-        });
+        try {
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    System.out.println("Waiting " + this.getClass().getName() + " Dom loading complete");
+                    return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+                }
+            });
+        }catch (Exception e) {
+            throw new Error("Can not locate " + this.getClass().getName() + "page");
+        }
     }
 
     public WebElement getInputElement(String text) {
