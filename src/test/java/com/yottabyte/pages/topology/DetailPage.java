@@ -226,7 +226,7 @@ public class DetailPage extends PageTemplate {
 
     // 获取全部时间
     public WebElement getWholeTime() {
-        return GetTime.getTime(webDriver, "WholeTime");
+        return GetTime.getTime(webDriver, "TopoWholeTime");
     }
 
     public void getSecondAgo() {
