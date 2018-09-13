@@ -229,6 +229,40 @@ public class SearchPage extends PageTemplate {
     @FindBy(xpath = "//button[@class='el-button el-button--primary']/span[text()='确定']")
     private List<WebElement> ensureList;
 
+    @FindBy(xpath = "//i[@title='暂停']")
+    private WebElement pause;
+
+    @FindBy(xpath = "//i[@title='取消']")
+    private WebElement cancle;
+
+    @FindBy(xpath = "//i[@title='恢复']")
+    private WebElement recover;
+
+    public WebElement getRecover() {
+        return recover;
+    }
+
+    public WebElement getCancle() {
+        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(cancle));
+        return cancle;
+    }
+
+    @FindBy(className = "status-text")
+    private WebElement statusText;
+
+    public WebElement getStatusText() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return statusText;
+    }
+
+    public WebElement getPause() {
+        return pause;
+    }
+
     public WebElement getWholeTime() {
         return GetTime.getTime(webDriver, "WholeTime");
     }
@@ -240,8 +274,16 @@ public class SearchPage extends PageTemplate {
     @FindBy(xpath = "//label[contains(text(),'名称')]/following-sibling::input")
     private WebElement offlineTaskName;
 
+    public WebElement getApplyButton() {
+        return GetTime.getTime(webDriver, "ApplyButton");
+    }
+
     public WebElement getOfflineTaskName() {
         return offlineTaskName;
+    }
+
+    public WebElement getTimeInput() {
+        return GetTime.getTime(webDriver, "TimeInput");
     }
 
     public WebElement getOfflineTask() {
@@ -494,9 +536,33 @@ public class SearchPage extends PageTemplate {
         return buttons.get(3);
     }
 
+    public WebElement getDaysDropDown() {
+        return GetTime.getTime(webDriver, "DaysDropDown");
+    }
+
     // 获取最近7天按钮
     public WebElement getRecentSevenDay() {
         return GetTime.getTime(webDriver, "RecentSevenDay");
+    }
+
+    public WebElement getRecentlyRadioButton() {
+        return GetTime.getTime(webDriver, "RecentlyRadioButton");
+    }
+
+    public WebElement getRealTimeButton() {
+        return GetTime.getTime(webDriver, "RealTimeButton");
+    }
+
+    public WebElement getThisMonth() {
+        return GetTime.getTime(webDriver, "ThisMonth");
+    }
+
+    public void getCustomTime() {
+//        DateEditorPage dateEditorPage = new DateEditorPage(webDriver);
+//        LoginBeforeAllTests.setPageFactory(dateEditorPage);
+//        dateEditorPage.getCustomTime("00:00:00", "00:00:00", "2016-08-01", "2018-08-03");
+//        LoginBeforeAllTests.setPageFactory(this);
+        GetTime.getTime(webDriver, "CustomTime");
     }
 
     /**
@@ -538,10 +604,6 @@ public class SearchPage extends PageTemplate {
     // 获取今天按钮
     public WebElement getToday() {
         return GetTime.getTime(webDriver, "Today");
-//        DateEditorPage dateEditorPage = new DateEditorPage(webDriver);
-//        LoginBeforeAllTests.setPageFactory(dateEditorPage);
-//        WebElement webElement = dateEditorPage.getToday();
-//        return webElement;
     }
 
     // 获取昨天按钮
@@ -562,16 +624,19 @@ public class SearchPage extends PageTemplate {
         return searchInput;
     }
 
+    @FindBy(xpath = "//input[@placeholder='请选择快捷时间或时间范围']")
+    private WebElement dateEditor;
+
     public WebElement getDateEditor() {
-        DateEditorPage date = new DateEditorPage(webDriver);
-        LoginBeforeAllTests.setPageFactory(date);
-        WebElement webElement = date.getPublicDateEditor();
-        return webElement;
+//        DateEditorPage date = new DateEditorPage(webDriver);
+//        LoginBeforeAllTests.setPageFactory(date);
+//        WebElement webElement = date.getPublicDateEditor();
+
+        return dateEditor;
     }
 
     public WebElement getSearchButton() {
-        SearchPage searchPage = new SearchPage(webDriver);
-        LoginBeforeAllTests.setPageFactory(searchPage);
+//        LoginBeforeAllTests.setPageFactory(this);
         expectedCondition = ExpectedConditions.elementToBeClickable(searchButton);
         WaitForElement.waitForElementWithExpectedCondition(webDriver, expectedCondition);
         return searchButton;
