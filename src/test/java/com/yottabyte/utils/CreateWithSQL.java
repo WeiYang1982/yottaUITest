@@ -140,10 +140,13 @@ public class CreateWithSQL {
     }
 
     public static void main(String args[]) {
-        List<String> list = new ArrayList<>();
-        List<String> list1 = new ArrayList<>();
-        list.add("SavedSchedule");
-        list1.add("admin");
-        resourceGroup("test1122", list, list1);
+//        String json = "{'name':'AutoTestForAlert','fullname':'','email':'AutoTestForAlert@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}";
+        String json = "{'name':'AutoTestResourceGroup','type':['Alert'],'owner':['admin']}";
+
+
+        JsonStringPaser paser = new JsonStringPaser();
+        Object pars[] = paser.jsonParser(json);
+        GetElementFromPage.getMethod("com.yottabyte.utils.CreateWithSQL", "resourceGroup", pars);
+
     }
 }

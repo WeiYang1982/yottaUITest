@@ -1,12 +1,18 @@
 package com.yottabyte.pages.roles;
 
+import com.yottabyte.config.ConfigManager;
 import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.PageTemplate;
+import com.yottabyte.stepDefs.ICheckValuesFromCheckBox;
+import com.yottabyte.stepDefs.Pagination;
+import com.yottabyte.utils.ElementExist;
 import com.yottabyte.utils.WaitForElement;
+import com.yottabyte.webDriver.SharedDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -66,6 +72,14 @@ public class AuthorizationPage extends PageTemplate {
         return tab.findElement(By.xpath("//span[text()='" + value + "']/preceding-sibling::span"));
     }
 
+    public List<WebElement> getGroupManagement(String targetName) {
+        return getElementFromTable(targetName, "el-table_1_column_3");
+    }
+
+    public List<WebElement> getIntraGroupManagement(String targetName) {
+        return getElementFromTable(targetName, "el-table_1_column_4");
+    }
+
     public WebElement getChooseAllCheckBoxes() {
         return tab.findElement(By.className("el-checkbox__input"));
     }
@@ -91,6 +105,12 @@ public class AuthorizationPage extends PageTemplate {
     }
 
 
+    private List<WebElement> getElementFromTable(String targetName, String byPath) {
+        WebElement tr = Pagination.forEachThePaginationDesc(tab, 2, targetName);
+        return tr.findElement(By.className(byPath)).findElements(By.className("el-checkbox"));
+    }
+
+
     @Override
     protected void load() {
         webDriver.get("http://" + config.get("rizhiyi_server_host") + "/account/roles/");
@@ -105,6 +125,23 @@ public class AuthorizationPage extends PageTemplate {
         } catch (Exception e) {
             throw new Error("Cannot locate account roles page");
         }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        SharedDriver driver = new SharedDriver();
+        ConfigManager c = new ConfigManager();
+        LoginBeforeAllTests login = new LoginBeforeAllTests(driver,c);
+        login.beforeScenario();
+        Thread.sleep(3000);
+        driver.get("http://192.168.1.134/account/roles/assign/1/");
+        LoginBeforeAllTests.setPageFactory("roles.AuthorizationPage");
+        ICheckValuesFromCheckBox checkBox = new ICheckValuesFromCheckBox();
+        List<String> list = new ArrayList<>();
+        list.add("读取");
+        list.add("编辑");
+//        Pagination pagination = new Pagination();
+//        WebElement element = pagination.forEachThePaginationDesc(2, "AutoTest");
+        checkBox.iCheckFromThe(list, "{'GroupManagement':['AutoTest']}");
     }
 
 }
