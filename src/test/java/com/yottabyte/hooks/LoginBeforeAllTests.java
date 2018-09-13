@@ -62,7 +62,10 @@ public class LoginBeforeAllTests {
         wait.until(new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver driver) {
-                return  (driver.manage().getCookieNamed("sessionid") == null);
+                while (driver.manage().getCookieNamed("sessionid") == null) {
+                    return false;
+                }
+                return true;
             }
         });
         cookie = webDriver.manage().getCookieNamed("sessionid");
