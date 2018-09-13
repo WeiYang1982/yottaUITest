@@ -238,12 +238,57 @@ public class SearchPage extends PageTemplate {
     @FindBy(xpath = "//i[@title='恢复']")
     private WebElement recover;
 
+    @FindBy(xpath = "//button[@class='el-button yw-search-pages-download el-button--default']/span")
+    private WebElement download;
+
+    @FindBy(xpath = "//label[contains(text(),'文件名称')]/following-sibling::input")
+    private WebElement downloadName;
+
+    @FindBy(xpath = "//label[contains(text(),'最大行数')]/following-sibling::div//i")
+    private WebElement maxLineDropdown;
+
+    @FindBy(xpath = "//button[@class='el-button yw-search-pages-download el-button--primary']/span")
+    private WebElement downloadEvent;
+
+    public WebElement getDownloadEvent() {
+        return downloadEvent;
+    }
+
+    public WebElement getMaxLineDropdown() {
+        maxLineDropdown.click();
+        return dropdownList.get(dropdownList.size() - 1);
+    }
+
+    public WebElement getDownloadName() {
+        return downloadName;
+    }
+
+    public WebElement getMaxLineNum() {
+        return super.getInputElement("最大行数");
+    }
+
+    public WebElement getDocumentType() {
+        return super.getDropdownList("文件类型");
+    }
+
+    public WebElement getDocumentEncode() {
+        return super.getDropdownList("文件编码");
+    }
+
+    public WebElement getCreateDownloadTask() {
+        return super.getButton("创建");
+    }
+
+    public WebElement getDownload() {
+        return download;
+    }
+
     public WebElement getRecover() {
         return recover;
     }
 
     public WebElement getCancle() {
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,ExpectedConditions.elementToBeClickable(cancle));
+        WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.elementToBeClickable(cancle));
         return cancle;
     }
 
