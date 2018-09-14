@@ -23,6 +23,8 @@ public class AuthorizationPage extends PageTemplate {
         super(driver);
     }
 
+    private WebElement webElement;
+
     @FindBy(className = "el-loading-mask")
     private WebElement loading;
 
@@ -73,11 +75,16 @@ public class AuthorizationPage extends PageTemplate {
     }
 
     public List<WebElement> getGroupManagement(String targetName) {
-        return getElementFromTable(targetName, "el-table_1_column_3");
+        webElement = getElementFromTable(targetName);
+        return webElement.findElements(By.tagName("td")).get(2).findElements(By.className("el-checkbox"));
     }
 
     public List<WebElement> getIntraGroupManagement(String targetName) {
-        return getElementFromTable(targetName, "el-table_1_column_4");
+        if (webElement != null) {
+            return webElement.findElements(By.tagName("td")).get(3).findElements(By.className("el-checkbox"));
+        }else {
+            return getElementFromTable(targetName).findElements(By.tagName("td")).get(3).findElements(By.className("el-checkbox"));
+        }
     }
 
     public WebElement getChooseAllCheckBoxes() {
@@ -105,9 +112,9 @@ public class AuthorizationPage extends PageTemplate {
     }
 
 
-    private List<WebElement> getElementFromTable(String targetName, String byPath) {
+    private WebElement getElementFromTable(String targetName) {
         WebElement tr = Pagination.forEachThePaginationDesc(tab, 2, targetName);
-        return tr.findElement(By.className(byPath)).findElements(By.className("el-checkbox"));
+        return tr;
     }
 
 

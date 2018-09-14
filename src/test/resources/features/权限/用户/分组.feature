@@ -1,16 +1,16 @@
 Feature: 给指定用户分组
 
   Background:
-    Given Delete a "user" with "{'name':['AutoTest']}"
-    And Create a "user" with "{'name':'AutoTest','fullname':'','email':'AutoTest@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given Delete a "user" with "{'name':['AutoTestForChangeGroup']}"
+    And Create a "user" with "{'name':'AutoTestForChangeGroup','fullname':'','email':'AutoTestForChangeGroup@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And Create a "userGroup" with "{'name':'AutoTestForUser','owner':['admin'],'role':['admin']}"
     And Create a "userGroup" with "{'name':'AutoTestForUser1','owner':['admin'],'role':['admin']}"
     And open the "users.ListPage" page for uri "/account/users/"
 
   @users
   Scenario Outline: 为用户增加用户分组
-    Given I set the parameter "SearchInput" with value "AutoTest"
-    And I wait table element "SearchResultTable-1.2" change text to "AutoTest"
+    Given I set the parameter "SearchInput" with value "AutoTestForChangeGroup"
+    And I wait table element "SearchResultTable-1.2" change text to "AutoTestForChangeGroup"
     When I click the table "TableChangeGroupButton-1" button
     And I choose the "<UserGroups>" from the "UserGroups"
     And I click the "ConfirmButton" button
@@ -25,8 +25,8 @@ Feature: 给指定用户分组
 
   @users
   Scenario Outline: 为用户取消用户分组
-    Given I set the parameter "SearchInput" with value "AutoTest"
-    And I wait table element "SearchResultTable-1.2" change text to "AutoTest"
+    Given I set the parameter "SearchInput" with value "AutoTestForChangeGroup"
+    And I wait table element "SearchResultTable-1.2" change text to "AutoTestForChangeGroup"
     When I click the table "TableChangeGroupButton-1" button
     And I cancel selection "<UserGroups>" from the "UserGroups"
     And I click the "ConfirmButton" button

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Pagination {
 
-    WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
+    static WebDriver webDriver = LoginBeforeAllTests.getWebDriver();
     static ClickSomeButton click = new ClickSomeButton();
 
     /**
@@ -22,10 +22,10 @@ public class Pagination {
      * @return 行元素
      */
     public static WebElement forEachThePaginationDesc(WebElement fatherElement, int col, String targetName) {
-        By by = By.xpath("//ul[@class='el-pager']/li");
+        By by = By.xpath(".//ul[@class='el-pager']/li");
         if (isExist(fatherElement)) {
             List<WebElement> pages = fatherElement.findElements(by);
-            WebElement lastPage = fatherElement.findElement(By.xpath("//ul[@class='el-pager']/li[last()]"));
+            WebElement lastPage = fatherElement.findElement(By.xpath(".//ul[@class='el-pager']/li[last()]"));
             click.iClickTheButton(lastPage);
             for (int i=pages.size()-1;i>=0;i--) {
                 List<WebElement> tables = fatherElement.findElements(By.className("el-table__body"));
@@ -37,9 +37,21 @@ public class Pagination {
                                 return tr;
                             }
                         }
+                    } else {
+                        return null;
                     }
                 }
                 click.iClickTheButton(fatherElement.findElement(By.className("btn-prev")));
+            }
+        } else {
+            WebElement table = fatherElement.findElement(By.className("el-table__body"));
+            if (table.isDisplayed()) {
+                List<WebElement> trs = table.findElements(By.tagName("tr"));
+                for (WebElement tr : trs) {
+                    if (tr.findElements(By.tagName("td")).get(col-1).getText().equalsIgnoreCase(targetName)) {
+                        return tr;
+                    }
+                }
             }
         }
         GetLogger.getLogger().error("没有找到指定元素%!", targetName);
@@ -51,7 +63,6 @@ public class Pagination {
         return forEachThePaginationDesc(fatherElement, col, targetName);
     }
 
-
     private static Boolean isExist(WebElement fatherElement) {
         try {
             fatherElement.findElement(By.className("el-pagination"));
@@ -61,7 +72,6 @@ public class Pagination {
             return false;
         }
     }
-
 
 
 }

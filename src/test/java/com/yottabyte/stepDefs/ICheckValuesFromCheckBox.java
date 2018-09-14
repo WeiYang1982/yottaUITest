@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class ICheckValuesFromCheckBox {
     /**
      * 对复选框的操作,将指定文本的复选框选中
@@ -24,6 +26,9 @@ public class ICheckValuesFromCheckBox {
             String value = values.get(0);
             if (value != null && value.trim().length() != 0){
                 for (WebElement e : fatherSelectList) {
+                    if (e.getAttribute("style").contains("display: none;")) {
+                        ((JavascriptExecutor) webDriver).executeScript("arguments[0].style.display='block';", e);
+                    }
                     ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
                     WebElement checkbox = e.findElement(By.className("el-checkbox__input"));
                     WebElement label = e.findElement(By.className("el-checkbox__label"));
@@ -31,32 +36,41 @@ public class ICheckValuesFromCheckBox {
                     if (value.equalsIgnoreCase(label.getText().trim()) || value.equalsIgnoreCase("all")){
                         if (!attribute.contains("is-checked")){
                             checkbox.click();
+                            assertThat(checkbox.getAttribute("class")).contains("is-checked");
                             break;
                         }
                     }else {
                         if (attribute.contains("is-checked")){
                             checkbox.click();
+                            assertThat(checkbox.getAttribute("class")).doesNotContain("is-checked");
                         }
                     }
                 }
             }
         }else {
             for (WebElement e : fatherSelectList) {
-                ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
-                WebElement checkbox = e.findElement(By.className("el-checkbox__input"));
-                WebElement label = e.findElement(By.className("el-checkbox__label"));
-                String attribute = checkbox.getAttribute("class");
-                if (attribute.contains("is-checked")){
-                    checkbox.click();
-                }
+//                ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
+//                WebElement checkbox = e.findElement(By.className("el-checkbox__input"));
+//                WebElement label = e.findElement(By.className("el-checkbox__label"));
+//                String attribute = checkbox.getAttribute("class");
+//                if (attribute.contains("is-checked") && checkbox.isDisplayed()){
+//                    checkbox.click();
+//                }
                 for (String value : values){
+                    ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", e);
+                    WebElement checkbox = e.findElement(By.className("el-checkbox__input"));
+                    WebElement label = e.findElement(By.className("el-checkbox__label"));
+                    String attribute = checkbox.getAttribute("class");
                     if (value.equalsIgnoreCase(label.getText())){
                         if (!attribute.contains("is-checked")){
                             checkbox.click();
+                            assertThat(checkbox.getAttribute("class")).contains("is-checked");
                         }
+                        break;
                     }else {
-                        if (attribute.contains("is-checked")){
+                        if (attribute.contains("is-checked") && checkbox.isDisplayed()){
                             checkbox.click();
+                            assertThat(checkbox.getAttribute("class")).doesNotContain("is-checked");
                         }
                     }
                 }

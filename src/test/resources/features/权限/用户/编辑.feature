@@ -1,13 +1,13 @@
 Feature: 编辑指定用户
 
   Background:
-    Given Delete a "user" with "{'name':['AutoTestForUserNew','AutoTestForUser','AutoTestForUserTmp']}"
-    And Create a "user" with "{'name':'AutoTestForUser','fullname':'','email':'AutoTestForUser@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given Delete a "user" with "{'name':['AutoTestForUserEditNew','AutoTestForUserEdit','AutoTestForUserEditTmp']}"
+    And Create a "user" with "{'name':'AutoTestForUserEdit','fullname':'','email':'AutoTestForUserEdit@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And open the "users.ListPage" page for uri "/account/users/"
 
   @users
   Scenario Outline: 编辑用户信息
-    Given I need "<NeedRun>" create a "user" with "{'name':'AutoTestForUserNew','fullname':'','email':'AutoTestForUserNew@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
+    Given I need "<NeedRun>" create a "user" with "{'name':'AutoTestForUserEditNew','fullname':'','email':'AutoTestForUserEditNew@yottabyte.cn','telephone':'','password':'qqqqq11111','userGroup':['admin']}"
     And I set the parameter "SearchInput" with value "<UserName>"
     And I wait table element "SearchResultTable-1.2" change text to "<UserName>"
     And I click the table "TableSeeDetailButton-1" button
@@ -23,20 +23,20 @@ Feature: 编辑指定用户
 
   @smoke @all
   Examples: 编辑用户成功
-    |NeedRun|UserName       |NewUserName       |FullName   |Email                    |Telephone  |Result|
-    |N      |AutoTestForUser|AutoTestForUserNew|FullName   |AutoTest@yottabyte.cn    |13111111111|success message "更新成功"|
-    |N      |AutoTestForUser|AutoTestForUser   |NewFullName|AutoTest@yottabyte.cn    |13111111111|success message "更新成功"|
-    |N      |AutoTestForUser|AutoTestForUser   |NewFullName|AutoTestNew@yottabyte.cn |13111111111|success message "更新成功"|
-    |N      |AutoTestForUser|AutoTestForUser   |NewFullName|AutoTest@yottabyte.cn    |13111112222|success message "更新成功"|
+    |NeedRun|UserName           |NewUserName           |FullName   |Email                               |Telephone  |Result|
+    |N      |AutoTestForUserEdit|AutoTestForUserEditNew|FullName   |AutoTestForUserEdit@yottabyte.cn    |13111111111|success message "更新成功"|
+    |N      |AutoTestForUserEdit|AutoTestForUserEdit   |NewFullName|AutoTestForUserEdit@yottabyte.cn    |13111111111|success message "更新成功"|
+    |N      |AutoTestForUserEdit|AutoTestForUserEdit   |NewFullName|AutoTestForUserEditNew@yottabyte.cn |13111111111|success message "更新成功"|
+    |N      |AutoTestForUserEdit|AutoTestForUserEdit   |NewFullName|AutoTestForUserEdit@yottabyte.cn    |13111112222|success message "更新成功"|
 
   @all
   Examples:  编辑用户失败
-    |NeedRun|UserName       |NewUserName       |FullName|Email                           |Telephone  |Result|
-    |Y      |AutoTestForUser|AutoTestForUserNew|        |AutoTestForUser@yottabyte.cn    |           |error message "用户名已存在\n错误码: FE_532"|
-    |N      |AutoTestForUser|                  |        |AutoTestForUser@yottabyte.cn    |           |error message "用户名 不能为空"|
-    |N      |AutoTestForUser|AutoTestForUserNew|        |                                |           |error message "邮箱地址 不能为空"|
-    |Y      |AutoTestForUser|AutoTestForUserTmp|        |AutoTestForUserNew@yottabyte.cn |           |error message "邮件名已存在\n错误码: FE_533"|
-    |Y      |AutoTestForUser|AutoTestForUserNew|        |AutoTestForUserTmp@yottabyte.cn |           |error message "用户名已存在\n错误码: FE_532"|
+    |NeedRun|UserName           |NewUserName           |FullName|Email                               |Telephone  |Result|
+    |Y      |AutoTestForUserEdit|AutoTestForUserEditNew|        |AutoTestForUserEdit@yottabyte.cn    |           |error message "用户名已存在\n错误码: FE_532"|
+    |N      |AutoTestForUserEdit|                      |        |AutoTestForUserEdit@yottabyte.cn    |           |error message "用户名 不能为空"|
+    |N      |AutoTestForUserEdit|AutoTestForUserEditNew|        |                                    |           |error message "邮箱地址 不能为空"|
+    |Y      |AutoTestForUserEdit|AutoTestForUserEditTmp|        |AutoTestForUserEditNew@yottabyte.cn |           |error message "邮件名已存在\n错误码: FE_533"|
+    |Y      |AutoTestForUserEdit|AutoTestForUserEditNew|        |AutoTestForUserEditTmp@yottabyte.cn |           |error message "用户名已存在\n错误码: FE_532"|
 
   @users
   Scenario Outline:
@@ -54,13 +54,13 @@ Feature: 编辑指定用户
 
   @all
   Examples:
-    |UserName       |NewPassword|RepeatPassword|Result|
-    |AutoTestForUser|qqqqq11111 |qqqqq11111    |success message "更新成功"|
+    |UserName           |NewPassword|RepeatPassword|Result|
+    |AutoTestForUserEdit|qqqqq11111 |qqqqq11111    |success message "更新成功"|
 
   @all
   Examples:
-    |UserName       |NewPassword|RepeatPassword|Result|
-    |AutoTestForUser|qqqqq11111 |              |error message "重复密码 不能为空"|
-    |AutoTestForUser|           |qqqqq11111    |error message "新密码 不能为空"|
-    |AutoTestForUser| 112       |qqqqq11111    |error message "新密码输入有误，请重新输入"|
-    |AutoTestForUser|qqqqq      |qqqqq         |error message "新密码输入有误，请重新输入"|
+    |UserName           |NewPassword|RepeatPassword|Result|
+    |AutoTestForUserEdit|qqqqq11111 |              |error message "重复密码 不能为空"|
+    |AutoTestForUserEdit|           |qqqqq11111    |error message "新密码 不能为空"|
+    |AutoTestForUserEdit| 112       |qqqqq11111    |error message "新密码输入有误，请重新输入"|
+    |AutoTestForUserEdit|qqqqq      |qqqqq         |error message "新密码输入有误，请重新输入"|
