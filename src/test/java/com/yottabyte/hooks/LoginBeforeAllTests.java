@@ -1,7 +1,9 @@
 package com.yottabyte.hooks;
 
 import com.yottabyte.config.ConfigManager;
+import com.yottabyte.entity.Account;
 import com.yottabyte.pages.LoginPage;
+import com.yottabyte.utils.JdbcUtils;
 import com.yottabyte.utils.WaitForElement;
 import com.yottabyte.webDriver.SharedDriver;
 import cucumber.api.java.Before;
@@ -13,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class LoginBeforeAllTests {
     private static WebDriver webDriver;
@@ -34,7 +37,7 @@ public class LoginBeforeAllTests {
         webDriver.get(baseURL + "/auth/login/");
         if (cookie == null) {
             login();
-        }else {
+        } else {
             webDriver.get(baseURL);
             Date exDate = cookie.getExpiry();
             if (exDate.before(new Date())) {
@@ -53,7 +56,8 @@ public class LoginBeforeAllTests {
     public static void login() {
         LoginPage loginPage = new LoginPage(webDriver);
         loginPage.getUsername().clear();
-        loginPage.getUsername().sendKeys(config.get("username"));
+        String username = config.get("username");
+        loginPage.getUsername().sendKeys(username);
         loginPage.getPassword().clear();
         loginPage.getPassword().sendKeys(config.get("password"));
         loginPage.getLoginButton().click();
@@ -69,6 +73,20 @@ public class LoginBeforeAllTests {
             }
         });
         cookie = webDriver.manage().getCookieNamed("sessionid");
+        setAccount(username);
+    }
+
+    private static void setAccount(String username) {
+        StringBuffer sql = new StringBuffer("SELECT d.name, a.id FROM Account a ");
+        sql.append("LEFT JOIN Domain d ON d.id = a.domain_id WHERE a.name = '");
+        sql.append(username).append("'");
+
+        List<String> list = JdbcUtils.query(sql.toString());
+        if (list.size() != 0) {
+            Account account = new Account();
+            account.setAccountName(list.get(0));
+            account.setAccountId(list.get(1));
+        }
     }
 
     public static WebDriver getWebDriver() {

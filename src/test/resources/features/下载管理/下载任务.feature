@@ -3,6 +3,7 @@ Feature: 下载任务
 
   Background:
     Given open the "splSearch.SearchPage" page for uri "/search/"
+    Then I delete from "document" where "{'key':'autotestcsv'}" using mongodb
 
   Scenario Outline: 新建下载任务
     Given I set the parameter "SearchInput" with value "<splQuery>"

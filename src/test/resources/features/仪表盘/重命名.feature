@@ -3,6 +3,8 @@ Feature: 仪表盘重命名
 
   Background:
     Given I insert into table "DashBoardGroup" with "{'name':'sxjautotest','domain_id':'1','creator_id':'1','group':'default_DashBoardGroup'}"
+    Then I insert into table "DashBoardGroup" with "{'name':'test','domain_id':'1','creator_id':'1','group':'default_DashBoardGroup'}"
+    Then I delete from "DashBoardGroup" where "{'name':'autotest'}"
     Then open the "dashboard.ListPage" page for uri "/dashboard/"
 
   @all
@@ -18,5 +20,5 @@ Feature: 仪表盘重命名
       | sxjautotest | autotest | success message "仪表盘重命名成功" |
 
     Examples: 重命名失败
-      | name        | newName  | message                                |
-      | sxjautotest | autotest | error message "仪表盘分组名已存在\n错误码: FE_540" |
+      | name        | newName | message                                |
+      | sxjautotest | test    | error message "仪表盘分组名已存在\n错误码: FE_540" |

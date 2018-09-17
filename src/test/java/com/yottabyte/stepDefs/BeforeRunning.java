@@ -3,6 +3,8 @@ package com.yottabyte.stepDefs;
 import com.yottabyte.utils.GetLogger;
 import com.yottabyte.utils.JdbcUtils;
 import com.yottabyte.utils.JsonStringPaser;
+import com.yottabyte.utils.MongoDBJDBC;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -194,4 +196,8 @@ public class BeforeRunning {
     }
 
 
+    @Then("^I delete from \"([^\"]*)\" where \"([^\"]*)\" using mongodb$")
+    public void deleteFromMongodb(String database, List<String> deleteData) {
+        MongoDBJDBC.delete(database, deleteData);
+    }
 }

@@ -3,7 +3,8 @@ Feature: 重命名拓扑图
 
   Background:
     Given I insert into table "Topology" with "{'name':'sxjautotest','domain_id':'1','creator_id':'1','category':'0','group':'default_Topology'}"
-    Given I insert into table "Topology" with "{'name':'sunxjautotest','domain_id':'1','creator_id':'1','category':'0','group':'default_Topology'}"
+    Then I insert into table "Topology" with "{'name':'sunxjautotest','domain_id':'1','creator_id':'1','category':'0','group':'default_Topology'}"
+    And I delete from "Topology" where "{'name':'autotest','group':'default_Topology'}"
     Then open the "topology.ListPage" page for uri "/topology/"
 
   @all

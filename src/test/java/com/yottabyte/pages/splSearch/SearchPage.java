@@ -226,6 +226,9 @@ public class SearchPage extends PageTemplate {
     @FindBy(xpath = "//li[text()='离线任务']")
     private WebElement offlineTask;
 
+    @FindBy(xpath = "//li[text()='已存搜索']")
+    private WebElement savedSearch;
+
     @FindBy(xpath = "//button[@class='el-button el-button--primary']/span[text()='确定']")
     private List<WebElement> ensureList;
 
@@ -249,6 +252,10 @@ public class SearchPage extends PageTemplate {
 
     @FindBy(xpath = "//button[@class='el-button yw-search-pages-download el-button--primary']/span")
     private WebElement downloadEvent;
+
+    public WebElement getSavedSearch() {
+        return savedSearch;
+    }
 
     public WebElement getDownloadEvent() {
         return downloadEvent;
@@ -315,6 +322,11 @@ public class SearchPage extends PageTemplate {
     public WebElement getEnsureCreateOfflineTask() {
         return ensureList.get(4);
     }
+
+    public WebElement getEnsureCreateSavedSearch() {
+        return ensureList.get(3);
+    }
+
 
     @FindBy(xpath = "//label[contains(text(),'名称')]/following-sibling::input")
     private WebElement offlineTaskName;
