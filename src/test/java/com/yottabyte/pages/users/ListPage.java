@@ -1,5 +1,6 @@
 package com.yottabyte.pages.users;
 
+import com.yottabyte.hooks.LoginBeforeAllTests;
 import com.yottabyte.pages.PageTemplate;
 import com.yottabyte.utils.WaitForElement;
 import org.openqa.selenium.*;
@@ -9,6 +10,8 @@ import org.openqa.selenium.support.ui.*;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 public class ListPage extends PageTemplate{
 
@@ -169,48 +172,24 @@ public class ListPage extends PageTemplate{
         return message;
     }
 
-    public void thereIsAUser(String userName, String fullName, String email, String telephone, String password, List<String> userGroup){
-//        ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
-//        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-//        getSearchInput().sendKeys(Keys.END);
-//        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
-//        getSearchInput().sendKeys(Keys.BACK_SPACE);
-//        getSearchInput().sendKeys(userName);
-//        String text = getSearchResult().getText();
-//        if ("暂无数据".equals(text)){
-//            getCreateUser().click();
-//            IWillSeeNewPage page = new IWillSeeNewPage();
-//            page.iWillSeeNewPage("users.CreatePage");
-//            CreatePage createPage = new CreatePage(webDriver);
-//            createPage.createAUser(userName,fullName,email,telephone,password,userGroup);
-//            page.iWillSeeNewPage("users.ListPage");
-//        }else if (text.equals(userName)){
-//            System.out.println("There is a user");
-//            getSearchInput().sendKeys(Keys.END);
-//            getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
-//            getSearchInput().sendKeys(Keys.BACK_SPACE);
-//        }
-//        CreatePage createPage = new CreatePage(webDriver);
-//        createPage.creatAUserWithSql(userName, fullName, email, telephone, password, userGroup);
+    @Override
+    protected void load() {
+        webDriver.get("http://" + config.get("rizhiyi_server_host") + "/account/users/");
+        LoginBeforeAllTests.login();
+        webDriver.get("http://" + config.get("rizhiyi_server_host") + "/account/users/");
     }
 
-    public void thereIsNoUser(String userName) {
-        ExpectedCondition expectedCondition = ExpectedConditions.invisibilityOf(loadingElement);
-        WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-        getSearchInput().sendKeys(Keys.END);
-        getSearchInput().sendKeys(Keys.SHIFT, Keys.HOME);
-        getSearchInput().sendKeys(Keys.BACK_SPACE);
-        getSearchInput().sendKeys(userName);
-        String text = getSearchResult().getText();
-        if (text.equals(userName)){
-            getTableDeleteButton(1).click();
-            ExpectedCondition e = ExpectedConditions.elementToBeClickable(getMessageBoxOKButton());
-            WaitForElement.waitForElementWithExpectedCondition(webDriver,e);
-            getMessageBoxOKButton().click();
-            WaitForElement.waitForElementWithExpectedCondition(webDriver,expectedCondition);
-            webDriver.navigate().refresh();
+    @Override
+    protected void isLoaded() throws Error {
+        try {
+            WaitForElement.waitForElementWithExpectedCondition(webDriver, ExpectedConditions.invisibilityOf(loadingElement));
+            assertTrue(webDriver.getCurrentUrl().contains("/account/users/"));
+        } catch (Exception e) {
+            throw new Error("Cannot locate account page");
         }
     }
+
+
 
 
     private WebElement getTableRowButtons(int row){
